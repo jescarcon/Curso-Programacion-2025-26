@@ -29,7 +29,7 @@ matriz = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 personas = {"Ana": 25, "Luis": 17, "Pedro": 30, "Maria": 15}
 
 # Imprimir resultados
-print("Ejercicio 1:", ejercicio_facil_1)
+#print("Ejercicio 1:", ejercicio_facil_1)
 # print("Ejercicio 2:", ejercicio_facil_2)
 # print("Ejercicio 3:", ejercicio_facil_3)
 # print("Ejercicio 4:", ejercicio_facil_4)
@@ -48,7 +48,11 @@ print("Ejercicio 1:", ejercicio_facil_1)
 
 modelos = ["Boeing 737", "Airbus A320", "Embraer 190"]
 pilotos = ["Piloto 1", "Piloto 2", "Piloto 3"]
+# for modelo in modelos:
+#     for piloto in pilotos:
+#         print(modelo,piloto)
 
+#print([(modelo,piloto) for modelo in modelos for piloto in pilotos])
 
 #2.Usando random.randint(x,y) crea combinaciones de (modelos,salida,llegada,pasajeros) BONUS: ¿Y si quiero filtrar por los de +200 pasajeros?
 
@@ -56,10 +60,11 @@ import random
 
 modelos = ["Boeing 737", "Airbus A320", "Embraer 190"]
 ciudades = ["Madrid", "Barcelona", "Lisboa"]
+#print([ (modelo,salida,llegada,random.randint(50,200)) for modelo in modelos for salida in ciudades for llegada in ciudades if salida!=llegada])
 
 
-
-# 4. Generar una lista de diccionarios {modelo:pasajeros} con datos ficticios de vuelos. Usa random.choice(lista) y random.randint(x,y)
+# 4. Generar una lista de diccionarios {modelo:pasajeros} con datos 10 ficticios de vuelos. Usa random.choice(modelos) y random.randint(x,y)
+print([{random.choice(modelos):random.randint(50,200)} for _ in range(10)  ])
 
 
 # 5. Dada una lista de palabras, obtener una lista de las palabras que tienen más de 5 letras y empiezan con vocal
