@@ -1,0 +1,101 @@
+ID Vuelo,Modelo Avion,Fecha Salida,Fecha Entrada,Ciudad Salida,Ciudad Llegada,Pasajeros,Piloto,Compa�ia
+1,Airbus A320,2024-07-29 02:49:56,2024-07-29 03:49:56,Roma,Amsterdam,240,Piloto 24,SkyWings
+2,Boeing 747,2024-08-19 02:49:56,2024-08-19 06:49:56,Roma,Berlin,266,Piloto 2,BlueAir
+3,Boeing 737,2025-01-27 02:49:56,2025-01-27 05:49:56,Barcelona,Paris,189,Piloto 17,FlyHigh
+4,Boeing 737,2024-11-03 02:49:56,2024-11-03 14:49:56,Barcelona,Roma,120,Piloto 92,Nimbus Airways
+5,Airbus A320,2024-04-17 02:49:56,2024-04-17 13:49:56,Roma,Londres,156,Piloto 54,FlyHigh
+6,Boeing 737,2024-03-15 02:49:56,2024-03-15 07:49:56,Berlin,Amsterdam,289,Piloto 56,SkyWings
+7,Airbus A320,2024-11-11 02:49:56,2024-11-11 10:49:56,Roma,Londres,187,Piloto 93,FlyHigh
+8,Boeing 747,2024-09-20 02:49:56,2024-09-20 14:49:56,Berlin,Londres,239,Piloto 20,Nimbus Airways
+9,Boeing 747,2024-06-29 02:49:56,2024-06-29 05:49:56,Londres,Roma,78,Piloto 33,FlyHigh
+10,Boeing 747,2024-09-23 02:49:56,2024-09-23 05:49:56,Roma,Lisboa,287,Piloto 53,Nimbus Airways
+11,Boeing 737,2024-10-10 02:49:56,2024-10-10 04:49:56,Barcelona,Amsterdam,56,Piloto 28,Nimbus Airways
+12,Airbus A320,2024-10-01 02:49:56,2024-10-01 03:49:56,Amsterdam,Paris,78,Piloto 63,Nimbus Airways
+13,Embraer 190,2024-10-14 02:49:56,2024-10-14 09:49:56,Lisboa,Amsterdam,177,Piloto 56,SkyWings
+14,Boeing 737,2024-10-06 02:49:56,2024-10-06 12:49:56,Amsterdam,Paris,238,Piloto 63,Nimbus Airways
+15,Bombardier CRJ900,2024-08-21 02:49:56,2024-08-21 14:49:56,Barcelona,Paris,138,Piloto 63,SkyWings
+16,Embraer 190,2024-06-05 02:49:56,2024-06-05 12:49:56,Paris,Barcelona,106,Piloto 35,Nimbus Airways
+17,Airbus A320,2024-09-09 02:49:56,2024-09-09 05:49:56,Berlin,Roma,103,Piloto 77,BlueAir
+18,Boeing 747,2024-12-07 02:49:56,2024-12-07 08:49:56,Lisboa,Barcelona,170,Piloto 68,BlueAir
+19,Boeing 737,2024-05-15 02:49:56,2024-05-15 09:49:56,Roma,Paris,228,Piloto 100,AeroJet
+20,Bombardier CRJ900,2024-04-02 02:49:56,2024-04-02 09:49:56,Berlin,Madrid,233,Piloto 53,Nimbus Airways
+21,Embraer 190,2024-03-18 02:49:56,2024-03-18 06:49:56,Paris,Lisboa,139,Piloto 98,Nimbus Airways
+22,Embraer 190,2024-10-20 02:49:56,2024-10-20 04:49:56,Paris,Barcelona,266,Piloto 44,BlueAir
+23,Embraer 190,2024-12-04 02:49:56,2024-12-04 07:49:56,Paris,Londres,78,Piloto 47,BlueAir
+24,Boeing 747,2024-05-24 02:49:56,2024-05-24 11:49:56,Paris,Berlin,58,Piloto 14,AeroJet
+25,Bombardier CRJ900,2024-03-27 02:49:56,2024-03-27 11:49:56,Madrid,Berlin,191,Piloto 54,Nimbus Airways
+26,Boeing 737,2024-11-19 02:49:56,2024-11-19 08:49:56,Lisboa,Barcelona,212,Piloto 17,FlyHigh
+27,Embraer 190,2025-01-05 02:49:56,2025-01-05 12:49:56,Paris,Londres,127,Piloto 44,SkyWings
+28,Airbus A320,2024-06-17 02:49:56,2024-06-17 11:49:56,Paris,Amsterdam,204,Piloto 96,BlueAir
+29,Airbus A320,2024-04-21 02:49:56,2024-04-21 09:49:56,Paris,Barcelona,299,Piloto 34,FlyHigh
+30,Boeing 747,2024-08-21 02:49:56,2024-08-21 04:49:56,Roma,Lisboa,199,Piloto 55,FlyHigh
+31,Boeing 737,2024-12-28 02:49:56,2024-12-28 10:49:56,Londres,Berlin,170,Piloto 100,Nimbus Airways
+32,Embraer 190,2024-04-26 02:49:56,2024-04-26 06:49:56,Madrid,Amsterdam,57,Piloto 53,SkyWings
+33,Airbus A320,2024-03-17 02:49:56,2024-03-17 14:49:56,Madrid,Berlin,95,Piloto 27,Nimbus Airways
+34,Boeing 737,2024-09-28 02:49:56,2024-09-28 09:49:56,Amsterdam,Berlin,70,Piloto 21,BlueAir
+35,Boeing 747,2024-04-17 02:49:56,2024-04-17 12:49:56,Amsterdam,Barcelona,286,Piloto 51,SkyWings
+36,Boeing 747,2024-10-07 02:49:56,2024-10-07 06:49:56,Lisboa,Roma,186,Piloto 91,BlueAir
+37,Bombardier CRJ900,2025-03-03 02:49:56,2025-03-03 05:49:56,Londres,Barcelona,58,Piloto 81,SkyWings
+38,Bombardier CRJ900,2024-03-13 02:49:56,2024-03-13 07:49:56,Paris,Amsterdam,113,Piloto 9,Nimbus Airways
+39,Boeing 737,2024-07-18 02:49:56,2024-07-18 03:49:56,Berlin,Barcelona,157,Piloto 40,SkyWings
+40,Airbus A320,2025-02-14 02:49:56,2025-02-14 05:49:56,Barcelona,Paris,195,Piloto 10,Nimbus Airways
+41,Bombardier CRJ900,2024-03-06 02:49:56,2024-03-06 14:49:56,Berlin,Paris,157,Piloto 30,FlyHigh
+42,Airbus A320,2024-07-01 02:49:56,2024-07-01 07:49:56,Roma,Lisboa,189,Piloto 88,Nimbus Airways
+43,Boeing 747,2025-02-18 02:49:56,2025-02-18 13:49:56,Berlin,Lisboa,292,Piloto 67,SkyWings
+44,Embraer 190,2024-10-22 02:49:56,2024-10-22 05:49:56,Berlin,Amsterdam,246,Piloto 21,BlueAir
+45,Bombardier CRJ900,2024-07-20 02:49:56,2024-07-20 03:49:56,Madrid,Berlin,174,Piloto 92,BlueAir
+46,Boeing 737,2024-12-25 02:49:56,2024-12-25 13:49:56,Barcelona,Paris,286,Piloto 35,FlyHigh
+47,Boeing 737,2024-11-24 02:49:56,2024-11-24 04:49:56,Londres,Madrid,120,Piloto 44,AeroJet
+48,Boeing 747,2024-09-27 02:49:56,2024-09-27 06:49:56,Lisboa,Madrid,256,Piloto 42,Nimbus Airways
+49,Airbus A320,2024-03-21 02:49:56,2024-03-21 14:49:56,Lisboa,Berlin,193,Piloto 32,AeroJet
+50,Boeing 747,2024-10-17 02:49:56,2024-10-17 08:49:56,Londres,Madrid,121,Piloto 71,AeroJet
+51,Airbus A320,2025-01-14 02:49:56,2025-01-14 14:49:56,Paris,Amsterdam,58,Piloto 34,AeroJet
+52,Boeing 747,2024-10-25 02:49:56,2024-10-25 04:49:56,Paris,Berlin,94,Piloto 99,FlyHigh
+53,Embraer 190,2024-11-16 02:49:56,2024-11-16 04:49:56,Lisboa,Londres,176,Piloto 29,FlyHigh
+54,Airbus A320,2024-06-01 02:49:56,2024-06-01 14:49:56,Berlin,Madrid,224,Piloto 36,AeroJet
+55,Boeing 737,2024-12-01 02:49:56,2024-12-01 04:49:56,Madrid,Berlin,156,Piloto 35,SkyWings
+56,Airbus A320,2024-09-26 02:49:56,2024-09-26 09:49:56,Lisboa,Madrid,122,Piloto 58,SkyWings
+57,Boeing 737,2024-04-15 02:49:56,2024-04-15 03:49:56,Londres,Berlin,202,Piloto 80,SkyWings
+58,Bombardier CRJ900,2024-06-20 02:49:56,2024-06-20 07:49:56,Berlin,Madrid,66,Piloto 44,BlueAir
+59,Embraer 190,2024-11-06 02:49:56,2024-11-06 03:49:56,Londres,Lisboa,172,Piloto 44,BlueAir
+60,Bombardier CRJ900,2024-04-25 02:49:56,2024-04-25 05:49:56,Amsterdam,Berlin,59,Piloto 3,SkyWings
+61,Bombardier CRJ900,2024-03-12 02:49:56,2024-03-12 12:49:56,Roma,Londres,229,Piloto 63,BlueAir
+62,Bombardier CRJ900,2024-06-02 02:49:56,2024-06-02 03:49:56,Berlin,Barcelona,227,Piloto 46,AeroJet
+63,Boeing 737,2024-05-30 02:49:56,2024-05-30 13:49:56,Roma,Madrid,111,Piloto 2,BlueAir
+64,Boeing 747,2024-03-15 02:49:56,2024-03-15 10:49:56,Lisboa,Barcelona,141,Piloto 90,FlyHigh
+65,Boeing 737,2024-03-27 02:49:56,2024-03-27 09:49:56,Lisboa,Londres,292,Piloto 93,AeroJet
+66,Boeing 737,2024-07-17 02:49:56,2024-07-17 14:49:56,Paris,Berlin,92,Piloto 28,SkyWings
+67,Boeing 737,2024-04-21 02:49:56,2024-04-21 09:49:56,Londres,Lisboa,173,Piloto 2,FlyHigh
+68,Boeing 747,2024-03-06 02:49:56,2024-03-06 12:49:56,Roma,Amsterdam,288,Piloto 19,BlueAir
+69,Boeing 747,2024-08-22 02:49:56,2024-08-22 09:49:56,Paris,Roma,174,Piloto 91,BlueAir
+70,Embraer 190,2024-05-09 02:49:56,2024-05-09 03:49:56,Paris,Madrid,210,Piloto 99,SkyWings
+71,Airbus A320,2024-11-27 02:49:56,2024-11-27 05:49:56,Barcelona,Paris,199,Piloto 61,SkyWings
+72,Boeing 747,2024-12-05 02:49:56,2024-12-05 04:49:56,Madrid,Berlin,225,Piloto 1,SkyWings
+73,Boeing 747,2024-06-05 02:49:56,2024-06-05 05:49:56,Berlin,Paris,61,Piloto 52,Nimbus Airways
+74,Boeing 747,2024-09-23 02:49:56,2024-09-23 07:49:56,Madrid,Berlin,281,Piloto 89,AeroJet
+75,Airbus A320,2024-04-07 02:49:56,2024-04-07 12:49:56,Paris,Barcelona,95,Piloto 67,SkyWings
+76,Embraer 190,2025-01-31 02:49:56,2025-01-31 12:49:56,Barcelona,Roma,92,Piloto 47,Nimbus Airways
+77,Boeing 747,2025-01-19 02:49:56,2025-01-19 13:49:56,Roma,Madrid,74,Piloto 59,Nimbus Airways
+78,Embraer 190,2024-06-15 02:49:56,2024-06-15 14:49:56,Madrid,Paris,122,Piloto 68,FlyHigh
+79,Airbus A320,2024-07-11 02:49:56,2024-07-11 09:49:56,Amsterdam,Paris,259,Piloto 55,BlueAir
+80,Boeing 747,2024-09-21 02:49:56,2024-09-21 05:49:56,Barcelona,Londres,171,Piloto 97,FlyHigh
+81,Embraer 190,2024-05-22 02:49:56,2024-05-22 05:49:56,Londres,Berlin,201,Piloto 16,SkyWings
+82,Boeing 747,2024-12-08 02:49:56,2024-12-08 04:49:56,Roma,Madrid,258,Piloto 73,Nimbus Airways
+83,Bombardier CRJ900,2024-08-21 02:49:56,2024-08-21 03:49:56,Londres,Roma,170,Piloto 6,Nimbus Airways
+84,Bombardier CRJ900,2024-08-25 02:49:56,2024-08-25 03:49:56,Londres,Amsterdam,229,Piloto 51,AeroJet
+85,Bombardier CRJ900,2024-03-11 02:49:56,2024-03-11 14:49:56,Barcelona,Paris,256,Piloto 23,AeroJet
+86,Boeing 747,2024-03-09 02:49:56,2024-03-09 03:49:56,Amsterdam,Paris,83,Piloto 73,SkyWings
+87,Bombardier CRJ900,2024-03-07 02:49:56,2024-03-07 12:49:56,Roma,Berlin,220,Piloto 22,BlueAir
+88,Airbus A320,2025-01-22 02:49:56,2025-01-22 07:49:56,Amsterdam,Berlin,73,Piloto 60,SkyWings
+89,Bombardier CRJ900,2024-03-10 02:49:56,2024-03-10 12:49:56,Lisboa,Amsterdam,116,Piloto 6,FlyHigh
+90,Airbus A320,2024-03-15 02:49:56,2024-03-15 06:49:56,Barcelona,Paris,63,Piloto 78,Nimbus Airways
+91,Embraer 190,2024-04-25 02:49:56,2024-04-25 09:49:56,Barcelona,Madrid,243,Piloto 41,FlyHigh
+92,Airbus A320,2024-06-02 02:49:56,2024-06-02 12:49:56,Barcelona,Lisboa,288,Piloto 83,FlyHigh
+93,Boeing 747,2024-04-20 02:49:56,2024-04-20 10:49:56,Amsterdam,Roma,220,Piloto 34,BlueAir
+94,Bombardier CRJ900,2024-10-19 02:49:56,2024-10-19 07:49:56,Lisboa,Berlin,63,Piloto 12,BlueAir
+95,Boeing 747,2025-01-12 02:49:56,2025-01-12 06:49:56,Barcelona,Amsterdam,136,Piloto 77,SkyWings
+96,Bombardier CRJ900,2024-03-19 02:49:56,2024-03-19 06:49:56,Madrid,Paris,202,Piloto 55,SkyWings
+97,Airbus A320,2024-05-15 02:49:56,2024-05-15 05:49:56,Paris,Berlin,54,Piloto 85,Nimbus Airways
+98,Boeing 747,2024-06-02 02:49:56,2024-06-02 11:49:56,Paris,Lisboa,255,Piloto 41,Nimbus Airways
+99,Airbus A320,2025-02-15 02:49:56,2025-02-15 05:49:56,Berlin,Londres,259,Piloto 58,FlyHigh
+100,Boeing 737,2024-05-13 02:49:56,2024-05-13 07:49:56,Londres,Roma,186,Piloto 62,AeroJet
