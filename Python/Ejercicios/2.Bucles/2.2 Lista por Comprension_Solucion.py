@@ -120,7 +120,7 @@ ejercicio_medio_12 = [(vuelo[1], vuelo[2]) for vuelo in vuelos if len(vuelo[2]) 
 # print(ejercicio_medio_3)
 # print(ejercicio_medio_4)
 # print(ejercicio_medio_5)
-# print(ejercicio_medio_6)
+print(ejercicio_medio_6)
 # print(ejercicio_medio_7)
 
 #endregion
@@ -156,3 +156,5 @@ ejercicio_dificil_X = {modelo: sum(vuelo[3] for vuelo in vuelos if vuelo[0] == m
 ejercicio_dificil_X2 = max({ciudad: sum(1 for vuelo in vuelos if vuelo[1] == ciudad) for ciudad in set(vuelo[1] for vuelo in vuelos)}, key=lambda x: ejercicio_dificil_2[x])
 
 #endregion
+
+

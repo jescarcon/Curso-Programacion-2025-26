@@ -65,6 +65,7 @@ print(vuelos_filtrados)
 
 #6. Encontrar el vuelo con más pasajeros
 vuelo_max_pasajeros = max(aeropuerto, key=lambda vuelo: int(vuelo.pasajeros))
+v=max([(vuelo.id,int(vuelo.pasajeros)) for vuelo in aeropuerto], key=lambda x:x[1])
 print(vuelo_max_pasajeros)
 
 #7. Calcular el número promedio de pasajeros por vuelo

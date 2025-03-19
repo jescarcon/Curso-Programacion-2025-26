@@ -1,0 +1,50 @@
+Bucles en Python
+Los bucles permiten repetir un bloque de código múltiples veces.
+En Python, los más usados son: For y While y para otros lenguajes (C, Java o JavaScript) incluye el Do While.
+
+1) FOR : Conocemos cuantas veces se va a repetir y nos permite indexar los elementos en esas vueltas.
+
+for ELEMENTO in ITERABLE:
+    Instrucciones
+
+for e in lista:
+    print(e)
+    
+for e in range(3):  #0,1,2
+    print(e)
+
+for e in enumerate(lista): (0,E) 
+    print(e)
+
+2) While : Repetirá ninguna, 1 , varias o infinitas veces dependiendo de la condición. Necesita que esa condición cambie durante su bucle.
+
+WHILE CONDICION:
+    Instrucciones
+
+a=0
+while a==0:
+    print("hola")  !!Infinito
+-----
+a=0
+while a==0:
+    print("hola")  !!Infinito
+    a++
+
+3) Do While: Ejecuta al menos una vez
+
+4) SWITCHES 
+
+int dia = 3;
+switch (dia) {
+    case 1:
+        System.out.println("Lunes");
+        break;
+    case 2:
+        System.out.println("Martes");
+        break;
+    case 3:
+        System.out.println("Miércoles");
+        break;
+    default:
+        System.out.println("Día inválido");
+}
