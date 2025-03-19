@@ -2,12 +2,13 @@
 Ejercicios de Listas por Comprensión en Python
 """
 lista=[1,2,3,4,5]
-print(lista[:2])
+#print(lista[:2])
 
 #region Nivel Fácil
 
 # 1. Generar una lista de los primeros 10 números cuadrados
 ejercicio_facil_1=[x**2 for x in range(1, 11)]
+
 
 # 2. Crear una lista con los números pares del 1 al 20
 ejercicio_facil_2=[x for x in range(1, 21) if x%2==0]
@@ -52,17 +53,6 @@ ejercicio_facil_10=[persona[0] for persona in personas.items() if persona[1] > 1
 
 # Imprimir resultados
 #print("Ejercicio 1:", ejercicio_facil_1)
-<<<<<<< Updated upstream
-# print("Ejercicio 2:", ejercicio_facil_2)
-# print("Ejercicio 3:", ejercicio_facil_3)
-# print("Ejercicio 4:", ejercicio_facil_4)
-# print("Ejercicio 5:", ejercicio_facil_5)
-# print("Ejercicio 6:", ejercicio_facil_6)
-# print("Ejercicio 7:", ejercicio_facil_7)
-# print("Ejercicio 8:", ejercicio_facil_8)
-# print("Ejercicio 9:", ejercicio_facil_9)
-# print("Ejercicio 10:", ejercicio_facil_10)
-=======
 #print("Ejercicio 2:", ejercicio_facil_2)
 #print("Ejercicio 3:", ejercicio_facil_3)
 #print("Ejercicio 4:", ejercicio_facil_4)
@@ -72,7 +62,6 @@ ejercicio_facil_10=[persona[0] for persona in personas.items() if persona[1] > 1
 #print("Ejercicio 8:", ejercicio_facil_8)
 #print("Ejercicio 9:", ejercicio_facil_9)
 #print("Ejercicio 10:", ejercicio_facil_10)
->>>>>>> Stashed changes
 
 #endregion
 
@@ -81,42 +70,31 @@ ejercicio_facil_10=[persona[0] for persona in personas.items() if persona[1] > 1
 #1. Mezcla todas las posibilidades entre modelos y pilotos
 modelos = ["Boeing 737", "Airbus A320", "Embraer 190"]
 pilotos = ["Piloto 1", "Piloto 2", "Piloto 3"]
-# for modelo in modelos:
-#     for piloto in pilotos:
-#         print(modelo,piloto)
 
-<<<<<<< Updated upstream
-#print([(modelo,piloto) for modelo in modelos for piloto in pilotos])
-=======
 #Sin lista por comprensión
 # for modelo in modelos:
 #     for piloto in pilotos:
 #         modelosPilotos=(modelo, piloto)
 #         print(modelosPilotos)
 ejercicio_medio_1=[(modelo, piloto) for modelo in modelos for piloto in pilotos]
->>>>>>> Stashed changes
 
 #2.Usando random.randint(x,y) crea combinaciones de (modelos,salida,llegada,pasajeros) BONUS: ¿Y si quiero filtrar por los de +200 pasajeros?
 import random
 modelos = ["Boeing 737", "Airbus A320", "Embraer 190"]
 ciudades = ["Madrid", "Barcelona", "Lisboa"]
-<<<<<<< Updated upstream
-#print([ (modelo,salida,llegada,random.randint(50,200)) for modelo in modelos for salida in ciudades for llegada in ciudades if salida!=llegada])
-=======
 pasajeros=[random.randint(70,500)]
 salidas=[random.choice(ciudades)]
 llegadas=[random.choice(ciudades)]
->>>>>>> Stashed changes
 
 ejercicio_medio_2=[(modelo, salida, llegada, pasajero) for modelo in modelos for salida in salidas for llegada in llegadas for pasajero in pasajeros]
 
-# 4. Generar una lista de diccionarios {modelo:pasajeros} con datos 10 ficticios de vuelos. Usa random.choice(modelos) y random.randint(x,y)
-print([{random.choice(modelos):random.randint(50,200)} for _ in range(10)  ])
 
+# 4. Generar una lista de diccionarios {modelo:pasajeros} con datos ficticios de vuelos. Usa random.choice(lista) y random.randint(x,y)
+#print([{random.choice(modelos):random.randint(50,200)} for _ in range(10)  ])
 
 # 5. Dada una lista de palabras, obtener una lista de las palabras que tienen más de 5 letras y empiezan con vocal
 palabras = ["avión", "tren", "aeropuerto", "autobús", "viaje", "itinerario"]
-
+ejercicio_medio_5=[palabra for palabra in palabras if len(palabra) > 5 and palabra[0] in "aeiouáéíóú"]
 
 # 6. Filtrar de una lista de vuelos solo aquellos cuyo modelo es "Boeing 737" y tienen más de 150 pasajeros
 vuelos = [
@@ -126,34 +104,52 @@ vuelos = [
     ("Embraer 190", "Berlin", "Amsterdam", 200),
     ("Boeing 737", "Madrid", "Londres", 220),
 ]
-
+ejercicio_medio_6=[vuelo for vuelo in vuelos if vuelo[0] == "Boeing 737" and vuelo[3] > 150]
 
 # 7. Crear una lista con los vuelos ordenados por número de pasajeros de forma descendente
+vuelosOrdenados=sorted(vuelos, key=lambda x:x[3], reverse=True)
+ejercicio_medio_7=[x for x in vuelosOrdenados]
 
 # 8. Obtener una lista de vuelos en los que el número de pasajeros sea múltiplo de 10
+ejercicio_medio_8=[vuelo for vuelo in vuelos if vuelo[3]%10==0]
 
 # 9. Crear una lista de cadenas con formato "Salida - Llegada: Pasajeros" para todos los vuelos
+#["Madrid - Lisboa: 245", "Sevilla - Manchester: 154"]
+ejercicio_medio_9=[f"{vuelo[1]} - {vuelo[2]}: {vuelo[3]}" for vuelo in vuelos]
 
 # 10. Generar una lista de tuplas con los vuelos donde la ciudad de llegada es más larga en caracteres que la de salida
-
+ejercicio_medio_10=[(vuelo[1], vuelo[2]) for vuelo in vuelos if len(vuelo[2]) > len(vuelo[1])]
 
 # Imprimir resultados
 
 #print(ejercicio_medio_1)
-print(ejercicio_medio_2)
+#print(ejercicio_medio_2)
 # print(ejercicio_medio_2_BONUS)
 # print(ejercicio_medio_3)
 # print(ejercicio_medio_4)
-# print(ejercicio_medio_5)
-# print(ejercicio_medio_6)
-# print(ejercicio_medio_7)
+#print(ejercicio_medio_5)
+#print(ejercicio_medio_6)
+#print(ejercicio_medio_7)
+#print(ejercicio_medio_8)
+#print(ejercicio_medio_9)
+#print(ejercicio_medio_10)
 
 #endregion
 
 #region Nivel Dificil
 
-# 1. Crear un diccionario donde las claves sean los modelos de aviones y los valores sean un conjunto de ciudades a las que vuelan.
+vuelos = [
+    ("Boeing 737", "Madrid", "Barcelona", 180),
+    ("Airbus A320", "Londres", "Roma", 121),
+    ("Boeing 737", "Lisboa", "Paris", 95),
+    ("Embraer 190", "Berlin", "Amsterdam", 200),
+    ("Boeing 737", "Madrid", "Londres", 220),
+]
+
+# 1. Crear un diccionario donde las claves sean los modelos de aviones 
+# y los valores sean un conjunto de ciudades a las que vuelan.
 # El conjunto de ciudades debe ser único (sin repeticiones).
+#{Boeing 737: {Barcelona, Paris, Londres}}
 
 # 2. Calcular el número total de pasajeros por ciudad de salida, utilizando un diccionario. Las claves son las ciudades y los valores son la suma de los pasajeros.
 
