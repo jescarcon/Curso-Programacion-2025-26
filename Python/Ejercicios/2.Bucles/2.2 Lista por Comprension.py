@@ -117,6 +117,7 @@ print([{random.choice(modelos):random.randint(50,200)} for _ in range(10)  ])
 # 5. Dada una lista de palabras, obtener una lista de las palabras que tienen más de 5 letras y empiezan con vocal
 palabras = ["avión", "tren", "aeropuerto", "autobús", "viaje", "itinerario"]
 
+
 # 6. Filtrar de una lista de vuelos solo aquellos cuyo modelo es "Boeing 737" y tienen más de 150 pasajeros
 vuelos = [
     ("Boeing 737", "Madrid", "Barcelona", 180),

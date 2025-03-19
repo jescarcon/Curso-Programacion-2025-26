@@ -55,10 +55,10 @@ tamano_conjunto = len(conjunto1)
 print("Conjunto modificado:", conjunto1)
 print("Tamaño del conjunto:", tamano_conjunto)
 
-#{1,3,4,5,6} {3,4,5,6}
-print(conjunto1 | conjunto2)  # Unión: {1, 2, 3, 4, 5, 6}
+#{1, 2, 3, 4, 5} {1, 3, 4, 5, 6}
+print(conjunto1 | conjunto2)  # Unión: {1, 3, 4, 5, 6}
 print(conjunto1 & conjunto2)  # Intersección: {3, 4, 5, 6}
 print(conjunto1 - conjunto2)  # Diferencia: {1}
-print(conjunto1 ^ conjunto2)  # Diferencia simétrica: {1} (Solo los que estan en 1 de los dos)
+print(conjunto1 ^ conjunto2)  # Diferencia simétrica: {1} (Solo los que estan en 1 de los dos pero no en ambos a la vez)
 
 
