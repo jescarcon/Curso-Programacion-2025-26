@@ -1,34 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
+import { BASE_API_URL } from './constants';
 
 function App() {
-  const [count, setCount] = useState(0)
+  //#region Variables
+  const [notes, setNotes] = useState([]);
+
+  //#endregion
+
+  //#region Logic
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const response = await fetch(`${BASE_API_URL}/api/noteApp/notes`);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        const data = await response.json();
+        setNotes(data);
+      } catch (error) {
+        console.error("Error al obtener las notas:", error);
+      }
+
+    }
+
+
+
+    fetchNotes();
+  }, [])
+
+  //#endregion
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <h1>Notas</h1>
+      <ul>
+        {notes.length > 0 ? (
+          notes.map((note) => {
+            return (
+              <li key={note.id}>
+                <p>Titulo: {note.name}</p>
+                <p>Descripcion: {note.description}</p>
+              </li>
+            )
+          })
+        ) : (<p>No hay notas disponibles.</p>)
+        }
+      </ul>
+    </div>
   )
 }
 

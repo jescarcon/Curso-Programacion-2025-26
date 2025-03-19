@@ -15,6 +15,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOWED_ORIGINS=[
+    'http://localhost:5173', #Puerto FrontEnd React Default Local
+]
 
 # Application definition
 
@@ -33,6 +36,7 @@ LOCAL_APPS=[
 
 THIRDS_APPS=[    
     'rest_framework',
+    'corsheaders', #CORS Permite comunicacion FRONT-BACK
    
 ]
 
@@ -43,6 +47,7 @@ INSTALLED_APPS=BASE_APPS+LOCAL_APPS+THIRDS_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', #CORS
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -104,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-es'
 
 TIME_ZONE = 'UTC'
 
