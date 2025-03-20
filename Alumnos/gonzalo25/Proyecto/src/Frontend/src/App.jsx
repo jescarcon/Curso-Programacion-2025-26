@@ -29,23 +29,20 @@ function App() {
   //#endregion
 
 
-  return ( //debe devolver un objeto siempre
+  return (
     <div>
-      <h1>Notas</h1>
+      <h1>Aplicación notas by Gonzalo</h1>
       <ul>
-        {notes.length>0? (
-          //for note in note
-          notes.map((note)=>{
-            return(
-              <li key={note.name}>
-                <p>Titulo: {note.id}</p>
+        {notes.length > 0 ? (
+          notes.map((note) => {
+            return (
+              <li key={note.id}>
+                <p>Titulo: {note.name}</p>
                 <p>Descripcion: {note.description}</p>
               </li>
             )
           })
-        )
-        : 
-          (<p>No hay notas disponibles</p>)
+        ) : (<p>No hay notas disponibles.</p>)
         }
       </ul>
     </div>
