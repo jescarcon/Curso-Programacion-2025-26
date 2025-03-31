@@ -94,6 +94,21 @@ function Note() {
     }
   };  //#endregion
 
+  //Funcion para eliminar la nota
+  const handleDelete = async (noteId) => {
+    try {
+      const response = await fetch(`${BASE_API_URL}/api/noteApp/notes/${noteId}/`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
+    } catch (error) {
+      console.error("Error al eliminar la nota", error);
+    }
+  }
+
   return (
     <div className='noteAppContainer'>
       <div className='noteHeader'>Notas de Gonzalo</div>
@@ -109,9 +124,8 @@ function Note() {
                   seteditName(note.name); // Carga el nombre de la nota en el formulario
                   seteditDescription(note.description); // Carga la descripción de la nota en el formulario
                 }}
-              >
-                Editar
-              </button>
+              >Editar</button>
+              <button onClick={() => handleDelete(note.id)}>Eliminar</button>
             </div>
           ))
         ) : (
