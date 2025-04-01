@@ -1,24 +1,88 @@
-.note-container{
-    border: solid red 2px;
+.note-container {
     display: flex;
     flex-direction: column;
+
+    background-color: rgb(130, 177, 247);
+    border: solid black 1px;
+    border-radius: 5px;
+
+    padding: 30px;
+
+    width: 50%;
+
+    margin: 0 auto;
+    margin-top: 3%;
 }
-.note-header{
-    border: solid green 1px;
-}
-.note-elements{
-    border: solid green 1px;
+
+.note-header {
+    margin: 0 auto;
+    user-select: none;
+    margin-bottom: 3%;
     display: flex;
+    width: 50%;
     justify-content: space-evenly;
 }
-.note-element{
-    background-color: rgba(41, 53, 49, 0.589);
-    border: solid rgba(21, 21, 51, 0.637) 1px;
+
+.note-header-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.3rem;
+    font-weight: bold;
+    /*Negrita*/
+    text-decoration: underline;
+    /*Subrayado*/
+    font-style: italic;
+    /*Cursiva*/
 }
 
-.note-element-title{
-
+.add-note-button img {
+    width: 24px;
+    /* Ajusta el tamaño de la imagen */
+    height: 24px;
+    /* Ajusta el tamaño de la imagen */
+    object-fit: contain;
+    /* Asegura que la imagen se ajuste correctamente */
+    cursor: pointer;
 }
-.note-element-description{
 
+.note-elements {
+    display: flex;
+    justify-content: space-evenly;
+
+    flex-wrap: wrap;
+    gap: 10px;
 }
+
+.note-element {
+    border: solid rgb(0, 0, 0) 1px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    flex: 30%;
+    max-width: 100%;
+    background-color: rgb(230, 230, 230);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.note-element:hover {
+    background-color: rgb(255, 255, 255);
+    transform: scale(1.06);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.274);
+}
+
+.note-element-name {
+    text-align: center;
+    font-weight: bold;
+}
+
+.note-element-description {
+    flex-wrap: wrap;
+
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 3%;
+
+    white-space: normal;
+    word-wrap: break-word;
+}
+
