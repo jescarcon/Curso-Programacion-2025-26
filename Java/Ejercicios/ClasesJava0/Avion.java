@@ -1,3 +1,5 @@
+package ClasesJava0;
+
 public class Avion {
     // Atributos
     private String modelo;
