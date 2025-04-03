@@ -2,8 +2,14 @@
 import { useState, useEffect } from 'react';
 import './note.css';
 import { BASE_API_URL } from './../../constants';
+<<<<<<< HEAD
 import Modal from '../modal/modal';
 import addImg from '/assets/images/common/black-add-icon.png';
+=======
+import addIcon from '/assets/images/common/black-add-icon.png';
+
+import Modal from '../modal/modal';
+>>>>>>> 6af3d8c85954033758189dd1646151d60bcbd29e
 
 function Note() {
   //#region Variables
@@ -23,15 +29,21 @@ function Note() {
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   //Variable Menú Contextual
+<<<<<<< HEAD
   const [contextMenu, setContextMenu] = useState(null);
 
   //Variable Vista detalle
   const [viewNote, setViewNote] = useState(null);
   const [isViewOpen, setIsViewOpen] = useState(false);
+=======
+  const [contextMenu, setContextMenu] = useState(null);  
+
+>>>>>>> 6af3d8c85954033758189dd1646151d60bcbd29e
   //#endregion
 
   //#region Logic
 
+<<<<<<< HEAD
   const handleCloseCreateModal = () => {
     setIsCreateOpen(false)
     setName("");
@@ -85,6 +97,55 @@ function Note() {
   //#region CRUD
   //Funcion Get List
 
+=======
+  //#region Menú Contextual
+  const handleContextMenu = (e, note) => {
+    e.preventDefault();
+    setContextMenu({ x: e.clientX, y: e.clientY, note });
+  };
+
+  const handleContextAction = (action) => {
+    if (action === 'edit') {
+      setEditName(contextMenu.note.name);
+      setEditDescription(contextMenu.note.description);
+      setEditNote(contextMenu.note);
+      setIsEditOpen(true);
+    } else if (action === 'delete') {
+      handleDelete(contextMenu.note.id);
+    }
+    setContextMenu(null); // Cerrar el menú
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (contextMenu && !e.target.closest('.context-menu')) {
+        setContextMenu(null); // Cerrar el menú
+      }
+    };
+  
+    // Escuchar clics en todo el documento
+    document.addEventListener('click', handleClickOutside);
+  
+    // Limpiar el event listener cuando el componente se desmonte
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [contextMenu]);
+  
+  //#endregion
+
+  // Cuando se cierra el modal, limpiar los campos
+  const handleCloseCreateModal = () => {
+    setIsCreateOpen(false);
+    setName(""); // Limpiar el campo del nombre
+    setDescription(""); // Limpiar el campo de descripción
+  };
+
+
+  //#region CRUD
+
+  //Funcion List
+>>>>>>> 6af3d8c85954033758189dd1646151d60bcbd29e
   useEffect(() => {
     const fetchNotes = async () => {
       try {
@@ -106,7 +167,10 @@ function Note() {
   const createNote = async (e) => {
     e.preventDefault();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6af3d8c85954033758189dd1646151d60bcbd29e
     const formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
@@ -158,6 +222,10 @@ function Note() {
 
       setEditNote(null);
       setIsEditOpen(false);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6af3d8c85954033758189dd1646151d60bcbd29e
     } catch (error) {
       console.error("Error en la edición de la nota: ", error);
     }
@@ -188,15 +256,23 @@ function Note() {
       <div className='note-header'>
         <div className='note-header-text'>Notas de Jesús</div>
         <div className='add-note-button' onClick={() => setIsCreateOpen(true)}>
+<<<<<<< HEAD
           <img src={addImg} alt="Add Note" />
+=======
+          <img src={addIcon} alt="Add Note" />
+>>>>>>> 6af3d8c85954033758189dd1646151d60bcbd29e
         </div>
       </div>
 
       <div className='note-elements'>
         {notes.length > 0 ? (
           notes.map((note) => (
+<<<<<<< HEAD
             <div key={note.id} className='note-element' onClick={() => handleViewNote(note)}
               onContextMenu={(e) => handleContextMenu(e, note)}>
+=======
+            <div key={note.id} className='note-element' onContextMenu={(e) => handleContextMenu(e, note)}>
+>>>>>>> 6af3d8c85954033758189dd1646151d60bcbd29e
               <p className='note-element-name'>{note.name}</p>
               <p className='note-element-description'>{note.description}</p>
             </div>
@@ -205,6 +281,7 @@ function Note() {
           <p>No hay notas disponibles.</p>
         )}
       </div>
+<<<<<<< HEAD
 
       {/* Modal Crear Notas */}
       <Modal isOpen={isCreateOpen} onClose={() => handleCloseCreateModal(false)}>
@@ -274,10 +351,46 @@ function Note() {
       {contextMenu && (
         <div className='context-menu' style={{ top: contextMenu.y, left: contextMenu.x }}>
           <button onClick={() => handleContextAction('edit')} >Editar</button>
+=======
+      
+      {contextMenu && (
+        <div className="context-menu" style={{ top: contextMenu.y, left: contextMenu.x }}>
+          <button onClick={() => handleContextAction('edit')}>Editar</button>
+>>>>>>> 6af3d8c85954033758189dd1646151d60bcbd29e
           <button onClick={() => handleContextAction('delete')}>Eliminar</button>
         </div>
       )}
 
+<<<<<<< HEAD
+=======
+      <Modal isOpen={isCreateOpen} onClose={() => handleCloseCreateModal(false)}>
+        <h2>Crear Nota</h2>
+        <form onSubmit={createNote}>
+          <label>Título:</label>
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+
+          <label>Descripción:</label>
+          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
+
+          <button type="submit">Crear</button>
+          <button onClick={() => handleCloseCreateModal(false)}>Cancelar</button>
+        </form>
+      </Modal>
+
+      <Modal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)}>
+        <h2>Editar Nota</h2>
+        <form onSubmit={handleEdit}>
+          <label>Título:</label>
+          <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} required />
+
+          <label>Descripción:</label>
+          <input type="text" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} required />
+
+          <button type="submit">Guardar Cambios</button>
+          <button onClick={() => setIsEditOpen(false)}>Cancelar</button>
+        </form>
+      </Modal>
+>>>>>>> 6af3d8c85954033758189dd1646151d60bcbd29e
 
     </div>
   );
