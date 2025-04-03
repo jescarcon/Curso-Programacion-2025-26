@@ -4,64 +4,44 @@
 
 3. Crea un repositorio en tu cuenta.
 
-4. Loguea tu cuenta en la cmd (usuario y email incluyendo comillas)
-    git config --global user.name "usuario"
-    git config --global user.email "email@ejemplo.com"
+4. Loguea tu cuenta en la cmd de tu equipo
 
 5. Comprueba que tus credenciales correctas 
-    git config --list
   
 6. Clona tu repositorio de la nube a tu equipo.
-    git clone URL-REPOSITORIO //requiere permisos publico
 
-7. Conoce tu situacion. Si tienes archivos modificados sin añadir (Rojo) , si estan añadidos pero no pusheados (Verde)
-    git status 
+7. Conoce tu situacion. ¿Que diferencias hay entre los estados "tener todo actualizado", texto rojo y uno verde? 
     
-8. Prepara los archivos o cambios a tu repositorio local para su commit.
-    git add . (O nombre de archivo)
+8. Prepara los archivos o cambios a tu repositorio local. ¿Puedo añadirlos todos? ¿ Desde que ruta lo hago?
 
-9. Registra los cambios preparados en el repositorio.
-    git commit -m "Mensaje-Opcional"
+9. Registra los cambios preparados en el repositorio. ¿Es necesario dejar un mensaje en el log?
 
 11. Envia a tu repositorio de git tu contenido.
-    git push (requiere autentificación)
 
 ------------------Otros-------------------
-12. git fetch (Sincroniza el pull)
+12. Sincroniza tu repositorio local haciendo un cambio en el readme desde el github web
 
 13. Volver al ultimo commit
-    git stash
 
 13.1 Ver lista de stashes 
-    git stash list
 
 13.2 Ver contenido de un stash sin aplicarlo   
-    git stash show nombrestash
-    git stash show -p nombrestash // Si quieres ver los detalles completos (líneas cambiadas).
 
 13.3 Aplicar Stash
-    git stash apply nombrestash
 
 13.4 Eliminar Stash
-    git stash drop nombrestash
 
----Ramas por consola----
-14. Lista de ramas
-    git branch 
+---Ramas----
+14. Ver Lista de ramas
 
-15. Crea rama !OJO no te mueve
-    git branch nombrerama 
+15. Crea rama sin moverte
 
-16. Cambias a esa rama
-    git checkout nombrerama 
+16. Cambiar a esa rama
 
-17. Creas rama y te mueve 
-    git checkout -b nombrerama 
+17. Creas rama y moverte 
 
 --------Merge-----------------------------
-git merge main (siendo main la rama objetivo a mezclar desde tu rama actual)  
+18. Genera un conflicto sobre un fichero y resuelvelo.
 
-¡OJO CON LOS SIMBOLOS ">>>>>" AL RESOLVER CONFLICTOS DEBEN SER ELIMINADOS A MANO!
+BONUS: Hacer todo con la herramienta SourceTree
 
-Usa herramientas complementaria : 
-Interfaz Básica: SourceTree 
