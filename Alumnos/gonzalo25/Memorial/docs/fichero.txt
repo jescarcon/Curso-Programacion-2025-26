@@ -1,0 +1,4 @@
+entorno virtual
+python -m venv (nombre)
+
+makemigrations (nombreApp) --name (nombreModelo)
