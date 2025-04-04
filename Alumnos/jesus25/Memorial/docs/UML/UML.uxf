@@ -1,0 +1,58 @@
+<diagram program="umletino" version="15.1"><zoom_level>14</zoom_level><element><id>UMLClass</id><coordinates><x>140</x><y>56</y><w>294</w><h>154</h></coordinates><panel_attributes>User
+--
+nombreUsuario: string
+email: string
+password: string
+avatar: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>476</x><y>294</y><w>294</w><h>84</h></coordinates><panel_attributes>Biblioteca
+--
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>532</x><y>518</y><w>210</w><h>280</h></coordinates><panel_attributes>Medio
+--
+titulo: string
+descripcion: string
+fechaAgregado: date
+imagen: string
+valoracion: int
+
+estado:enum
+categoria:enum
+
+fechaInicio: date
+fechaFin: date
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>210</x><y>714</y><w>126</w><h>168</h></coordinates><panel_attributes>Categoría
+--
+SERIE
+PELICULA
+NOVELA
+ANIME
+MANGA
+VIDEOJUEGO</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>224</x><y>294</y><w>112</w><h>84</h></coordinates><panel_attributes>Usuario
+--
+Avatar:img</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>266</x><y>196</y><w>42</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>322</x><y>280</y><w>182</w><h>70</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+</panel_attributes><additional_attributes>10;20;110;20</additional_attributes></element><element><id>Relation</id><coordinates><x>616</x><y>364</y><w>70</w><h>182</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=1</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>196</x><y>476</y><w>168</w><h>224</h></coordinates><panel_attributes>&lt;&lt;Estado&gt;&gt;
+--
+Pendiente
+Siguiendo
+Leyendo
+Vista
+
+Pendiente Salida
+Pendiente Compra
+Jugándolo
+Terminado
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>350</x><y>476</y><w>210</w><h>238</h></coordinates><panel_attributes>lt=.
+</panel_attributes><additional_attributes>10;10;130;150</additional_attributes></element><element><id>Relation</id><coordinates><x>322</x><y>686</y><w>238</w><h>70</h></coordinates><panel_attributes>lt=.
+</panel_attributes><additional_attributes>10;30;150;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>854</x><y>518</y><w>182</w><h>126</h></coordinates><panel_attributes>Notas
+--
+titulo: string
+descripcion: string
+fechaAgregado: date
+imagen: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>728</x><y>518</y><w>154</w><h>56</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=1</panel_attributes><additional_attributes>90;10;10;10</additional_attributes></element></diagram>

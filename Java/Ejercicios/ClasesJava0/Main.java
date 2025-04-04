@@ -1,4 +1,6 @@
-public class Main {
+package ClasesJava0;
+
+public record Main() {
     public static void main(String[] args) {
         // Crear un avión con el constructor
         Avion avion1 = new Avion("Airbus930", 180, 930.0);
