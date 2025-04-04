@@ -35,7 +35,6 @@ function Note() {
     fetchNotes();
   }, []);
 
-  //Un modal es un bloque de codigo que se ejecuta cuando se cumple una condición, en este caso cuando se hace click en el botón editar
   const createNote = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -108,7 +107,8 @@ function Note() {
       console.error("Error al eliminar la nota", error);
     }
   }
-
+  
+  //Un modal es un bloque de codigo que se ejecuta cuando se cumple una condición, en este caso cuando se hace click en el botón editar
   return (
     <div className='noteAppContainer'>
       <div className='noteHeader'>Notas de Gonzalo</div>

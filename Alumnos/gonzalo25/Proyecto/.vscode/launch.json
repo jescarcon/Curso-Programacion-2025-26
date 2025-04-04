@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Django",
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}/src/BackEnd/manage.py", //proyecto
+        "args": [ //parametros que se le pasan al manage.py
+          "runserver",
+          "127.0.0.1:8000"
+        ],
+        "django": true,
+        "env": {
+          "DJANGO_SETTINGS_MODULE": "CoreApp.settings" //Donde está guardado el settings.py
+        },
+        "justMyCode": true
+      }
+    ]
+  }
