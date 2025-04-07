@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator,MaxValueValidator
+from django.contrib.auth.models import User
 
 class Medium(models.Model):
     class STATUS_CHOICES(models.TextChoices):
@@ -24,7 +25,7 @@ class Medium(models.Model):
     title=models.CharField(max_length=255)
     description=models.TextField(blank=True,null=True)
     add_date=models.DateField(auto_now_add=True)
-    image=models.URLField(blank=True,null=True) #Imagen modificable por defecto una de BOT
+    image=models.ImageField(upload_to='images/media',blank=True,null=True) #Imagen modificable por defecto una de BOT
     rating=models.PositiveIntegerField(
         default=0,
         validators=[
@@ -35,3 +36,13 @@ class Medium(models.Model):
     
     status=models.CharField(max_length=20,choices=STATUS_CHOICES)
     category=models.CharField(max_length=10,choices=CATEGORY_CHOICES)
+
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='media')
+
+class Note(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    add_date = models.DateField(auto_now_add=True)
+    image = models.ImageField(upload_to='images/note',blank=True, null=True)
+
+    medium = models.ForeignKey(Medium, on_delete=models.CASCADE, related_name='notes')
