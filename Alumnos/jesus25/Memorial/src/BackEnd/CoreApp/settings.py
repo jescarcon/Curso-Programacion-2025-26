@@ -146,3 +146,5 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 #----------CORS----------
+
+AUTH_USER_MODEL = 'MemorialApp.User'  # Reemplaza modelo User
