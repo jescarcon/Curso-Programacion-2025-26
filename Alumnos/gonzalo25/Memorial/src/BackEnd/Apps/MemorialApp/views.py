@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Medium
-from .models import Note
-from .serializers import MediumSerializer
-from .serializers import NoteSerializer
+from .models import Medium, Note, User
+from .serializers import MediumSerializer, NoteSerializer, UserSerializer
 # Create your views here.
 
 class MediumViewSet(viewsets.ModelViewSet):
@@ -13,3 +11,7 @@ class MediumViewSet(viewsets.ModelViewSet):
 class NoteViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

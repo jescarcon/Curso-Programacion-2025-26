@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,11 +45,13 @@ LOCAL_APPS=[
 
 THIRDS_APPS=[
  'rest_framework',
+ 'corsheaders',
 ]
 
 INSTALLED_APPS=BASE_APPS+LOCAL_APPS+THIRDS_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',#CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -129,3 +132,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#---MEDIA URL CONFIG----
+
+MEDIA_URL='/media/'
+MEDIA_ROOT= os.path.join(BASE_DIR,'media') 
+
+#---MEDIA URL CONFIG----
+
+
+#----------CORS----------
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
+#----------CORS----------
+
+AUTH_USER_MODEL = 'MemorialApp.User'  # Reemplaza modelo User
