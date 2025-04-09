@@ -1,7 +1,18 @@
 from rest_framework import serializers
-from .models import Medium
-from .models import Note
+from .models import Note, Medium
+from .models import User
 
+class NoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = ['id',
+                  'title', 
+                  'description',
+                  'add_date',
+                  'image',
+                  'medium'
+                ]
+        
 class MediumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Medium
@@ -13,14 +24,13 @@ class MediumSerializer(serializers.ModelSerializer):
                   'rating', 
                   'status', 
                   'category',
+                  'user'
                 ]
 
-class NoteSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Note
         fields = ['id',
-                  'title', 
-                  'description',
-                  'add_date',
-                  'image',
+                  'username', 
+                  'email',
+                  'avatar'
                 ]
