@@ -1,0 +1,65 @@
+/* Contenedor principal de la sección de categorías */
+.category-container {
+    display: flex; 
+    flex-direction: column;  
+    align-items: center; /* Centra horizontalmente */
+}
+
+/* Contenedor de las tarjetas  */
+.category-list {
+    display: flex; /* Usa flexbox */
+    flex-wrap: wrap; /* Permite que los elementos salten a la siguiente línea */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    
+    gap: 1.5rem; /* Espaciado entre elementos */
+
+    width: 100%;
+}
+
+/* Tarjetas individuales de categoría */
+.category-card {
+    position: relative; /* Para que el overlay funcione */
+    flex: 0 0 240px; /* "Quiero que este elemento tenga como mínimo 240px, pero si hay espacio sobrante, puede crecer, y si no cabe, puede encogerse."*/
+    
+    height: 500px; /* Altura fija */  
+    
+    border-radius: 12px; /* Bordes redondeados */
+    background-size: cover; /* Imagen cubre el contenedor */
+    background-position: center; /* Imagen centrada */
+    
+    transition: transform 0.3s ease; /* Animación suave */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.733); /* Sombra ligera */
+}
+
+/* Efecto al pasar el cursor */
+.category-card:hover {
+    transform: scale(1.03); /* Aumenta ligeramente */
+}
+
+/* Capa oscura para el texto */
+.category-overlay {
+    position: absolute; /* Posición absoluta dentro del card */
+    inset: 0; /* Ocupa todo el contenedor */
+    
+    display: flex; /* Flexbox para centrar el texto */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    
+    border-radius: 12px; /* Bordes redondeados */
+    background-color: rgba(0, 0, 0, 0.212); /* Más opaco */
+    
+    transition: background-color 0.3s ease; /* Transición de color */
+    
+    
+    color: #fff; /* Blanco */
+    font-size: 1.6rem; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    text-align: center; /* Centrado */
+}
+
+/* Overlay más oscuro al hacer hover */
+.category-card:hover .category-overlay {
+    background-color: rgba(0, 0, 0, 0.6); /* Más opaco */
+}
+
+
