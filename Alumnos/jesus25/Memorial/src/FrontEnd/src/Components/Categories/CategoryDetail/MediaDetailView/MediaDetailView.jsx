@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import './MediaDetailView.css'
 import Navbar from '../../../Navbar/Navbar'
 
@@ -29,6 +29,7 @@ export default function MediaDetailView() {
                     <p><strong>Puntuación:</strong> {media.rating}/10</p>
                     <p><strong>Estado:</strong> {media.status}</p>
                     <p><strong>Fecha añadida:</strong> {media.add_date}</p>
+                    <Link to={`/categories/manga/${id}/notes`}><button>Notas</button></Link>
                 </div>
             ) : (
                 <p>Cargando detalle...</p>

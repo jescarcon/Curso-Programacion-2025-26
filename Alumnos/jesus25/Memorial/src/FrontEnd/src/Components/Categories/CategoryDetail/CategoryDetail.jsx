@@ -24,10 +24,40 @@ export default function CategoryDetail() {
     const [showForm, setShowForm] = useState(false) // Modal Create
     const [editingMedia, setEditingMedia] = useState(null) //EDIT VARIABLE
 
+    const [createImagePreview, setCreateImagePreview] = useState(null)
+    const [editImagePreview, setEditImagePreview] = useState(null)
+
+    const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, media: null })
 
     // Si la categoría no es válida, mostramos el componente Error directamente
     //#region Logica
 
+    //ACTUALIZA IMAGE PREVIEW EN EL EDIT
+    useEffect(() => {
+        if (editingMedia && editingMedia.image) {
+            setEditImagePreview(editingMedia.image)
+        } else {
+            setEditImagePreview(null)
+        }
+    }, [editingMedia])
+
+    //MENU CONTEXTUAL ABRIR
+    const handleContextMenu = (e, media) => {
+        e.preventDefault()
+        setContextMenu({
+            visible: true,
+            x: e.pageX,
+            y: e.pageY,
+            media: media
+        })
+    }
+    //MENU CONTEXTUAL CERRAR
+    useEffect(() => {
+        const closeMenu = () => setContextMenu({ ...contextMenu, visible: false })
+        document.addEventListener('click', closeMenu)
+        return () => document.removeEventListener('click', closeMenu)
+    }, [contextMenu])
+    
     //#region CRUD
 
     //GET Lista
@@ -57,6 +87,7 @@ export default function CategoryDetail() {
             .then(newMedia => {
                 setMediaList([...mediaList, newMedia])
                 form.reset()
+                setShowForm(false)
             })
             .catch(err => console.error('Error al crear media:', err))
     }
@@ -100,10 +131,13 @@ export default function CategoryDetail() {
         <Navbar />
         <div className="media-detail-container">
             <h2>Elementos de la categoría: {currentCategory ? currentCategory.name : 'Error, categoría no válida'}</h2>
+            <button onClick={() => setShowForm(!showForm)}>
+               Añadir nuevo elemento
+            </button>
             {mediaList.length > 0 ? (
                 <div className="media-grid">
                     {mediaList.map(media => (
-                        <div className="media-card" key={media.id}>
+                        <div className="media-card" key={media.id} onContextMenu={(e) => handleContextMenu(e, media)}>
                             <Link to={`/categories/${category}/${media.id}`}>
                                 <div className="media-image">
                                     {media.image ? (
@@ -116,10 +150,6 @@ export default function CategoryDetail() {
                             <div className="media-info">
                                 <h3>{media.title}</h3>
                             </div>
-                            <button onClick={() => setEditingMedia(media)} className="edit-btn">Editar</button>
-
-                            <button onClick={() => handleDelete(media.id)} className="delete-btn">Eliminar</button>
-
                         </div>
                     ))}
                 </div>
@@ -127,15 +157,9 @@ export default function CategoryDetail() {
                 <>Aún no hay nada en esta categoría... ¡Prueba añadiendo algo!</>
             }
 
-            <hr />
-            <button onClick={() => setShowForm(!showForm)}>
-                {showForm ? 'Ocultar formulario' : 'Añadir nuevo elemento'}
-            </button>
-
             {/*-----------CREATE FORM-------------*/}
 
-            <Modal isOpen={showForm} onClose={() => setShowForm(false)}>
-
+            <Modal isOpen={showForm} onClose={() => {setShowForm(false);  setCreateImagePreview(null);}}>
                 <>
                     <h3>Crear nuevo elemento en {currentCategory.name}</h3>
                     <form onSubmit={handleSubmit} className="media-form">
@@ -154,8 +178,24 @@ export default function CategoryDetail() {
                             <option value="finished">Terminado/a</option>
                         </select>
 
-                        <input type="file" name="image" />
+                        <input type="file" name="image" onChange={e => {
+                            const file = e.target.files[0]
+                            if (file) {
+                                setCreateImagePreview(URL.createObjectURL(file))
+                            } else {
+                                setCreateImagePreview(null)
+                            }
+                        }} />
+
+                        {createImagePreview && (
+                            <div className="image-preview">
+                                <img src={createImagePreview} alt="Previsualización" />
+                            </div>
+                        )}
+
                         <button type="submit">Crear</button>
+                        <button type="button" onClick={() => {setShowForm(false); setCreateImagePreview(null);}}>Cancelar</button>
+
                     </form>
 
                 </>
@@ -163,16 +203,16 @@ export default function CategoryDetail() {
 
 
             {/*-----------EDIT FORM-------------*/}
-                         {/* igual editingMedia !== null chequea que no sea null*/}
+            {/* igual editingMedia !== null chequea que no sea null*/}
             <Modal isOpen={!!editingMedia} onClose={() => setEditingMedia(null)}>
                 <>
-                    <h3>Editando: {editingMedia.title}</h3>
+                    <h3>Editando: {editingMedia ? editingMedia.title : 'Cargando...'}</h3>
                     <form onSubmit={handleEditSubmit} className="media-form">
-                        <input type="text" name="title" defaultValue={editingMedia.title} required />
-                        <textarea name="description" defaultValue={editingMedia.description} required></textarea>
-                        <input type="number" name="rating" min="0" max="10" defaultValue={editingMedia.rating} required />
+                        <input type="text" name="title" defaultValue={editingMedia ? editingMedia.title : ''} required />
+                        <textarea name="description" defaultValue={editingMedia ? editingMedia.description : ''} required></textarea>
+                        <input type="number" name="rating" min="0" max="10" defaultValue={editingMedia ? editingMedia.rating : ''} required />
 
-                        <select name="status" defaultValue={editingMedia.status}>
+                        <select name="status" defaultValue={editingMedia ? editingMedia.status : 'pending'}>
                             <option value="pending">Pendiente</option>
                             <option value="following">Siguiéndolo/a</option>
                             <option value="reading">Leyéndolo/a</option>
@@ -183,12 +223,52 @@ export default function CategoryDetail() {
                             <option value="finished">Terminado/a</option>
                         </select>
 
-                        <input type="file" name="image" />
+                        <input type="file" name="image" onChange={e => {
+                            const file = e.target.files[0]
+                            if (file) {
+                                setEditImagePreview(URL.createObjectURL(file))
+                            }
+                        }} />
+
+                        {editImagePreview && (
+                            <div className="image-preview">
+                                <img src={editImagePreview} alt="Previsualización" />
+                            </div>
+                        )}
+
                         <button type="submit">Guardar cambios</button>
                         <button type="button" onClick={() => setEditingMedia(null)}>Cancelar</button>
                     </form>
                 </>
             </Modal>
+
+
+            {contextMenu.visible && (
+                <div
+                    className="context-menu"
+                    style={{
+                        position: 'absolute',
+                        top: `${contextMenu.y}px`,
+                        left: `${contextMenu.x}px`,
+                        backgroundColor: '#fff',
+                        border: '1px solid #ccc',
+                        boxShadow: '0px 0px 10px rgba(0,0,0,0.2)',
+                        zIndex: 1000,
+                        padding: '10px',
+                        borderRadius: '5px'
+                    }}
+                >
+                    <button onClick={() => {
+                        setEditingMedia(contextMenu.media)
+                        setContextMenu({ ...contextMenu, visible: false })
+                    }}>Editar</button>
+                    <button onClick={() => {
+                        handleDelete(contextMenu.media.id)
+                        setContextMenu({ ...contextMenu, visible: false })
+                    }}>Eliminar</button>
+                </div>
+            )}
+
         </div>
     </>
     )

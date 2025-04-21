@@ -6,6 +6,7 @@ import Categories from './Components/Categories/Categories'
 import CategoryDetail from './Components/Categories/CategoryDetail/CategoryDetail'
 import Error from './Components/Error/Error'
 import MediaDetailView from './Components/Categories/CategoryDetail/MediaDetailView/MediaDetailView'
+import Notes from './Components/Categories/CategoryDetail/MediaDetailView/Notes/Notes'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path='/categories' element={<Categories/>} />
         <Route path='/categories/:category' element={<CategoryDetail/>} />
         <Route path='/categories/:category/:id' element={<MediaDetailView/>} />
+        <Route path='/categories/:category/:id/notes' element={<Notes/>} />
 
         <Route path='*' element={<Error/>} />
       </Routes>
