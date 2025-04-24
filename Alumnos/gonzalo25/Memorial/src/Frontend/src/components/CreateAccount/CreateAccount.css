@@ -1,0 +1,73 @@
+.createacc-body {
+    display: flex; /* Usamos Flexbox para alinear los elementos en fila */
+    justify-content: space-between; /* Espaciamos los elementos */
+    align-items: center; /* Alineamos verticalmente */
+    gap: 20px; /* Espacio entre la imagen y el formulario */
+    margin: 20px auto; /* Centramos el contenedor */
+    max-width: 1200px; /* Ancho máximo del contenedor */
+}
+
+.createacc-body-text{
+    text-align: center;
+    margin-top: 2%;
+}
+
+.homepage-body-img {
+    flex: 1; /* La imagen ocupará un espacio proporcional */
+    text-align: center; /* Centrar la imagen dentro de su contenedor */
+}
+
+.homepage-body-img img {
+    max-width: 75%; /* La imagen no excederá el ancho del contenedor */
+    height: auto; /* Mantendrá la proporción */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.createacc-form {
+    font-family: Arial, Helvetica, sans-serif;
+    flex: 1; /* El formulario ocupará un espacio proporcional */
+    background-color: #ffffff; /* Fondo blanco */
+    border: 2px solid #1685b8; /* Borde azul */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para un diseño limpio */
+}
+
+.createacc-form .form-group {
+    margin-bottom: 15px; /* Espaciado entre los campos */
+}
+
+.createacc-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.createacc-form input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #1685b8;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+}
+
+.createacc-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1685b8;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.createacc-form button:hover {
+    background-color: #0d6efd;
+}

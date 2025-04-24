@@ -1,3 +1,20 @@
 body{
   margin: 0 auto;
 }
+
+/*------------- Botones ------------- */
+.btn-1{
+  border-radius: 30px;
+  padding: 10px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.69);
+  cursor: pointer;
+}
+
+/*------------- Textos ------------- */
+.text-1{
+  color: #47525E;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}

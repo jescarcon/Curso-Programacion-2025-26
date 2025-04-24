@@ -4,6 +4,11 @@ from django.core.validators import MinValueValidator,MaxValueValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
+import os
+from django.core.exceptions import ValidationError
+from django.db.models.signals import post_delete, pre_save
+from django.dispatch import receiver
+
 class User(AbstractUser):
     avatar = models.ImageField(blank=True, null=True , default='images/user/default_user.jpg')  
         
@@ -58,3 +63,35 @@ class Note(models.Model):
     image = models.ImageField(upload_to='images/note',blank=True, null=True)
 
     medium = models.ForeignKey(Medium, on_delete=models.CASCADE, related_name='notes')
+
+
+
+# Función para eliminar las imágenes asociadas al objeto cuando se elimina
+@receiver([post_delete], sender=Medium)
+@receiver([post_delete], sender=Note)
+def delete_image(sender, instance, **kwargs):
+    # Verifica si la instancia tiene una imagen asociada
+    if instance.image:
+        # Si existe una imagen, verifica si el archivo realmente existe en el sistema de archivos
+        if os.path.isfile(instance.image.path):
+            # Si el archivo existe, se elimina físicamente
+            os.remove(instance.image.path)
+
+# Función para eliminar la imagen anterior antes de guardar la nueva
+@receiver(pre_save, sender=Medium)
+@receiver(pre_save, sender=Note)
+def delete_old_image(sender, instance, **kwargs):
+    if instance.pk:  # Verifica si la instancia ya existe en la base de datos (es una actualización)
+        old_instance = sender.objects.get(pk=instance.pk)
+        if old_instance.image != instance.image:  # Si la imagen ha cambiado
+            # Elimina la imagen anterior si existe
+            if old_instance.image:
+                if os.path.isfile(old_instance.image.path):
+                    os.remove(old_instance.image.path)
+
+# Si quieres hacer más validaciones sobre las imágenes, puedes agregar un validador en el campo de imagen:
+def validate_image(value):
+    # Verifica si el nombre del archivo de la imagen termina en uno de los formatos permitidos
+    if not value.name.endswith(('.jpg', '.jpeg', '.png')):
+        # Si no es un formato válido, lanza un error de validación
+        raise ValidationError("Solo se permiten imágenes en formato JPG o PNG.")
