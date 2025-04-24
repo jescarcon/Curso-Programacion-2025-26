@@ -26,6 +26,9 @@ export default function Notes() {
 
     const currentCategory = categories.find(c => c.param === category);
     if (!currentCategory) return <Error />;
+
+    const [selectedNote, setSelectedNote] = useState(null);  // Vista previa al click
+
     //#endregion
 
     //#region LOGICA
@@ -68,7 +71,7 @@ export default function Notes() {
             .catch(error => console.error('Error fetching notes:', error));
     }, [id]);
 
-   //CREATE
+    //CREATE
     const handleCreateSubmit = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -123,7 +126,7 @@ export default function Notes() {
     //#endregion
 
     //#endregion
-    
+
     return (
         <>
             <Navbar />
@@ -134,7 +137,7 @@ export default function Notes() {
                 {notesList.length > 0 ? (
                     <div className="notes-grid">
                         {notesList.map(note => (
-                            <div className="note-card" key={note.id} onContextMenu={(e) => handleContextMenu(e, note)}>
+                            <div className="note-card" key={note.id} onContextMenu={(e) => handleContextMenu(e, note)} onClick={() => setSelectedNote(note)}>
                                 <Link to={`/categories/${category}/${note.id}/notes`}>
                                     <div className="note-image">
                                         {note.image ? (
@@ -230,6 +233,25 @@ export default function Notes() {
                         }}>Eliminar</button>
                     </div>
                 )}
+
+                {/* Modal Vista Previa Nota */}
+                <Modal isOpen={!!selectedNote} onClose={() => setSelectedNote(null)}>
+                    {selectedNote && (
+                        <div className="note-detail-modal">
+                            <h3>{selectedNote.title}</h3>
+                            <p>{selectedNote.description}</p>
+                            <p><strong>Fecha:</strong> {selectedNote.add_date}</p>
+                            {selectedNote.image ? (
+                                <div className="image-preview">
+                                    <img src={selectedNote.image} alt="Imagen de la nota" />
+                                </div>
+                            ) : (
+                                <div className="note-placeholder">Sin imagen</div>
+                            )}
+                        </div>
+                    )}
+                </Modal>
+
             </div>
         </>
     );

@@ -7,6 +7,10 @@ import CategoryDetail from './Components/Categories/CategoryDetail/CategoryDetai
 import Error from './Components/Error/Error'
 import MediaDetailView from './Components/Categories/CategoryDetail/MediaDetailView/MediaDetailView'
 import Notes from './Components/Categories/CategoryDetail/MediaDetailView/Notes/Notes'
+import Users from './Components/Users/Users'
+import UserCategory from './Components/Users/UserCategory/UserCategory'
+import UserCategoryDetailView from './Components/Users/UserCategory/UserCategoryDetailView/UserCategoryDetailView'
+import UserNotes from './Components/Users/UserCategory/UserCategoryDetailView/Notes/UserNotes'
 
 
 function App() {
@@ -20,6 +24,11 @@ function App() {
         <Route path='/categories/:category' element={<CategoryDetail/>} />
         <Route path='/categories/:category/:id' element={<MediaDetailView/>} />
         <Route path='/categories/:category/:id/notes' element={<Notes/>} />
+        
+        <Route path='/users/:username' element={<Users/>} />
+        <Route path="/users/:username/:category" element={<UserCategory />} />
+        <Route path="/users/:username/:category/:id" element={<UserCategoryDetailView/>} />
+        <Route path="/users/:username/:category/:id/notes" element={<UserNotes/>} />
 
         <Route path='*' element={<Error/>} />
       </Routes>

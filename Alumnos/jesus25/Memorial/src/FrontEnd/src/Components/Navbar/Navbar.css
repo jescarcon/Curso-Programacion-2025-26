@@ -30,3 +30,21 @@
 }
 
 /*-------HEADER-------*/
+
+.navbar-search {
+    width: 160px;
+    height: 28px;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #f8f8f8;
+}
+
+.navbar-search:focus {
+    width: 200px;
+    border-color: #666;
+    background-color: #fff;
+}
