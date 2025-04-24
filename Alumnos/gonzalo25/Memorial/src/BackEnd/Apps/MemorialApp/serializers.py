@@ -24,7 +24,9 @@ class MediumSerializer(serializers.ModelSerializer):
                   'rating', 
                   'status', 
                   'category',
-                  'user'
+                  'user',
+                  'begin_date',
+                  'finish_date'
                 ]
 
 class UserSerializer(serializers.ModelSerializer):

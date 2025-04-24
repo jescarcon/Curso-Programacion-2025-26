@@ -1,0 +1,27 @@
+.navbar-header {
+    background-color: rgba(22, 133, 184, 0.81);
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    width: 100%;
+    min-height: 75px;
+
+    display: flex;
+    flex-direction: row;
+        
+    align-items: center;
+    justify-content: space-between;    
+}
+
+/*------Logo------*/
+.navbar-logo{
+    margin-left: 4%;
+    cursor: pointer;
+}
+.navbar-logo img {
+    width: 170px;
+}
+.navbar-menu{
+    margin-right: 4%;
+    display: flex;
+    gap: 15px;
+}

@@ -3,15 +3,12 @@ import logo from '/images/home/logo.png'
 import createAccImage from '/images/home/create-acc.jpeg'
 import { Link } from 'react-router-dom';
 import './CreateAccount.css'
+import Navbar from '../Navbar/Navbar';
 
 export default function CreateAccount() {
     return (
         <div className='createacc-container'>
-            <div className='createacc-header'>
-                <div className='createacc-logo' onClick={() => show_hide_toggle(false)}>
-                    <Link to="/"><div><img src={logo} alt="Memorial Logo" /></div></Link>
-                </div>
-            </div>
+            <Navbar/>
             <div className='createacc-body-text text-1'>
                 Creación de cuenta en Memorial
             </div>

@@ -6,7 +6,7 @@ from .models import User
 # MEDIUM ADMIN
 class MediumAdmin(admin.ModelAdmin):
     #añadir tods los campos
-    list_display = ('title', 'description', 'add_date', 'rating', 'status', 'category')    #añadir los campos que se pueden editar
+    list_display = ('title', 'description', 'add_date', 'rating', 'status', 'category', 'begin_date', 'finish_date')    #añadir los campos que se pueden editar
     search_fields = ['title', 'add_date', 'rating', 'status', 'category']    #añadir los campos que se pueden buscar
 
 class NoteAdmin(admin.ModelAdmin):

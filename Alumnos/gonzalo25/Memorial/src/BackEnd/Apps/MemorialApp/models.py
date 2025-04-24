@@ -1,8 +1,15 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+import os
+from django.db.models.signals import post_delete, pre_save
+from django.dispatch import receiver
+
+def validate_image(value):
+    if not value.name.endswith(('.jpg','.png','.jpeg')):
+        raise ValidationError("Solo son permitidos los ficheros de imagen")
 
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='images/avatar', blank=True, null=True, default='images/user/user_default.png') #Puede estar en blanco o ser nulo
@@ -19,8 +26,8 @@ class Medium(models.Model):
         FINISHED = 'finished', 'Terminado'
 
     class CATEGORY_CHOICES(models.TextChoices):
-        MOVIE = 'movie', 'Película'
-        SERIES = 'series', 'Serie'
+        MOVIE = 'film', 'Película'
+        SERIES = 'serie', 'Serie'
         NOVEL = 'novel', 'Novela'
         GAME = 'game', 'Juego'
         ANIME = 'anime', 'Anime'
@@ -29,7 +36,7 @@ class Medium(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     add_date = models.DateField(auto_now_add=True)
-    image = models.ImageField(upload_to='images/media', blank=True, null=True)
+    image = models.ImageField(upload_to='images/media', blank=True, null=True, validators=[validate_image])
     rating = models.IntegerField(
         default=0,
         validators=[
@@ -38,6 +45,8 @@ class Medium(models.Model):
         ]
         
     )
+    begin_date = models.DateField('Fecha inicio', null=True, blank=True)
+    finish_date = models.DateField('Fecha fin', null=True, blank=True)
     
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
@@ -49,11 +58,30 @@ class Medium(models.Model):
         verbose_name = 'Medium'
         verbose_name_plural = 'Media'
 
+
+
 class Note(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     add_date = models.DateField(auto_now_add=True)
-    image = models.ImageField(upload_to='images/note', blank=True, null=True)
+    image = models.ImageField(upload_to='images/note', blank=True, null=True, validators=[validate_image])
 
     #Cuando se borra un medio, se borran las notas asociadas a ese medio
     medium=models.ForeignKey(Medium, on_delete=models.CASCADE, related_name='notes')
+
+@receiver([post_delete],sender=Medium)
+@receiver([post_delete],sender=Note)
+def delete_image(sender,instance,**kwargs):
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
+
+@receiver([pre_save],sender=Medium)
+@receiver([pre_save],sender=Note)
+def delete_old_image(sender,instance,**kwargs):
+    if instance.pk:
+        old_instance= sender.objects.get(pk=instance.pk) #Objeto antiguo
+        if old_instance.image:
+            if os.path.isfile(old_instance.image.path):
+                os.remove(old_instance.image.path)
+

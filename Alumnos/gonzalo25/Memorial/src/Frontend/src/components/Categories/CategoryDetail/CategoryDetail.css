@@ -1,0 +1,162 @@
+.media-detail-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.media-detail-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+.category-detail-body-title{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+.media-grid {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px; 
+    justify-content: space-evenly; 
+    margin-top: 20px;
+}
+
+.media-card {
+    background-color: #fff;
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+    width: 260px; 
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.media-card:hover {
+    transform: translateY(-5px); 
+}
+
+.media-image {
+    height: 180px; 
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0; 
+}
+
+
+.media-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.media-info {
+    padding: 1rem;
+    text-align: center;
+}
+
+.media-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #222;
+}
+
+.media-info p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.media-form {
+    background-color: #ffffff; 
+    border: 2px solid rgba(22, 133, 184, 0.81); 
+    border-radius: 10px; 
+    padding: 20px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    max-width: 500px; 
+    margin: 0 auto; 
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.media-form h3 {
+    text-align: center;
+    color: rgba(22, 133, 184, 0.81); 
+    margin-bottom: 20px;
+}
+
+.media-form input,
+.media-form textarea,
+.media-form select {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(22, 133, 184, 0.81); 
+    border-radius: 5px; 
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9; 
+    outline: none;
+}
+
+.media-form input:focus,
+.media-form textarea:focus,
+.media-form select:focus {
+    border-color: rgba(22, 133, 184, 0.81); 
+    background-color: #ffffff; 
+}
+
+.media-form button {
+    width: 100%;
+    margin: 1%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(22, 133, 184, 0.81); 
+    color: #ffffff; 
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.media-form button:hover {
+    background-color: #1685b8; 
+}
+
+/* Estilo general para los botones del context menu */
+.context-menu-btn {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    margin: 5px 0;
+    background-color: #007bff; /* Color de fondo por defecto */
+    color: #ffffff; /* Color del texto */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover para los botones */
+  .context-menu-btn:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  }
+  
+  /* Botón de eliminar con un color diferente */
+  .context-menu-btn:nth-child(2) {
+    background-color: #dc3545; /* Rojo para el botón de eliminar */
+  }
+  
+  .context-menu-btn:nth-child(2):hover {
+    background-color: #a71d2a; /* Rojo más oscuro al pasar el mouse */
+  }
