@@ -5,7 +5,7 @@ import './CategoryDetail.css'
 import Navbar from '../../Navbar/Navbar';
 import { BASE_API_URL } from './../../../constants'
 import Error from '../../Error/Error';
-import Modal from '../../Modal/modal'
+import Modal from '../../Modal/Modal'
 import createButtonImage from '/images/createButton.png';
 import MediaDetailView from './MediaDetailView/MediaDetailView';
 
@@ -226,6 +226,8 @@ export default function CategoryDetail() {
                                     </option>
                                 ))}
                             </select>
+                            <input type="date" name='begin_date' placeholder='Fecha de inicio'/>
+                            <input type="date" name='finish_date' placeholder='Fecha de fin'/>
                             <input type="file" name="image" onChange={e => {
                                 const file = e.target.files[0]
                                 if (file) {
@@ -243,9 +245,7 @@ export default function CategoryDetail() {
                             <button type='submit' onClick={() => {
                                 setShowForm(false)
                                 setCreateImagePreview(null)
-                            }}>
-
-                            </button>
+                            }}>Cancelar</button>
                         </form>
                     </>
                 </Modal>
@@ -266,6 +266,8 @@ export default function CategoryDetail() {
                                         </option>
                                     ))}
                                 </select>
+                                <input type="date" name='begin_date' defaultValue={editingMedia.begin_date}/>
+                                <input type="date" name='finish_date' defaultValue={editingMedia.finish_date}/>
                                 <input type="file" name="image" onChange={e => {
                                     const file = e.target.files[0]
                                     if (file) {
@@ -288,12 +290,12 @@ export default function CategoryDetail() {
                         position: 'absolute',
                         top: `${contextMenu.y}px`,
                         left: `${contextMenu.x}px`,
-                        backgroundColor: '#ffffff', // Fondo blanco
-                        border: '1px solid #ddd', // Borde sutil
-                        borderRadius: '8px', // Bordes redondeados
-                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Sombra para darle profundidad
-                        padding: '10px', // Espaciado interno
-                        zIndex: 1000, // Asegura que esté por encima de otros elementos
+                        backgroundColor: '#ffffff',
+                        border: '1px solid #ddd',
+                        borderRadius: '8px', 
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        padding: '10px',
+                        zIndex: 1000,
                       }}                    
                     >
                         <button 

@@ -149,6 +149,22 @@ AUTH_USER_MODEL = 'MemorialApp.User'
 
 #CORS CONFIGURATION
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173' #FrontEnd URL
+    'http://localhost:5173', #FrontEnd URL
+    'http://192.168.1.40:5173',
 ]
 #CORS CONFIGURATION
+
+
+#JWT CONFIGURATION
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+#JWT CONFIGURATION

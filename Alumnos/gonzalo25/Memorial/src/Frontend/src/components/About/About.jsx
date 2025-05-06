@@ -12,7 +12,7 @@ export default function About() {
                     de entretenimiento (película, serie, novela, anime, manga o videojuego).
                 </p>
                 <p>
-                    Es normal que cuando estás conociendo a alguien y sale el tema de qué os gusta ver/leer, en estas situaciones a más de uno se le ha
+                    Es normal que cuando estás conociendo a alguien y sale el tema de qué os gusta ver/leer, a más de uno se le ha
                     olvidado más de la mitad de las cosas que algún día vio o leyó. Es aquí donde entra Memorial.
                 </p>
 

@@ -8,11 +8,11 @@ from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
 
 def validate_image(value):
-    if not value.name.endswith(('.jpg','.png','.jpeg')):
+    if not value.name.endswith(('.jpg','.png','.jpeg','gif')):
         raise ValidationError("Solo son permitidos los ficheros de imagen")
 
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='images/avatar', blank=True, null=True, default='images/user/user_default.png') #Puede estar en blanco o ser nulo
+    avatar = models.CharField(max_length=500)
 
 class Medium(models.Model):
     class STATUS_CHOICES(models.TextChoices):
