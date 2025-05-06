@@ -7,21 +7,62 @@
 
     display: flex;
     flex-direction: row;
-        
+
     align-items: center;
-    justify-content: space-between;    
+    justify-content: space-between;
 }
 
 /*------Logo------*/
-.navbar-logo{
+.navbar-logo {
     margin-left: 4%;
     cursor: pointer;
 }
+
 .navbar-logo img {
     width: 170px;
 }
-.navbar-menu{
+
+.navbar-menu {
     margin-right: 4%;
     display: flex;
     gap: 15px;
+}
+
+/* Estilo para la barra de búsqueda */
+.navbar-search {
+    margin-right: 4%;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaciado entre el input y los botones */
+}
+
+.navbar-search input {
+    padding: 8px 16px;
+    border: 2px solid rgba(22, 133, 184, 0.81);
+    border-radius: 20px;
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    width: 150px; /* Tamaño más pequeño */
+    height: 40px; /* Altura acorde a los botones */
+}
+
+.navbar-search input:focus {
+    border-color: rgba(22, 133, 184, 1);
+    box-shadow: 0 0 5px rgba(22, 133, 184, 0.5);
+}
+
+.navbar-search button {
+    background-color: rgba(22, 133, 184, 0.81);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-search button:hover {
+    background-color: rgba(22, 133, 184, 1);
 }

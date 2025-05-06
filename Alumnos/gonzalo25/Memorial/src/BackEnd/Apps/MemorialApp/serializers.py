@@ -29,10 +29,25 @@ class MediumSerializer(serializers.ModelSerializer):
                   'finish_date'
                 ]
 
+
+#- USUARIO CUSTOM MEMORIAL -
+from django.contrib.auth import get_user_model
+from rest_framework import serializers
+
+User = get_user_model()
+
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
-        fields = ['id',
-                  'username', 
-                  'email',
-                  'avatar'
-                ]
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'avatar']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)  # Cifra la contraseña correctamente
+        user.save()
+        return user
+##

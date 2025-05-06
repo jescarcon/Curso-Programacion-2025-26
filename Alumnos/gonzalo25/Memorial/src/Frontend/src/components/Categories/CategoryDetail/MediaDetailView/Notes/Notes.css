@@ -1,0 +1,202 @@
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    /* Espacio entre el título y la imagen */
+    align-items: center;
+    /* Alinea verticalmente */
+    padding: 2rem;
+    /* Espaciado interno similar a .media-detail-container */
+    max-width: 1200px;
+    /* Ancho máximo */
+    margin: auto;
+    /* Centra el contenedor */
+}
+
+.notes-title {
+    margin: 0;
+    /* Elimina márgenes */
+}
+
+.create-button {
+    width: 40px;
+    /* Tamaño de la imagen */
+    height: 40px;
+    cursor: pointer;
+    /* Cambia el cursor al pasar sobre la imagen */
+}
+
+.create-button {
+    cursor: pointer;
+}
+
+.notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 16px;
+}
+
+.note-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.note-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.note-placeholder {
+    width: 100%;
+    height: 150px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+}
+
+.note-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.context-menu {
+    position: absolute;
+    background-color: #ffffff;
+    /* Fondo blanco */
+    border: 1px solid #ddd;
+    /* Borde sutil */
+    border-radius: 8px;
+    /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra para darle profundidad */
+    z-index: 1000;
+    padding: 8px;
+    /* Espaciado interno uniforme */
+    min-width: 160px;
+    /* Ancho mínimo ajustado */
+    text-align: center;
+    /* Centra el texto */
+}
+
+.context-menu-btn {
+    display: block;
+    width: calc(100% - 16px);
+    /* Ajusta el ancho para dejar espacio uniforme */
+    margin: 8px auto;
+    /* Espaciado uniforme entre botones */
+    padding: 10px 12px;
+    /* Espaciado interno */
+    background-color: #007bff;
+    /* Color de fondo por defecto */
+    color: #ffffff;
+    /* Color del texto */
+    border: none;
+    border-radius: 6px;
+    /* Bordes redondeados */
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.context-menu-btn:hover {
+    background-color: #0056b3;
+    /* Color más oscuro al pasar el mouse */
+}
+
+.context-menu-btn.delete {
+    background-color: #dc3545;
+    /* Rojo para el botón de eliminar */
+}
+
+.context-menu-btn.delete:hover {
+    background-color: #a71d2a;
+    /* Rojo más oscuro al pasar el mouse */
+}
+
+.media-form {
+    background-color: #ffffff;
+    border: 2px solid rgba(22, 133, 184, 0.81);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.media-form h3 {
+    text-align: center;
+    color: rgba(22, 133, 184, 0.81);
+    margin-bottom: 20px;
+}
+
+.media-form input,
+.media-form textarea,
+.media-form select {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(22, 133, 184, 0.81);
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    outline: none;
+}
+
+.media-form input:focus,
+.media-form textarea:focus,
+.media-form select:focus {
+    border-color: rgba(22, 133, 184, 0.81);
+    background-color: #ffffff;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.save-button {
+    width: 48%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(22, 133, 184, 0.81);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: #1685b8;
+}
+
+.cancel-button {
+    width: 48%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #dc3545;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: #a71d2a;
+}
