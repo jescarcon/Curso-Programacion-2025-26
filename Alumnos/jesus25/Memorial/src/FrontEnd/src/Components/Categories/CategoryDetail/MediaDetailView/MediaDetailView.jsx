@@ -1,39 +1,94 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import './MediaDetailView.css'
-import Navbar from '../../../Navbar/Navbar'
+import React, { useEffect, useState } from 'react';
+import Navbar from '../../../Navbar/Navbar';
+import './MediaDetailView.css';
+import { BASE_API_URL } from './../../../../constants';
+import { useParams, Link } from 'react-router-dom';
 
 export default function MediaDetailView() {
-    const { id } = useParams()
-    const [media, setMedia] = useState(null)
+  const { categoryName, id } = useParams();
+  const [mediumData, setMediumData] = useState(null);
+  const statusList = [
+    { name: 'Pendiente', param: 'pending' },
+    { name: 'Siguiendo', param: 'following' },
+    { name: 'Leyendo', param: 'reading' },
+    { name: 'Vista', param: 'watched' },
+    { name: 'Pendiente de salida', param: 'upcoming' },
+    { name: 'Pendiente de compra', param: 'pending_purchase' },
+    { name: 'Jugando', param: 'playing' },
+    { name: 'Terminado', param: 'finished' }
+  ];
 
-    useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/memorialApp/media/${id}/`)
-            .then(res => res.json())
-            .then(data => setMedia(data))
-            .catch(err => console.error('Error al obtener el detalle:', err))
-    }, [id])
+  useEffect(() => {
+    fetch(`${BASE_API_URL}/api/memorialApp/media/${id}/`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setMediumData(data)
+        setStatus(data.status)
+      })
+      .catch(e => console.error('Error fetching data:', e))
 
-    return (
-        <>
-            <Navbar />
-            {media ? (
-                <div className="media-detail">
-                    <h2>{media.title}</h2>
-                    {media.image ? (
-                        <img src={media.image} alt={media.title} />
-                    ) : (
-                        <div className="media-placeholder">Sin imagen</div>
-                    )}
-                    <p><strong>Descripción:</strong> {media.description}</p>
-                    <p><strong>Puntuación:</strong> {media.rating}/10</p>
-                    <p><strong>Estado:</strong> {media.status}</p>
-                    <p><strong>Fecha añadida:</strong> {media.add_date}</p>
-                    <Link to={`/categories/manga/${id}/notes`}><button>Notas</button></Link>
-                </div>
-            ) : (
-                <p>Cargando detalle...</p>
-            )}
-        </>
-    )
+
+  }, [])
+
+  const [status, setStatus] = useState(null);
+  const translatedStatus = statusList.find(e => e.param === status)
+
+  console.log(translatedStatus)
+
+  return (
+    <>
+      <Navbar />
+      {mediumData ? (
+        <div className="media-detail-view-container">
+          {/* Subcontenedor 1 */}
+          <div className="media-detail-view-subcontainer-1">
+            <div className="media-detail-view-image">
+              <img
+                src={mediumData.image}
+                alt={mediumData.title}
+                className="media-detail-view-image"
+              />
+            </div>
+            <div className="media-detail-view-notes">
+              <Link
+                to={`/categories/categoryDetail/${categoryName}/${id}/notes`}
+                className="media-detail-view-notes-button">
+                Ver Notas
+              </Link>
+            </div>
+
+          </div>
+
+          {/* Subcontenedor 2 */}
+          <div className="media-detail-view-subcontainer-2">
+            <h2 className="text-1">{mediumData.title}</h2>
+            <p className="media-detail-view-description">
+              {mediumData.description}
+            </p>
+            <p className="media-detail-view-addDate">
+              Fecha de agregado: {mediumData.add_date}
+            </p>
+            <p className="media-detail-view-rating">
+              Valoración: {mediumData.rating}/10
+            </p>
+            <p className="media-detail-view-status">
+              Estado: {translatedStatus.name}
+            </p>
+            <div className="media-detail-view-dates">
+              <p className="media-detail-view-beginDate">
+                Inicio: {mediumData.begin_date}
+              </p>
+              <p className="media-detail-view-finishDate">
+                Fin: {mediumData.finish_date}
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <p>Cargando...</p>
+      )}
+    </>
+  );
+
 }

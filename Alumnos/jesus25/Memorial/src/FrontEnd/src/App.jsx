@@ -1,36 +1,48 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './Components/Home/Home'
-import About from './Components/About/About'
-import Categories from './Components/Categories/Categories'
-import CategoryDetail from './Components/Categories/CategoryDetail/CategoryDetail'
-import Error from './Components/Error/Error'
-import MediaDetailView from './Components/Categories/CategoryDetail/MediaDetailView/MediaDetailView'
-import Notes from './Components/Categories/CategoryDetail/MediaDetailView/Notes/Notes'
-import Users from './Components/Users/Users'
-import UserCategory from './Components/Users/UserCategory/UserCategory'
-import UserCategoryDetailView from './Components/Users/UserCategory/UserCategoryDetailView/UserCategoryDetailView'
-import UserNotes from './Components/Users/UserCategory/UserCategoryDetailView/Notes/UserNotes'
-
+import {BrowserRouter, Routes, Route,} from 'react-router-dom'
+import Home from './components/Home/Home'
+import Login from './components/Login/Login'
+import About from './components/About/About'
+import CreateAccount from './components/CreateAccount/CreateAccount'
+import Categories from './components/Categories/Categories'
+import CategoryDetail from './components/Categories/CategoryDetail/CategoryDetail'
+import Error from './components/Error/Error'
+import MediaDetailView from './components/Categories/CategoryDetail/MediaDetailView/MediaDetailView'
+import Notes from './components/Categories/CategoryDetail/MediaDetailView/Notes/Notes'
+import NoteDetailView from './components/Categories/CategoryDetail/MediaDetailView/Notes/NoteDetailView/NoteDetailView'
+import Users from './components/Users/Users'
+import UsersCategoryDetail from './components/Users/UsersCategoryDetail/UsersCategoryDetail'
+import UsersMediaDetailView from './components/Users/UsersCategoryDetail/UsersMediaDetailView/UsersMediaDetailView'
+import UsersMediaNotes from './components/Users/UsersCategoryDetail/UsersMediaDetailView/UsersMediaNotes/UsersMediaNotes'
+import UsersNoteDetailView from './components/Users/UsersCategoryDetail/UsersMediaDetailView/UsersMediaNotes/UsersNoteDetailView/UsersNoteDetailView'
+import Profile from './components/Profile/Profile'
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home/>} />
+        <Route path="/" element={<Home/>} />
         <Route path='/about' element={<About/>} />
-        <Route path='/categories' element={<Categories/>} />
-        <Route path='/categories/:category' element={<CategoryDetail/>} />
-        <Route path='/categories/:category/:id' element={<MediaDetailView/>} />
-        <Route path='/categories/:category/:id/notes' element={<Notes/>} />
-        
-        <Route path='/users/:username' element={<Users/>} />
-        <Route path="/users/:username/:category" element={<UserCategory />} />
-        <Route path="/users/:username/:category/:id" element={<UserCategoryDetailView/>} />
-        <Route path="/users/:username/:category/:id/notes" element={<UserNotes/>} />
 
-        <Route path='*' element={<Error/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/create-account' element={<CreateAccount/>}/>
+        <Route path='/profile' element={<Profile/>}/>
+
+        <Route path='/categories' element={<Categories/>}/>
+        <Route path="/categories/categoryDetail/:categoryName" element={<CategoryDetail />} />
+        <Route path="/categories/categoryDetail/:categoryName/:id" element={<MediaDetailView/>} />
+        <Route path="/categories/categoryDetail/:categoryName/:id/notes" element={<Notes />} />
+        <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<NoteDetailView />} />
+        
+        
+        <Route path='/users/:user' element={<Users/>} />
+        <Route path='/users/:user/:categoryName' element={<UsersCategoryDetail/>} />
+        <Route path='/users/:user/:categoryName/:id' element={<UsersMediaDetailView/>} />
+        <Route path='/users/:user/:categoryName/:id/notes' element={<UsersMediaNotes/>} />
+        <Route path='/users/:user/:categoryName/:id/notes/:noteId' element={<UsersNoteDetailView/>} />
+
+
+        <Route path='*' element={<Error/>}/>
       </Routes>
     </BrowserRouter>
   )

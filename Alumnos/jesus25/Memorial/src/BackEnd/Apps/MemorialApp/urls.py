@@ -1,6 +1,8 @@
 from rest_framework.routers import DefaultRouter
-from .views import MediumViewSet,NoteViewSet,UserViewSet
-from django.urls import path,include
+from .views import MediumViewSet
+from .views import NoteViewSet
+from .views import UserViewSet
+from django.urls import path, include
 
 
 router = DefaultRouter()

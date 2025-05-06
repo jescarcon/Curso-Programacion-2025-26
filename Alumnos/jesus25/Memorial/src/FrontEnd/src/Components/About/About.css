@@ -1,16 +1,18 @@
-.about-container{
-    width: 80%;
+.homepage-about{
+    width: 90%;
     margin: 0 auto;
-    margin-top: 2%;
+    margin-top: 4%;
     text-align: center;
 }
-
-.about-container-link{
-    background-color: #4ec0f5;
+.homepage-about-creator{
+    background-color: rgba(22, 133, 184, 0.64);
     margin: 0 auto;
-    padding: 1rem;
+    border-radius: 50px;
+    padding: 5px 30px; /* (top-bottom, left-right) */
+    width: fit-content; 
+}
 
-    border-radius: 200px;
-    max-width: 700px;
-    min-width: 300px;
+.homepage-about-creator a{
+    text-decoration: none;
+    color: inherit;
 }

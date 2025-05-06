@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-import os
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-v2&v@5c-_!s)!^$q1f2)#u4j^nyrw6gp-_z0-2fkpl$+o*xe9+'
+SECRET_KEY = 'django-insecure-yoptvb+jn!zht345&yx_&ud4qk=y(q$jkp0#hd(_fy_*gf8uw('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -30,30 +30,33 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-BASE_APPS=[
+
+
+
+BASE_APPS= [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
 ]
 
-LOCAL_APPS=[
+LOCAL_APPS = [
     'Apps.MemorialApp',
 ]
 
-THIRDS_APPS=[
- 'rest_framework',
- 'corsheaders',
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'corsheaders'
 ]
 
-INSTALLED_APPS=BASE_APPS+LOCAL_APPS+THIRDS_APPS
+INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',#CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -133,18 +136,35 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#---MEDIA URL CONFIG----
 
-MEDIA_URL='/media/'
-MEDIA_ROOT= os.path.join(BASE_DIR,'media') 
+#MEDIA URL CONFIG
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #MemorialApp/media
+#MEDIA URL CONFIG
 
-#---MEDIA URL CONFIG----
 
+#CUSTOM USER
+AUTH_USER_MODEL = 'MemorialApp.User'
+#CUSTOM USER
 
-#----------CORS----------
+#CORS CONFIGURATION
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
+    'http://localhost:5173', #FrontEnd URL
+    'http://192.168.1.40:5173',
 ]
-#----------CORS----------
+#CORS CONFIGURATION
 
-AUTH_USER_MODEL = 'MemorialApp.User'  # Reemplaza modelo User
+
+#JWT CONFIGURATION
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+#JWT CONFIGURATION

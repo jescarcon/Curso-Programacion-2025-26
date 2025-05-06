@@ -1,0 +1,17 @@
+.App{
+  border: solid 1px #000;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/MontserratAlternates-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body{
+  font-family: 'Montserrat'; /* Usa la fuente personalizada como principal */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

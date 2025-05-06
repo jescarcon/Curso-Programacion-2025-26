@@ -1,50 +1,41 @@
-import React from 'react'
-import { Link, useParams } from 'react-router-dom'
-
-import AnimeImg from '/images/category/Anime.jpg'
-import MangaImg from '/images/category/Manga.jpg'
-import SerieImg from '/images/category/Serie.jpg'
-import FilmImg from '/images/category/Film.jpg'
-import GameImg from '/images/category/Game.jpg'
-import NovelImg from '/images/category/Novel.jpg'
-
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import './Categories.css'
-import Navbar from '../Navbar/Navbar'
+
+import SerieImg from '/images/categories/series.jpg'
+import PeliImg from '/images/categories/peliculas.jpg'
+import AnimeImg from '/images/categories/animes.jpg'
+import MangaImg from '/images/categories/manga.jpg'
+import NovelaImg from '/images/categories/novelas.jpg'
+import JuegoImg from '/images/categories/videojuegos.jpg'
+import Navbar from '../Navbar/Navbar';
+
+
+
+
 
 export default function Categories() {
-    const { pk } = useParams();
-
     const categories = [
-        { name: "Películas", param: "film", img: FilmImg },
-        { name: "Novelas", param: "novel", img: NovelImg },
-        { name: "Mangas", param: "manga", img: MangaImg },
-        { name: "Juegos", param: "game", img: GameImg },
-        { name: "Anime", param: "anime", img: AnimeImg },
-        { name: "Serie", param: "serie", img: SerieImg },
-    ];
-
+        {name: 'Series', image: SerieImg, tag:'serie'},
+        {name: 'Películas', image: PeliImg, tag:'film'},
+        {name: 'Anime', image: AnimeImg, tag:'anime'},
+        {name: 'Manga', image: MangaImg, tag:'manga'},
+        {name: 'Novelas', image: NovelaImg, tag:'novel'},
+        {name: 'Videojuegos', image: JuegoImg, tag:'game'}
+    ]
     return (
-        <>
-            <Navbar />
-            <div className='category-container'>
-                <div className='category-title text-1'>
-                    <h1>Categorías</h1>
+
+        <div className="categories-container">
+            <Navbar/>
+            {categories.map((e)=>(
+                <div key={e.tag} className='category-card'>
+                    <Link to={`/categories/categoryDetail/${e.tag}`}>
+                        <img src={e.image} alt={e.name} className='category-image' />
+                    </Link>
+                    <h3>{e.name}</h3>
                 </div>
-                <div className='category-list'>
-                    {categories.map((elemento) => (
-                        <Link
-                            to={`/categories/${elemento.param}`}
-                            key={elemento.param}
-                            className='category-card'
-                            style={{ backgroundImage: `url(${elemento.img})` }}
-                        >
-                            <div className='category-overlay'>
-                                {elemento.name}
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-            </div>
-        </>
+            ))}
+
+        </div>
     );
 }

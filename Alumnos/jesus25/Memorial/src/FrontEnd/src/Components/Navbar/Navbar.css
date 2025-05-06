@@ -1,50 +1,68 @@
-/*-------HEADER-------*/
 .navbar-header {
+    background-color: rgba(22, 133, 184, 0.81);
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    width: 100%;
+    min-height: 75px;
+
     display: flex;
+    flex-direction: row;
+
     align-items: center;
     justify-content: space-between;
-
-    width: 100%;
-
-    background-color: rgba(22, 133, 184, 0.81);
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-
-    min-height: 150px;
-
 }
 
+/*------Logo------*/
 .navbar-logo {
-    margin-left: 2%;
+    margin-left: 4%;
     cursor: pointer;
 }
 
 .navbar-logo img {
-    height: 100px;
+    width: 170px;
 }
 
 .navbar-menu {
+    margin-right: 4%;
     display: flex;
-    gap: 10px;
-    margin-right: 2%;
+    gap: 15px;
 }
 
-/*-------HEADER-------*/
-
+/* Estilo para la barra de búsqueda */
 .navbar-search {
-    width: 160px;
-    height: 28px;
-    padding: 4px 8px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    outline: none;
-    transition: all 0.3s ease;
-    background-color: #f8f8f8;
+    margin-right: 4%;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaciado entre el input y los botones */
 }
 
-.navbar-search:focus {
-    width: 200px;
-    border-color: #666;
-    background-color: #fff;
+.navbar-search input {
+    padding: 8px 16px;
+    border: 2px solid rgba(22, 133, 184, 0.81);
+    border-radius: 20px;
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    width: 150px; /* Tamaño más pequeño */
+    height: 40px; /* Altura acorde a los botones */
+}
+
+.navbar-search input:focus {
+    border-color: rgba(22, 133, 184, 1);
+    box-shadow: 0 0 5px rgba(22, 133, 184, 0.5);
+}
+
+.navbar-search button {
+    background-color: rgba(22, 133, 184, 0.81);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-search button:hover {
+    background-color: rgba(22, 133, 184, 1);
 }

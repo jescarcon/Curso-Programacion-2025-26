@@ -8,17 +8,20 @@
     font-size: 2rem;
     margin-bottom: 1.5rem;
     color: #333;
+    text-align: center;
 }
 
-.media-detail-container h2 span {
-    color: #4b6cb7;
+.category-detail-body-title {
+    text-align: center;
+    margin-bottom: 2%;
 }
 
 .media-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
+    gap: 20px;
+    justify-content: space-evenly;
+    margin-top: 20px;
 }
 
 .media-card {
@@ -43,7 +46,9 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    border-radius: 10px 10px 0 0;
 }
+
 
 .media-image img {
     width: 100%;
@@ -51,13 +56,9 @@
     object-fit: cover;
 }
 
-.media-placeholder {
-    color: #777;
-    font-size: 1rem;
-}
-
 .media-info {
     padding: 1rem;
+    text-align: center;
 }
 
 .media-info h3 {
@@ -72,31 +73,112 @@
     color: #555;
 }
 
-.image-preview {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.media-form {
+    background-color: #ffffff;
+    border: 2px solid rgba(22, 133, 184, 0.81);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-.image-preview img {
-    max-width: 200px;
-    height: auto;
-    border: 1px solid #ccc;
-    margin-bottom: 0.5rem;
+.media-form h3 {
+    text-align: center;
+    color: rgba(22, 133, 184, 0.81);
+    margin-bottom: 20px;
 }
 
+.media-form input,
+.media-form textarea,
+.media-form select {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(22, 133, 184, 0.81);
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    outline: none;
+}
 
-.context-menu button {
+.media-form input:focus,
+.media-form textarea:focus,
+.media-form select:focus {
+    border-color: rgba(22, 133, 184, 0.81);
+    background-color: #ffffff;
+}
+
+.media-form button {
+    width: 100%;
+    margin: 1%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(22, 133, 184, 0.81);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.media-form button:hover {
+    background-color: #1685b8;
+}
+
+/* Estilo general para los botones del context menu */
+.context-menu-btn {
     display: block;
     width: 100%;
-    padding: 5px 10px;
-    background: none;
+    padding: 8px 12px;
+    margin: 5px 0;
+    background-color: #007bff;
+    /* Color de fondo por defecto */
+    color: #ffffff;
+    /* Color del texto */
     border: none;
-    text-align: left;
+    border-radius: 4px;
     cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
-.context-menu button:hover {
-    background-color: #f0f0f0;
+.createimage-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    width: 150px; /* Ajusta el ancho del contenedor */
+    height: 150px; /* Ajusta la altura del contenedor */
+    border-radius: 10px; /* Bordes redondeados */
+    overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+    border: 1px solid #ddd; /* Borde sutil */
+}
+  
+  .createimage-preview img {
+    width: 100%; /* La imagen ocupa todo el ancho del contenedor */
+    height: 100%; /* La imagen ocupa todo el alto del contenedor */
+    object-fit: cover; /* Ajusta la imagen para que se recorte proporcionalmente */
+    border-radius: 10px; /* Bordes redondeados para la imagen */
+}
+
+/* Hover para los botones */
+.context-menu-btn:hover {
+    background-color: #0056b3;
+    /* Color más oscuro al pasar el mouse */
+}
+
+/* Botón de eliminar con un color diferente */
+.context-menu-btn:nth-child(2) {
+    background-color: #dc3545;
+    /* Rojo para el botón de eliminar */
+}
+
+.context-menu-btn:nth-child(2):hover {
+    background-color: #a71d2a;
+    /* Rojo más oscuro al pasar el mouse */
 }

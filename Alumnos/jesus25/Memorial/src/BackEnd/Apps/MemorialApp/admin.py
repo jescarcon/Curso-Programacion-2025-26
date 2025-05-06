@@ -1,22 +1,22 @@
 from django.contrib import admin
-from .models import Medium,Note,User
+from .models import Medium
+from .models import Note
+from .models import User
 
-#----------------MEDIUM ADMIN----------------
+# MEDIUM ADMIN
 class MediumAdmin(admin.ModelAdmin):
-    list_display=('title','description','add_date','image','rating','status','category')
-    search_fields=('title','add_date','rating','status','category')
+    #añadir tods los campos
+    list_display = ('title', 'description', 'add_date', 'rating', 'status', 'category', 'begin_date', 'finish_date')    #añadir los campos que se pueden editar
+    search_fields = ['title', 'add_date', 'rating', 'status', 'category']    #añadir los campos que se pueden buscar
 
-#----------------NOTE ADMIN----------------
 class NoteAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'add_date')
     search_fields = ['title', 'description']
 
-#----------------USER ADMIN----------------
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'first_name', 'last_name', 'email', 'avatar')
-    search_fields = ['username', 'first_name', 'last_name', 'email']
+    list_display = ('id', 'username', 'email', 'avatar')
+    search_fields = ['id', 'username', 'email']
 
-
-admin.site.register(User, UserAdmin)
 admin.site.register(Medium, MediumAdmin)
 admin.site.register(Note, NoteAdmin)
+admin.site.register(User, UserAdmin)

@@ -1,258 +1,243 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import './Notes.css';
-import Navbar from '../../../../Navbar/Navbar';
-import Modal from '../../../../Modal/modal';
-import Error from '../../../../Error/Error';
+import React, { useEffect, useState } from 'react'
+import Navbar from '../../../../Navbar/Navbar'
+import { useParams, Link } from 'react-router-dom'
+import { BASE_API_URL } from '../../../../../constants';
+import './Notes.css'
+import Modal from '../../../../Modal/Modal'
+import CreateButtonImage from '/images/createButton.png'
+
+
 
 export default function Notes() {
-    //#region VARIABLES
-    const { category, id } = useParams();  // El parámetro id filtra las notas según el media
-    const [notesList, setNotesList] = useState([]);
-    const [showForm, setShowForm] = useState(false);  // Modal Create
-    const [editingNote, setEditingNote] = useState(null);  // Edit variable
-    const [createImagePreview, setCreateImagePreview] = useState(null);
-    const [editImagePreview, setEditImagePreview] = useState(null);
-    const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, note: null });
+  //#region Variables
+  const { id, categoryName } = useParams();
+  const [noteData, setNoteData] = useState([]);
+  const [editingNote, setEditingNote] = useState(false)
+  const [mediumName, setMediumName] = useState(''); // Nuevo estado para el nombre del medio
+  const [showForm, setShowForm] = useState(null)
+  const [contextMenu, setContextMenu] = useState({ visible: false, mouseX: 5, mouseY: 5, note: null })
 
-    const categories = [
-        { name: 'Películas', param: 'film' },
-        { name: 'Novelas', param: 'novel' },
-        { name: 'Mangas', param: 'manga' },
-        { name: 'Juegos', param: 'game' },
-        { name: 'Anime', param: 'anime' },
-        { name: 'Serie', param: 'serie' },
-    ];
+  //#endregion
 
-    const currentCategory = categories.find(c => c.param === category);
-    if (!currentCategory) return <Error />;
+  //#region lógica
 
-    const [selectedNote, setSelectedNote] = useState(null);  // Vista previa al click
+  //#region GET Medium Name
+  useEffect(() => {
+    fetch(`${BASE_API_URL}/api/memorialApp/media/${id}/`) // Endpoint para obtener el medio
+      .then((res) => res.json())
+      .then((data) => {
+        setMediumName(data.title); // Asume que el medio tiene un campo "name"
+      })
+      .catch((e) => console.error('Error fetching medium', e));
+  }, [id]);
+  //#endregion GET Medium Name
 
-    //#endregion
+  useEffect(() => {
+    const closeMenu = () => setContextMenu({ ...contextMenu, visible: false });
+    document.addEventListener('click', closeMenu);
+    return () => document.removeEventListener('click', closeMenu);
+  }, [contextMenu])
 
-    //#region LOGICA
-    //#region Metodos
-    //Click derecho abrir
-    const handleContextMenu = (e, note) => {
-        e.preventDefault();
-        setContextMenu({
-            visible: true,
-            x: e.pageX,
-            y: e.pageY,
-            note: note
-        });
-    };
-    //Click derecho cerrar
-    useEffect(() => {
-        const closeMenu = () => setContextMenu({ ...contextMenu, visible: false });
-        document.addEventListener('click', closeMenu);
-        return () => document.removeEventListener('click', closeMenu);
-    }, [contextMenu]);
 
-    //EDIT IMAGEN PREVIA
-    useEffect(() => {
-        if (editingNote && editingNote.image) {
-            setEditImagePreview(editingNote.image);
-        } else {
-            setEditImagePreview(null);
-        }
-    }, [editingNote]);
+  //#region GET
+  useEffect(() => {
+    fetch(`${BASE_API_URL}/api/memorialApp/notes/?medium=${id}`)
+      .then(res => res.json())
+      .then(data => {
+        setNoteData(data)
+      })
+      .catch(e => console.error('Error fetching note', e))
+  }, [id]);
 
-    //#endregion
+  //#endregion GET
 
-    //#region CRUD
+  //#region CREATE
+  const handleCreateNote = (e) => {
+    e.preventDefault()
+    const form = e.target
+    const formData = new FormData(form)
+    formData.append('medium', id)
+    fetch(`${BASE_API_URL}/api/memorialApp/notes/`, {
+      method: 'POST',
+      body: formData
+    })
+      .then(res => res.json())
+      .then(newNote => {
+        setNoteData([...noteData, newNote])
+        form.reset()
+      })
+      .catch(e => console.error('Error creating media:', e))
+  }
 
-    // Get notes (by id)
-    useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/memorialApp/notes/?media=${id}`)
-            .then(res => res.json())
-            .then(data => setNotesList(data))
-            .catch(error => console.error('Error fetching notes:', error));
-    }, [id]);
+  //#endregion CREATE
 
-    //CREATE
-    const handleCreateSubmit = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        formData.append('category', category);
-        formData.append('medium', id);
+  //#region UPDATE
+  const handleEditSubmit = (e) => {
+    e.preventDefault()
+    const form = e.target
+    const formData = new FormData(form)
+    formData.append('medium', id)
 
-        fetch('http://127.0.0.1:8000/api/memorialApp/notes/', {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(newNote => {
-                setNotesList([...notesList, newNote]);
-                form.reset();
-                setShowForm(false);
-                setCreateImagePreview(null);
-            })
-            .catch(err => console.error('Error creating note:', err));
-    };
+    fetch(`http://127.0.0.1:8000/api/memorialApp/notes/${editingNote.id}/`, {
+      method: 'PUT',
+      body: formData
+    })
+      .then(res => res.json())
+      .then(updatedNote => {
+        setNoteData(noteData.map(n => n.id === updatedNote.id ? updatedNote : n))
+        setEditingNote(null)
+      })
+      .catch(err => console.error('Error al editar media:', err))
+  }
+  //#endregion UPDATE
 
-    //EDIT
-    const handleEditSubmit = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        formData.append('category', category);
-        formData.append('medium', id);
+  //#region DELETE
+  const handleDeleteNote = (id) => {
+    fetch(`${BASE_API_URL}/api/memorialApp/notes/${id}/`, {
+      method: 'DELETE'
+    })
+      .then(() => {
+        setNoteData(noteData.filter(n => n.id !== id))
+      }).catch(e => console.error("Error al eliminar nota", e))
+  }
+  //#endregion
 
-        fetch(`http://127.0.0.1:8000/api/memorialApp/notes/${editingNote.id}/`, {
-            method: 'PUT',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(updatedNote => {
-                setNotesList(notesList.map(note => note.id === updatedNote.id ? updatedNote : note));
-                setEditingNote(null);
-            })
-            .catch(err => console.error('Error editing note:', err));
-    };
 
-    //DELETE
-    const handleDelete = (id) => {
-        fetch(`http://127.0.0.1:8000/api/memorialApp/notes/${id}/`, {
-            method: 'DELETE'
-        })
-            .then(() => {
-                setNotesList(notesList.filter(note => note.id !== id));
-            })
-            .catch(err => console.error('Error deleting note:', err));
-    };
-    //#endregion
 
-    //#endregion
 
-    return (
-        <>
-            <Navbar />
-            <div className="notes-container">
-                <h2>Notas de la categoría: {currentCategory ? currentCategory.name : 'Error, categoría no válida'}</h2>
-                <button onClick={() => setShowForm(!showForm)}>Añadir nueva nota</button>
+  return (
+    <>
+      <Navbar />
+      <div className="notes-header">
+        <h3 className="notes-title">Notas de {mediumName}</h3>
+        <img
+          src={CreateButtonImage}
+          alt="Añadir nueva nota"
+          className="create-button"
+          onClick={() => setShowForm(!showForm)}
+        />
+      </div>
+      <div className="notes-container">
+        {noteData.length > 0 ? (
+          noteData
+            .filter(note => String(note.medium) === String(id))
+            .map(note => (
+              <Link to={`/categories/categoryDetail/${categoryName}/${id}/notes/${note.id}`}>
+                <div key={note.id} className="note-card" onContextMenu={(e) => {
+                  e.preventDefault();
+                  setContextMenu({ visible: true, mouseX: e.pageX, mouseY: e.pageY, note: note })
+                }}>
+                  {note.image ? (
+                    <img src={note.image} alt={note.title} className="note-image" />
+                  ) : (
+                    <div className="note-placeholder">Sin imagen</div>
+                  )}
+                  <h2 className="note-title">{note.title}</h2>
+                </div>
+              </Link>
+            ))
+        ) : (
+          <p>No se han detectado notas</p>
+        )}
+      </div>
 
-                {notesList.length > 0 ? (
-                    <div className="notes-grid">
-                        {notesList.map(note => (
-                            <div className="note-card" key={note.id} onContextMenu={(e) => handleContextMenu(e, note)} onClick={() => setSelectedNote(note)}>
-                                <Link to={`/categories/${category}/${note.id}/notes`}>
-                                    <div className="note-image">
-                                        {note.image ? (
-                                            <img src={note.image} alt={note.title} />
-                                        ) : (
-                                            <div className="note-placeholder">Sin imagen</div>
-                                        )}
-                                    </div>
-                                </Link>
-                                <div className="note-info">
-                                    <h3>{note.title}</h3>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p>Aún no hay notas en esta categoría... ¡Prueba añadiendo algo!</p>
-                )}
-
-                {/* Modal Create */}
-                <Modal isOpen={showForm} onClose={() => { setShowForm(false); setCreateImagePreview(null); }}>
-                    <>
-                        <h3>Crear nueva nota en {currentCategory.name}</h3>
-                        <form onSubmit={handleCreateSubmit} className="note-form">
-                            <input type="text" name="title" placeholder="Título" required />
-                            <textarea name="description" placeholder="Descripción" required></textarea>
-                            <input type="file" name="image" onChange={e => {
-                                const file = e.target.files[0];
-                                if (file) {
-                                    setCreateImagePreview(URL.createObjectURL(file));
-                                } else {
-                                    setCreateImagePreview(null);
-                                }
-                            }} />
-                            {createImagePreview && (
-                                <div className="image-preview">
-                                    <img src={createImagePreview} alt="Previsualización" />
-                                </div>
-                            )}
-                            <button type="submit">Crear</button>
-                            <button type="button" onClick={() => { setShowForm(false); setCreateImagePreview(null); }}>Cancelar</button>
-                        </form>
-                    </>
-                </Modal>
-
-                {/* Modal Edit */}
-                <Modal isOpen={!!editingNote} onClose={() => setEditingNote(null)}>
-                    <>
-                        <h3>Editar nota: {editingNote ? editingNote.title : 'Cargando...'}</h3>
-                        <form onSubmit={handleEditSubmit} className="note-form">
-                            <input type="text" name="title" defaultValue={editingNote ? editingNote.title : ''} required />
-                            <textarea name="description" defaultValue={editingNote ? editingNote.description : ''} required></textarea>
-                            <input type="file" name="image" onChange={e => {
-                                const file = e.target.files[0];
-                                if (file) {
-                                    setEditImagePreview(URL.createObjectURL(file));
-                                }
-                            }} />
-                            {editImagePreview && (
-                                <div className="image-preview">
-                                    <img src={editImagePreview} alt="Previsualización" />
-                                </div>
-                            )}
-                            <button type="submit">Guardar cambios</button>
-                            <button type="button" onClick={() => setEditingNote(null)}>Cancelar</button>
-                        </form>
-                    </>
-                </Modal>
-
-                {/* Context Menu */}
-                {contextMenu.visible && (
-                    <div
-                        className="context-menu"
-                        style={{
-                            position: 'absolute',
-                            top: `${contextMenu.y}px`,
-                            left: `${contextMenu.x}px`,
-                            backgroundColor: '#fff',
-                            border: '1px solid #ccc',
-                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)',
-                            zIndex: 1000,
-                            padding: '10px',
-                            borderRadius: '5px'
-                        }}
-                    >
-                        <button onClick={() => {
-                            setEditingNote(contextMenu.note);
-                            setContextMenu({ ...contextMenu, visible: false });
-                        }}>Editar</button>
-                        <button onClick={() => {
-                            handleDelete(contextMenu.note.id);
-                            setContextMenu({ ...contextMenu, visible: false });
-                        }}>Eliminar</button>
-                    </div>
-                )}
-
-                {/* Modal Vista Previa Nota */}
-                <Modal isOpen={!!selectedNote} onClose={() => setSelectedNote(null)}>
-                    {selectedNote && (
-                        <div className="note-detail-modal">
-                            <h3>{selectedNote.title}</h3>
-                            <p>{selectedNote.description}</p>
-                            <p><strong>Fecha:</strong> {selectedNote.add_date}</p>
-                            {selectedNote.image ? (
-                                <div className="image-preview">
-                                    <img src={selectedNote.image} alt="Imagen de la nota" />
-                                </div>
-                            ) : (
-                                <div className="note-placeholder">Sin imagen</div>
-                            )}
-                        </div>
-                    )}
-                </Modal>
-
+      <Modal isOpen={showForm} onClose={() => setShowForm(false)}>
+        <div className="media-form">
+          <form onSubmit={handleCreateNote}>
+            <h3>Crear nueva nota</h3>
+            <label>Título</label>
+            <input type="text" name="title" />
+            <label>Descripción</label>
+            <textarea name="description"></textarea>
+            <label>Imagen</label>
+            <input type="file" name="image" />
+            <div className="form-buttons">
+              <button type="submit" className="save-button">Crear</button>
+              <button
+                type="button"
+                className="cancel-button"
+                onClick={() => setShowForm(false)}
+              >
+                Cancelar
+              </button>
             </div>
-        </>
-    );
+          </form>
+        </div>
+      </Modal>
+      
+      {editingNote && (
+        <Modal isOpen={!!editingNote} onClose={() => setEditingNote(null)}>
+          <div className="media-form">
+            <form onSubmit={handleEditSubmit}>
+              <h3>Editando: {editingNote.title}</h3>
+              <label>Título</label>
+              <input
+                type="text"
+                name="title"
+                value={editingNote.title}
+                onChange={(e) =>
+                  setEditingNote({ ...editingNote, title: e.target.value })
+                }
+              />
+              <label>Descripción</label>
+              <textarea
+                name="description"
+                value={editingNote.description}
+                onChange={(e) =>
+                  setEditingNote({ ...editingNote, description: e.target.value })
+                }
+              />
+              <label>Imagen</label>
+              <input
+                type="file"
+                name="image"
+                onChange={(e) =>
+                  setEditingNote({ ...editingNote, image: e.target.files[0] })
+                }
+              />
+              <div className="form-buttons">
+                <button type="submit" className="save-button">Guardar cambios</button>
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => setEditingNote(null)}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </Modal>
+      )}
+
+      {contextMenu.visible && (
+        <div
+          className="context-menu"
+          style={{
+            top: `${contextMenu.mouseY}px`,
+            left: `${contextMenu.mouseX}px`,
+          }}
+        >
+          <button
+            onClick={() => {
+              setEditingNote(contextMenu.note);
+              setContextMenu({ ...contextMenu, visible: false });
+            }}
+            className="context-menu-btn"
+          >
+            Editar
+          </button>
+          <button
+            onClick={() => {
+              handleDeleteNote(contextMenu.note.id);
+              setContextMenu({ ...contextMenu, visible: false });
+            }}
+            className="context-menu-btn delete"
+          >
+            Borrar
+          </button>
+        </div>
+      )}
+    </>
+  )
 }
