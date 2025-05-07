@@ -96,7 +96,7 @@ export default function CreateAccount() {
                     <div className='form-group'>
                         <label>Avatar seleccionado:</label>
                         {avatar ? (
-                            <img src={avatar} alt="Avatar seleccionado" className='selected-avatar' onChange={(e)=>setAvatar(e.target.value)}/>
+                            <img src={`/images/avatars/${avatar}`} alt="Avatar seleccionado" className='selected-avatar' onChange={(e)=>setAvatar(e.target.value)}/>
                         ) : (
                             <p>No se ha seleccionado un avatar</p>
                         )}

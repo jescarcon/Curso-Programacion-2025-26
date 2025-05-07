@@ -81,8 +81,6 @@ export default function Navbar() {
 
     //#endregion
 
-
-
     return (
         <div className='navbar-header'>
             <div className='navbar-logo'>
