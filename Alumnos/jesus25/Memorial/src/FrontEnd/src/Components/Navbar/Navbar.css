@@ -15,7 +15,7 @@
 /*------Logo------*/
 .navbar-logo {
     margin-left: 4%;
-    cursor: pointer;
+    
 }
 
 .navbar-logo img {
@@ -25,7 +25,6 @@
 .navbar-menu {
     margin-right: 4%;
     display: flex;
-    gap: 15px;
 }
 
 /* Estilo para la barra de búsqueda */
@@ -34,6 +33,7 @@
     display: flex;
     align-items: center;
     gap: 10px; /* Espaciado entre el input y los botones */
+    
 }
 
 .navbar-search input {
@@ -66,3 +66,53 @@
 .navbar-search button:hover {
     background-color: rgba(22, 133, 184, 1);
 }
+
+/*--------Menu del perfil--------*/
+.navbar-profile-menu {
+    user-select: none;
+}
+
+/* Contenedor de la imagen del perfil */
+.profile-icon {
+    cursor: pointer;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;       
+}
+
+/* Imagen del avatar */
+.avatar-img {
+    height: 100%; 
+}
+
+  
+.dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 10px 15px;
+    color: black;
+    text-decoration: none;
+    background-color: white;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+/*--------Menu del perfil--------*/
+
+
+  

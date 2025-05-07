@@ -15,22 +15,30 @@ export default function CreateAccount() {
     const [password, setPassword] = useState(null)
     const [avatar, setAvatar] = useState(null)
 
-    const submitUser = () => {
-        const formData = new FormData()
+    const submitUser = async () => {
+        const formData = new FormData();
         formData.append('username', username);
         formData.append('email', email);
         formData.append('password', password);
         formData.append('avatar', avatar);
-        const metodoPost = 
-            fetch(`${BASE_API_URL}/api/memorialApp/users/`, {
-            method: 'POST',
-            body: formData
-        })
-            .catch(e => console.error('Error creating user:', e))
-        if(metodoPost.ok){
-            location.href('/login');
+    
+        try {
+            const response = await fetch(`${BASE_API_URL}/api/memorialApp/users/`, {
+                method: 'POST',
+                body: formData
+            });
+    
+            if (response.ok) {
+                window.location.href = '/login';
+            } else {
+                const errorData = await response.json();
+                console.error('Error al crear el usuario:', errorData);
+            }
+    
+        } catch (e) {
+            console.error('Error en la solicitud de creación de usuario:', e);
         }
-    }
+    };
 
     const avatars = [
         '/public/images/avatars/askywalker.jpg',
