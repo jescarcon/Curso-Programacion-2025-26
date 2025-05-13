@@ -16,33 +16,35 @@ import UsersMediaDetailView from './components/Users/UsersCategoryDetail/UsersMe
 import UsersMediaNotes from './components/Users/UsersCategoryDetail/UsersMediaDetailView/UsersMediaNotes/UsersMediaNotes'
 import UsersNoteDetailView from './components/Users/UsersCategoryDetail/UsersMediaDetailView/UsersMediaNotes/UsersNoteDetailView/UsersNoteDetailView'
 import Profile from './components/Profile/Profile'
+import PrivateRoute from './components/Auth/PrivateRoute'
 
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>
+        {/* Rutas abiertas */}
         <Route path="/" element={<Home/>} />
         <Route path='/about' element={<About/>} />
-
         <Route path='/login' element={<Login/>} />
         <Route path='/create-account' element={<CreateAccount/>}/>
         <Route path='/profile' element={<Profile/>}/>
-
-        <Route path='/categories' element={<Categories/>}/>
-        <Route path="/categories/categoryDetail/:categoryName" element={<CategoryDetail />} />
-        <Route path="/categories/categoryDetail/:categoryName/:id" element={<MediaDetailView/>} />
-        <Route path="/categories/categoryDetail/:categoryName/:id/notes" element={<Notes />} />
-        <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<NoteDetailView />} />
-        
-        
-        <Route path='/users/:user' element={<Users/>} />
-        <Route path='/users/:user/:categoryName' element={<UsersCategoryDetail/>} />
-        <Route path='/users/:user/:categoryName/:id' element={<UsersMediaDetailView/>} />
-        <Route path='/users/:user/:categoryName/:id/notes' element={<UsersMediaNotes/>} />
-        <Route path='/users/:user/:categoryName/:id/notes/:noteId' element={<UsersNoteDetailView/>} />
-
-
         <Route path='*' element={<Error/>}/>
+
+
+        {/* Rutas privadas */}
+        <Route path='/categories' element={<PrivateRoute><Categories /></PrivateRoute>}/>
+        <Route path="/categories/categoryDetail/:categoryName" element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
+        <Route path="/categories/categoryDetail/:categoryName/:id" element={<PrivateRoute><MediaDetailView /></PrivateRoute>} />
+        <Route path="/categories/categoryDetail/:categoryName/:id/notes" element={<PrivateRoute><Notes /></PrivateRoute>} />
+        <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
+        
+        <Route path='/users/:user' element={<PrivateRoute><Categories /></PrivateRoute>} />
+        <Route path='/users/:user/:categoryName' element={<PrivateRoute><UsersCategoryDetail /></PrivateRoute>} />
+        <Route path='/users/:user/:categoryName/:id' element={<PrivateRoute><UsersMediaDetailView /></PrivateRoute>} />
+        <Route path='/users/:user/:categoryName/:id/notes' element={<PrivateRoute><UsersMediaNotes /></PrivateRoute>} />
+        <Route path='/users/:user/:categoryName/:id/notes/:noteId' element={<PrivateRoute><UsersNoteDetailView /></PrivateRoute>} />
+
       </Routes>
     </BrowserRouter>
   )

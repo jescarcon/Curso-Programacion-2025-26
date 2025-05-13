@@ -8,11 +8,17 @@ import Error from '../../Error/Error';
 import Modal from '../../Modal/Modal'
 import createButtonImage from '/images/createButton.png';
 import MediaDetailView from './MediaDetailView/MediaDetailView';
+import { verifyToken, getJWT } from './../../../constants';
 
 export default function CategoryDetail() {
+    //#region Variables
 
-    //#region Variables 
-    const { categoryName } = useParams();
+    const URL = window.location.href;
+    const isCategoryComponent = URL.includes("/categories/categoryDetail");
+    const isUserComponent = URL.includes("users");
+
+
+    const { categoryName } = isCategoryComponent ? useParams() : "";
 
     const categories = [
         { name: "Películas", param: "film" },
@@ -23,19 +29,19 @@ export default function CategoryDetail() {
         { name: "Serie", param: "serie" },
     ];
 
-    const currentCategory = categories.find(c => c.param === categoryName)
-    if (!currentCategory) return <Error />
+    const currentCategory = isCategoryComponent ? categories.find(c => c.param === categoryName) : "";
+    if (!currentCategory && isCategoryComponent) return <Error />
 
     const [showForm, setShowForm] = useState(false)
-    const [editingMedia, setEditingMedia] = useState(null)
-    const [mediaList, SetMediaList] = useState([])
+    const [editingMedia, setEditingMedia] = useState(null);
+    const [mediaList, SetMediaList] = useState([]);
 
-    const [createImagePreview, setCreateImagePreview] = useState(null)
-    const [editImagePreview, setEditImagePreview] = useState(null)
+    const [createImagePreview, setCreateImagePreview] = useState(null);
+    const [editImagePreview, setEditImagePreview] = useState(null);
 
-    const [contextMenu, setContextMenu]= useState({visible:false,x:0,y:0,media:null})
+    const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, media: null });
 
-
+    const [userId, setUserId] = useState(null);
 
     const statusOptionsByCategory = {
         film: [
@@ -93,66 +99,135 @@ export default function CategoryDetail() {
         }
     }, [editingMedia])
 
-    const handleContextMenu=(e,media)=>{
+    const handleContextMenu = (e, media) => {
         e.preventDefault()
         setContextMenu({
-            visible:true,
-            x:e.pageX,
-            y:e.pageY,
-            media:media
+            visible: true,
+            x: e.pageX,
+            y: e.pageY,
+            media: media
         })
         console.log('Click derecho')
     }
 
-    useEffect(()=>{
-        const closeMenu = ()=> setContextMenu({...contextMenu, visible: false})
+    useEffect(() => {
+        const closeMenu = () => setContextMenu({ ...contextMenu, visible: false })
         document.addEventListener('click', closeMenu)
-        return ()=> document.removeEventListener
+        return () => document.removeEventListener
     }, [contextMenu])
-
-
+    //#endregion
 
     //#region CRUD
 
+
+
+
+
     //GET
     useEffect(() => {
-        fetch(`${BASE_API_URL}/api/memorialApp/media`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                const filteredMedia = data.filter(m => m.category === categoryName)
-                SetMediaList(filteredMedia)
+        const token = localStorage.getItem('access_token')
+        if (!token) {
+            console.error('Es necesario tener un token de acceso');
+            window.location.href = '/login';
+            return;
+        }
+
+        verifyToken(token)
+            .then((isValid) => {
+                if (isValid) {
+                    const tokenJSON = getJWT(token);
+                    const userId = tokenJSON.user_id;
+                    if (userId) {
+                        setUserId(userId);
+
+                        fetch(`${BASE_API_URL}/api/memorialApp/media/`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                console.log(data)
+                                const filteredMedia = data.filter(m => m.category === categoryName && m.user === userId);
+                                SetMediaList(filteredMedia);
+                            })
+                            .catch(e => console.error('Error fetching media:', e))
+                    } else {
+                        console.error('No se pudo extraer un id de usuario del token');
+                        window.location.href = '/login';
+                    }
+                } else {
+                    console.error('Token inválido');
+                    window.location.href = '/login';
+                }
             })
-            .catch(e => console.error('Error fetching media:', e))
+            .catch((error) => {
+                console.error('Error en la verificación del token:', error);
+                navigate('/login');
+            })
     }, [categoryName])
 
     //DELETE
     const handleDelete = (id) => {
-        fetch(`${BASE_API_URL}/api/memorialApp/media/${id}/`, {
-            method: 'DELETE'
-        }).then(() => {
-            SetMediaList(mediaList.filter(m => m.id !== id))
-        }).catch(e => console.error("Error al eliminar:", e))
+        const token = localStorage.getItem('access_token');
+
+        verifyToken(token)
+            .then((isValid) => {
+                if (isValid) {
+                    fetch(`${BASE_API_URL}/api/memorialApp/media/${id}/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        }
+                    }).then(() => {
+                        SetMediaList(mediaList.filter(m => m.id !== id))
+                    }).catch(e => console.error("Error al eliminar:", e))
+                } else {
+                    console.error('Error en la validación del token');
+                }
+            })
+            .catch((error) => {
+                console.error('Error al verificar el token:', error);
+                window.location.href = '/login';
+            })
     }
 
     //CREATE
     const handleSubmit = (e) => {
-        e.preventDefault()
-        const form = e.target
-        const formData = new FormData(form)
-        formData.append('category', categoryName)
-        formData.append('user', 1)
-        fetch(`${BASE_API_URL}/api/memorialApp/media/`, {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(newMedia => {
-                SetMediaList([...mediaList, newMedia])
-                form.reset()
-                setShowForm(false)
+        const token = localStorage.getItem('access_token');
+
+
+        verifyToken(token)
+            .then((isValid) => {
+                if (isValid) {
+                    e.preventDefault()
+                    const form = e.target
+                    const formData = new FormData(form)
+                    formData.append('category', categoryName)
+                    formData.append('user', userId)
+                    fetch(`${BASE_API_URL}/api/memorialApp/media/`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: formData
+                    })
+                        .then(res => res.json())
+                        .then(newMedia => {
+                            SetMediaList([...mediaList, newMedia])
+                            form.reset()
+                            setShowForm(false)
+                        })
+                        .catch(e => console.error('Error creating media:', e))
+                } else {
+                    console.error('Error, token no válido');
+                }
+
             })
-            .catch(e => console.error('Error creating media:', e))
+            .catch((error) => {
+                console.error('Error en la verificación del token', error);
+            })
     }
 
     //EDIT
@@ -160,10 +235,29 @@ export default function CategoryDetail() {
         e.preventDefault()
         const form = e.target
         const formData = new FormData(form)
-        formData.append('category', categoryName)
-        formData.append('user', 1)
 
-        fetch(`http://127.0.0.1:8000/api/memorialApp/media/${editingMedia.id}/`, {
+        formData.append('category', categoryName)
+        formData.append('user', userId)
+
+        // Si no hay nueva imagen y ya había una existente, la recuperamos
+        if (!form.image.files.length && editingMedia.image) {
+            fetch(editingMedia.image)
+                .then(res => res.blob())
+                .then(blob => {
+                    formData.append('image', blob, 'imagen_actual.jpg')
+                    enviarFormulario(formData)
+                })
+                .catch(err => {
+                    console.error('Error obteniendo la imagen actual:', err)
+                    enviarFormulario(formData) // Enviar sin imagen si falla la conversión
+                })
+        } else {
+            enviarFormulario(formData)
+        }
+    }
+
+    function enviarFormulario(formData) {
+        fetch(`${BASE_API_URL}/api/memorialApp/media/${editingMedia.id}/`, {
             method: 'PUT',
             body: formData
         })
@@ -175,148 +269,190 @@ export default function CategoryDetail() {
             .catch(err => console.error('Error al editar media:', err))
     }
 
+    //#endregion
+
     return (
         <>
             <Navbar />
-            <div className='media-detail-container'>
-                <div className='category-detail-body-title'>
-                    <h3>{currentCategory.name}</h3>
-                    <img src={createButtonImage} alt="Añadir nuevo elemento" className='create-button' onClick={() => setShowForm(!showForm)} />
+            {isCategoryComponent ? (
+                <div className='media-detail-container'>
+                    <div className='category-detail-body-title'>
+                        <h3>{currentCategory.name}</h3>
+                        <img src={createButtonImage} alt="Añadir nuevo elemento" className='create-button' onClick={() => setShowForm(!showForm)} />
 
-                </div>
-                {mediaList.length > 0 ? (
-                    <div className='media-grid'>
-                        {mediaList.map(media => (
-                            <div className='media-card' key={media.id} onContextMenu={(e)=>handleContextMenu(e,media)}>
-                                <Link to={`/categories/categoryDetail/${categoryName}/${media.id}`}>
-                                    <div className="media-image" >
-                                        {media.image ? (
-                                            <img src={media.image} alt={media.title} />
-                                        ) : (
-                                            <div className="media-placeholder">Sin imagen</div>
-                                        )}
-                                    </div>
-                                    <div className='media-info'>
-                                        <h3>{media.title}</h3>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
                     </div>
-                ) : (
-                    <>
-                        <p>No se ha encotrado ninguna {currentCategory.name}</p>
-                    </>)}
-
-                {/* Formulario creación*/}
-                <Modal isOpen={showForm} onClose={() => {
-                    setShowForm(false); setCreateImagePreview(null)
-
-                }}>
-                    <>
-                        <h3>Crear nuevo elemento en {currentCategory.name}</h3>
-                        <form onSubmit={handleSubmit} className="media-form">
-                            <input type="text" name="title" placeholder="Título" required />
-                            <textarea name="description" placeholder="Descripción"></textarea>
-                            <input type="number" name="rating" min="0" max="10" placeholder="Puntuación (0-10)" required />
-                            <select name="status" defaultValue="pending">
-                                {statusOptions.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
-                                    </option>
-                                ))}
-                            </select>
-                            <input type="date" name='begin_date' placeholder='Fecha de inicio'/>
-                            <input type="date" name='finish_date' placeholder='Fecha de fin'/>
-                            <input type="file" name="image" onChange={e => {
-                                const file = e.target.files[0]
-                                if (file) {
-                                    setCreateImagePreview(URL.createObjectURL(file))
-                                } else {
-                                    setCreateImagePreview(null)
-                                }
-                            }} />
-                            {createImagePreview && (
-                                <div className='createimage-preview'>
-                                    <img src={createImagePreview} alt="Vista previa imagen" />
+                    {mediaList.length > 0 ? (
+                        <div className='media-grid'>
+                            {mediaList.map(media => (
+                                <div className='media-card' key={media.id} onContextMenu={(e) => handleContextMenu(e, media)}>
+                                    <Link to={`/categories/categoryDetail/${categoryName}/${media.id}`}>
+                                        <div className="media-image" >
+                                            {media.image ? (
+                                                <img src={media.image} alt={media.title} />
+                                            ) : (
+                                                <div className="media-placeholder">Sin imagen</div>
+                                            )}
+                                        </div>
+                                        <div className='media-info'>
+                                            <h3>{media.title}</h3>
+                                        </div>
+                                    </Link>
                                 </div>
-                            )}
-                            <button type="submit">Crear</button>
-                            <button type='submit' onClick={() => {
-                                setShowForm(false)
-                                setCreateImagePreview(null)
-                            }}>Cancelar</button>
-                        </form>
-                    </>
-                </Modal>
-
-                {/* Formulario edición*/}
-                <Modal isOpen={!!editingMedia} onClose={() => setEditingMedia(null)}>
-                    {editingMedia && (
+                            ))}
+                        </div>
+                    ) : (
                         <>
-                            <h3>Editando: {editingMedia.title}</h3>
-                            <form onSubmit={handleEditSubmit} className="media-form">
-                                <input type="text" name="title" defaultValue={editingMedia.title} required />
-                                <textarea name="description" defaultValue={editingMedia.description}></textarea>
-                                <input type="number" name="rating" min="0" max="10" defaultValue={editingMedia.rating} required />
-                                <select name="status" defaultValue={editingMedia.status}>
+                            <p>No se ha encotrado ninguna {currentCategory.name}</p>
+                        </>)}
+
+                    {/* Formulario creación*/}
+                    <Modal isOpen={showForm} onClose={() => {
+                        setShowForm(false); setCreateImagePreview(null)
+
+                    }}>
+                        <>
+                            <h3>Crear nuevo elemento en {currentCategory.name}</h3>
+                            <form onSubmit={handleSubmit} className="media-form">
+                                <input type="text" name="title" placeholder="Título" required />
+                                <textarea name="description" placeholder="Descripción"></textarea>
+                                <input type="number" name="rating" min="0" max="10" placeholder="Puntuación (0-10)" required />
+                                <select name="status" defaultValue="pending">
                                     {statusOptions.map(option => (
                                         <option key={option.value} value={option.value}>
                                             {option.label}
                                         </option>
                                     ))}
                                 </select>
-                                <input type="date" name='begin_date' defaultValue={editingMedia.begin_date}/>
-                                <input type="date" name='finish_date' defaultValue={editingMedia.finish_date}/>
+                                <input type="date" name='begin_date' placeholder='Fecha de inicio' />
+                                <input type="date" name='finish_date' placeholder='Fecha de fin' />
                                 <input type="file" name="image" onChange={e => {
                                     const file = e.target.files[0]
                                     if (file) {
-                                        setEditImagePreview(URL.createObjectURL(file))
+                                        setCreateImagePreview(URL.createObjectURL(file))
                                     } else {
-                                        setEditImagePreview(null)
+                                        setCreateImagePreview(null)
                                     }
                                 }} />
-                                
-                                <button type="submit">Guardar cambios</button>
-                                <button type="button" onClick={() => setEditingMedia(null)}>Cancelar</button>
+                                {createImagePreview && (
+                                    <div className='createimage-preview'>
+                                        <img src={createImagePreview} alt="Vista previa imagen" />
+                                    </div>
+                                )}
+                                <button type="submit">Crear</button>
+                                <button type='submit' onClick={() => {
+                                    setShowForm(false)
+                                    setCreateImagePreview(null)
+                                }}>Cancelar</button>
                             </form>
                         </>
+                    </Modal>
+
+                    {/* Formulario edición*/}
+                    <Modal isOpen={!!editingMedia} onClose={() => setEditingMedia(null)}>
+                        {editingMedia && (
+                            <>
+                                <h3>Editando: {editingMedia.title}</h3>
+                                <form onSubmit={handleEditSubmit} className="media-form">
+                                    <input type="text" name="title" defaultValue={editingMedia.title} required />
+                                    <textarea name="description" defaultValue={editingMedia.description}></textarea>
+                                    <input type="number" name="rating" min="0" max="10" defaultValue={editingMedia.rating} required />
+                                    <select name="status" defaultValue={editingMedia.status}>
+                                        {statusOptions.map(option => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <input type="date" name='begin_date' defaultValue={editingMedia.begin_date} />
+                                    <input type="date" name='finish_date' defaultValue={editingMedia.finish_date} />
+                                    <input type="file" name="image" onChange={e => {
+                                        const file = e.target.files[0]
+                                        if (file) {
+                                            setEditImagePreview(URL.createObjectURL(file))
+                                        } else {
+                                            setEditImagePreview(null)
+                                        }
+                                    }} />
+                                    {editImagePreview && (
+                                        <div className='createimage-preview'>
+                                            <img src={editImagePreview} alt="Vista previa imagen" />
+                                        </div>
+                                    )}
+
+
+                                    <button type="submit">Guardar cambios</button>
+                                    <button type="button" onClick={() => setEditingMedia(null)}>Cancelar</button>
+                                </form>
+                            </>
+                        )}
+                    </Modal>
+
+                    {contextMenu.visible && (
+                        <div className='context-menu'
+                            style={{
+                                position: 'absolute',
+                                top: `${contextMenu.y}px`,
+                                left: `${contextMenu.x}px`,
+                                backgroundColor: '#ffffff',
+                                border: '1px solid #ddd',
+                                borderRadius: '8px',
+                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                padding: '10px',
+                                zIndex: 1000,
+                            }}
+                        >
+                            <button
+                                className='context-menu-btn'
+                                onClick={() => {
+                                    setEditingMedia(contextMenu.media)
+                                    setContextMenu({ ...contextMenu, visible: false })
+                                }}>Editar</button>
+
+                            <button
+                                className='context-menu-btn'
+                                onClick={() => {
+                                    handleDelete(contextMenu.media.id)
+                                    setContextMenu({ ...contextMenu, visible: false })
+                                }}>Eliminar</button>
+                        </div>
                     )}
-                </Modal>
 
-                {contextMenu.visible && (
-                    <div className='context-menu'
-                    style={{
-                        position: 'absolute',
-                        top: `${contextMenu.y}px`,
-                        left: `${contextMenu.x}px`,
-                        backgroundColor: '#ffffff',
-                        border: '1px solid #ddd',
-                        borderRadius: '8px', 
-                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                        padding: '10px',
-                        zIndex: 1000,
-                      }}                    
-                    >
-                        <button 
-                            className='context-menu-btn'
-                            onClick={()=> {
-                            setEditingMedia(contextMenu.media)
-                            setContextMenu({...contextMenu, visible:false})
-                        }}>Editar</button>
 
-                        <button 
-                            className='context-menu-btn'
-                            onClick={()=> {
-                            handleDelete(contextMenu.media.id)
-                            setContextMenu({...contextMenu, visible:false})
-                        }}>Eliminar</button>
+
+                </div>
+
+            ) : (
+                <div className='media-detail-container'>
+                    <div className='category-detail-body-title'>
+                        <h3>{currentCategory.name}</h3>
+
                     </div>
-                )}
-                
+                    {mediaList.length > 0 ? (
+                        <div className='media-grid'>
+                            {mediaList.map(media => (
+                                <div className='media-card' key={media.id} >
+                                    <Link to={`/users/${user}/${categoryName}/${media.id}`}>
+                                        <div className="media-image" >
+                                            {media.image ? (
+                                                <img src={media.image} alt={media.title} />
+                                            ) : (
+                                                <div className="media-placeholder">Sin imagen</div>
+                                            )}
+                                        </div>
+                                        <div className='media-info'>
+                                            <h3>{media.title}</h3>
+                                        </div>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <>
+                            <p>No se ha encotrado ninguna {currentCategory.name}</p>
+                        </>)}
 
-
-            </div>
+                </div>
+            )}
         </>
     )
 
