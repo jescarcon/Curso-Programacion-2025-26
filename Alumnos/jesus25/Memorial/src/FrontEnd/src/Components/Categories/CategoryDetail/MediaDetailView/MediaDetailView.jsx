@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../../Navbar/Navbar';
 import './MediaDetailView.css';
-import { BASE_API_URL } from './../../../../constants';
+import { authFetch, BASE_API_URL } from '../../../../utils';
 import { useParams, Link } from 'react-router-dom';
 
 export default function MediaDetailView() {
@@ -19,7 +19,14 @@ export default function MediaDetailView() {
   ];
 
   useEffect(() => {
-    fetch(`${BASE_API_URL}/api/memorialApp/media/${id}/`)
+    const token = localStorage.getItem('access_token');
+
+    authFetch(`/api/memorialApp/media/${id}/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => res.json())
       .then(data => {
         console.log(data)

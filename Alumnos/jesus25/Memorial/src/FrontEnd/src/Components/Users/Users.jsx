@@ -25,18 +25,7 @@ export default function Users() {
   return (
     <>
       <Navbar />
-      <h1>Categorías de {user}</h1>
-      <div className="categories-container">
-        {categories.map((e) => (
-          <div key={e.tag} className='category-card'>
-            <Link to={`/users/${user}/${e.tag}/`}>
-              <img src={e.image} alt={e.name} className='category-image' />
-            </Link>
-            <h3>{e.name}</h3>
-          </div>
-        ))}
 
-      </div>
 
     </>
 

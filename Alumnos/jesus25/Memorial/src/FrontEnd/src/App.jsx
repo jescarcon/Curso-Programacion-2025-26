@@ -29,13 +29,13 @@ function App() {
         <Route path='/profile' element={<Profile/>}/>
 
         <Route path='/categories' element={<Categories/>}/>
-        <Route path="/categories/categoryDetail/:categoryName" element={<CategoryDetail />} />
+        <Route path="/categories/categoryDetail/:categoryName" element={<CategoryDetail  />} />
         <Route path="/categories/categoryDetail/:categoryName/:id" element={<MediaDetailView/>} />
         <Route path="/categories/categoryDetail/:categoryName/:id/notes" element={<Notes />} />
         <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<NoteDetailView />} />
         
         
-        <Route path='/users/:user' element={<Users/>} />
+        <Route path='/users/:user' element={<CategoryDetail/>} />
         <Route path='/users/:user/:categoryName' element={<UsersCategoryDetail/>} />
         <Route path='/users/:user/:categoryName/:id' element={<UsersMediaDetailView/>} />
         <Route path='/users/:user/:categoryName/:id/notes' element={<UsersMediaNotes/>} />

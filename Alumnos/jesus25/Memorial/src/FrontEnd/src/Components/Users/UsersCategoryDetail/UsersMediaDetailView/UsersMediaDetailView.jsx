@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../../Navbar/Navbar';
-import { BASE_API_URL } from './../../../../constants';
+import { BASE_API_URL } from './../../../../utils';
 import { useParams, Link } from 'react-router-dom';
 
 export default function MediaDetailView() {

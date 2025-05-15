@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './CreateAccount.css';
 import Navbar from '../Navbar/Navbar';
 import Modal from '../Modal/Modal'; // Importa el componente Modal
-import { BASE_API_URL } from '../../constants';
+import { BASE_API_URL } from '../../utils';
 
 export default function CreateAccount() {
     const [isModalOpen, setIsModalOpen] = useState(false);

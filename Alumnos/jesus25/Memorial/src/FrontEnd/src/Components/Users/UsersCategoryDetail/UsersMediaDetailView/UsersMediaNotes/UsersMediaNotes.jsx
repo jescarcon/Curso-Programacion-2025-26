@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../../../Navbar/Navbar'
 import { useParams, Link } from 'react-router-dom'
-import { BASE_API_URL } from '../../../../../constants';
+import { BASE_API_URL } from '../../../../../utils';
 import Modal from '../../../../Modal/Modal'
 import CreateButtonImage from '/images/createButton.png'
 

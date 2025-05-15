@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
 import Navbar from '../../Navbar/Navbar';
-import { BASE_API_URL } from './../../../constants'
+import { BASE_API_URL } from './../../../utils'
 import Error from '../../Error/Error';
 
 export default function UsersCategoryDetail() {

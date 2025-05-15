@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Login.css'
 import Categories from '../Categories/Categories';
 import Navbar from '../Navbar/Navbar';
-import {BASE_API_URL} from '../../constants.js'
+import {BASE_API_URL} from '../../utils'
 
 
 

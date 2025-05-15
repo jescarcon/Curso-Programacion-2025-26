@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { BASE_API_URL } from '../../../../../../constants';
+import { BASE_API_URL } from '../../../../../../utils';
 import './NoteDetailView.css';
 import Navbar from '../../../../../Navbar/Navbar';
 

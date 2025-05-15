@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import logo from '/images/home/logo.png'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import './Navbar.css'
 
 
 
 export default function Navbar() {
     //#region Variables
+    const Navigate = useNavigate();
     const [userSearch, setUserSearch] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -18,7 +19,7 @@ export default function Navbar() {
     const pressEnter = (e) => {
 
         if (e.key === 'Enter' && userSearch.trim() !== '') {
-            Navigate(`/users/${userSearch}`);
+           Navigate(`/users/${userSearch}`);
         }
     }
 
