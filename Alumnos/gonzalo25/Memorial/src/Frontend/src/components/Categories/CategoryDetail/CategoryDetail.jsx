@@ -85,6 +85,7 @@ export default function CategoryDetail() {
     };
 
     const statusOptions = statusOptionsByCategory[categoryName] || [];
+    console.log(categoryName);
     //#endregion
 
     //#region Logica
