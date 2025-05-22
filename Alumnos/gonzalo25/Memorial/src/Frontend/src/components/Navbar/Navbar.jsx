@@ -3,6 +3,7 @@ import logo from '/images/home/logo.png'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import './Navbar.css'
 import { BASE_API_URL } from '../../constants';
+import categoryComponent from '../../App';
 
 
 export default function Navbar() {
@@ -110,8 +111,8 @@ export default function Navbar() {
                             </div>
                             {showMenu && (
                                 <div className='dropdown-menu'>
-                                    <Link to='/profile' className='dropdown-menu-item-profile'>Perfil</Link>
-                                    <div className='dropdown-menu-item-logout' onClick={handleLogout}>Cerrar sesión</div>
+                                    <Link to='/profile' className='dropdown-menu-item'>Perfil</Link>
+                                    <div className='dropdown-menu-item' onClick={handleLogout}>Cerrar sesión</div>
                                 </div>
                             )}
                         </div>

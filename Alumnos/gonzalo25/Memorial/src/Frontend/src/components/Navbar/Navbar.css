@@ -86,7 +86,7 @@
     overflow: hidden;
 }
 
-.dropdown-menu-item-profile{
+.dropdown-menu-item{
     display: block;
     padding: 10px 15px;
     text-decoration: none;
@@ -96,26 +96,13 @@
     border-radius: 8px;
 }
 
-.dropdown-menu-item-logout{
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: black;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-}
-
-.dropdown-menu-item-profile:hover{
+.dropdown-menu-item:hover{
     background-color: rgb(88, 142, 224);
-}
-.dropdown-menu-item-logout:hover{
-    background-color: rgb(168, 45, 41);
 }
 
 .profile-icon-img{
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     cursor: pointer;
 }

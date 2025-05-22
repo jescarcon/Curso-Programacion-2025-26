@@ -74,9 +74,9 @@ export const refreshToken = async () => {
 
 //NUEVO FETCH que tiene el cuenta el token
 export const authFetch = async (endpoint, options = {}) => {
-    let access = localStorage.getItem('access_token'); // Usa let, no const  <------------------------
+    let access = localStorage.getItem('access_token');
 
-    let config = {  //<------------------------
+    let config = {
         ...options,
         headers: {
             ...(options.headers || {}),
@@ -89,12 +89,11 @@ export const authFetch = async (endpoint, options = {}) => {
 
     if (res.status === 401) {
         // Token ha expirado
-        access = await refreshToken(); // Usa la nueva access si es válida
+        access = await refreshToken();
         if (access) {
             config.headers.Authorization = `Bearer ${access}`;
-            res = await fetch(`${BASE_API_URL}${endpoint}`, config); // Reintento con nuevo token
+            res = await fetch(`${BASE_API_URL}${endpoint}`, config);
         } else {
-            // Token de refresh inválido o expirado, forzar logout
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
             window.location.href = '/login';
@@ -103,6 +102,5 @@ export const authFetch = async (endpoint, options = {}) => {
 
     return res;
 };
-
 
 //#endregion
