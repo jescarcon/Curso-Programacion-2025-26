@@ -3,7 +3,7 @@ import { Link, useFetcher } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
 import './CategoryDetail.css'
 import Navbar from '../../Navbar/Navbar';
-import { BASE_API_URL } from './../../../constants'
+import { authFetch, BASE_API_URL } from './../../../constants'
 import Error from '../../Error/Error';
 import Modal from '../../Modal/Modal'
 import createButtonImage from '/images/createButton.png';
@@ -172,11 +172,8 @@ export default function CategoryDetail() {
         const formData = new FormData(form)
         formData.append('category', categoryName)
         formData.append('user', userId)
-        fetch(`${BASE_API_URL}/api/memorialApp/media/`, {
+        authFetch('/api/memorialApp/media/', {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
             body: formData
         })
             .then(res => res.json())
