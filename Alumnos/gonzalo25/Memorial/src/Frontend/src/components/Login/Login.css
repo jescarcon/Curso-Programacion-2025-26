@@ -46,18 +46,20 @@
     text-align: center;
     margin-bottom: 20px;
 }
+
 .loginpage-form .form-group {
     margin-bottom: 15px;
 }
 .loginpage-form label {
     display: block;
+    text-align: center;
     font-size: 14px;
     font-weight: bold;
     color: #333;
     margin-bottom: 5px;
 }
 .loginpage-form input {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     border: 2px solid #1685b8;
     border-radius: 20px;
@@ -71,35 +73,65 @@
     border-color: #0d6efd;
     background-color: #e6f7ff;
 }
+
 .loginpage-form .btn-1 {
-    width: 100%;
-    padding: 10px;
-    border: 2px dashed #1685b8;
-    border-radius: 20px;
-    background-color: transparent;
-    color: #333;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 10px;
+    width: 50%; /* Reduce aún más el ancho del botón */
+    padding: 6px; /* Ajusta el padding */
+    font-size: 18px; /* Reduce el tamaño de la fuente */
+    margin: 10px auto 0 auto; /* Centra el botón horizontalmente */
+    display: block; /* Asegura que el botón se comporte como un bloque */
+    text-align: center; /* Centra el texto dentro del botón */
+    text-decoration: none;
+}
+
+.loginpage-form .btn-1 a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .loginpage-form .btn-1:hover {
     background-color: #1685b8;
     color: white;
 }
-.forgot-password {
-    margin-top: 10px;
-    text-align: center;
-}
 
-.forgot-password a {
-    color: #1685b8;
-    text-decoration: none;
+/* Ventanita de error personalizada */
+.custom-error-modal {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f8d7da; /* Fondo rojo claro */
+    color: #721c24; /* Texto rojo oscuro */
+    border: 1px solid #f5c6cb; /* Borde rojo */
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    animation: slide-in 0.5s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 300px;
     font-size: 14px;
 }
 
-.forgot-password a:hover {
-    text-decoration: underline;
+/* Botón de cerrar */
+.close-error-modal {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #721c24;
+    margin-left: 10px;
+}
+
+/* Animación de entrada */
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
