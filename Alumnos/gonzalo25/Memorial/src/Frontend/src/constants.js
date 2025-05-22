@@ -45,7 +45,7 @@ export const refreshToken = async () => {
 
     try {
         const tokenJSON = getJWT(refresh);
-        const exp = tokenJSON.exp; 
+        const exp = tokenJSON.exp;
         const now = Date.now() / 1000;
         if (exp < now) {
             return null;
@@ -73,19 +73,20 @@ export const refreshToken = async () => {
 
 
 //NUEVO FETCH que tiene el cuenta el token
-export const authFetch = async (endpoint, options = {}) => {
+export const authFetch = async (endpoint, method, body) => {
     let access = localStorage.getItem('access_token');
 
-    let config = {
-        ...options,
-        headers: {
-            ...(options.headers || {}),
-            Authorization: `Bearer ${access}`,
-            'Content-Type': 'application/json',
-        }
-    };
 
-    let res = await fetch(`${BASE_API_URL}${endpoint}`, config);
+    let res = await fetch(`${BASE_API_URL}${endpoint}`, {
+        method: {method},
+        headers: {
+            'Authorization': `Bearer ${access}`,
+            'Content-Type': 'application/json',
+
+        },
+        body: JSON.stringify({body})
+
+    });
 
     if (res.status === 401) {
         // Token ha expirado

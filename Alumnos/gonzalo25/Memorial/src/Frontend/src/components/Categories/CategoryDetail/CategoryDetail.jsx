@@ -172,10 +172,19 @@ export default function CategoryDetail() {
         const formData = new FormData(form)
         formData.append('category', categoryName)
         formData.append('user', userId)
-        authFetch('/api/memorialApp/media/', {
-            method: 'POST',
-            body: formData
-        })
+        authFetch('/api/memorialApp/media/', 'POST', {
+            "title": "serie2",
+            "description": "dasadfasdf",
+            "add_date": "2025-05-22",
+            "image": null,
+            "rating": 2,
+            "status": "playing",
+            "category": "serie",
+            "user": 1,
+            "begin_date": null,
+            "finish_date": null
+        }
+        )
             .then(res => res.json())
             .then(newMedia => {
                 SetMediaList([...mediaList, newMedia])
@@ -295,7 +304,7 @@ export default function CategoryDetail() {
                                     <input type="file" name="image" onChange={e => {
                                         const file = e.target.files[0]
                                         if (file) {
-                                            
+
                                             setEditImagePreview(URL.createObjectURL(file))
                                         }
                                     }} />
