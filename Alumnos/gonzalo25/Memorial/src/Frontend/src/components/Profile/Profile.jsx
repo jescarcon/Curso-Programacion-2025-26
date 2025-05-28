@@ -26,9 +26,7 @@ const Profile = () => {
             return;
         }
 
-        authFetch(`/api/memorialApp/users/${user_id}`, {
-            method: 'GET',
-        })
+        authFetch(`/api/memorialApp/users/${user_id}`,'GET')
             .then(res => res.json())
             .then(data => {
                 setUserData(data)
@@ -36,9 +34,7 @@ const Profile = () => {
             })
             .catch(err => console.error("Error al obtener datos del usuario", err));
 
-        authFetch(`/api/memorialApp/media`, {
-            method: 'GET',
-        })
+        authFetch(`/api/memorialApp/media`,'GET')
             .then(res => res.json())
             .then(data => {
                 const userMedia = data.slice(-3)

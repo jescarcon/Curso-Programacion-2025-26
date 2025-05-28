@@ -41,10 +41,12 @@ function App() {
         <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
         
         <Route path='/users/:user' element={<PrivateRoute><UserSearch/></PrivateRoute>} />
-        <Route path='/users/:user/:categoryName' element={<PrivateRoute><UsersCategoryDetail /></PrivateRoute>} />
+        <Route path='/users/:user/profile' element={<PrivateRoute><Profile/></PrivateRoute>} />
+
+        {/* <Route path='/users/:user/:categoryName' element={<PrivateRoute><UsersCategoryDetail /></PrivateRoute>} />
         <Route path='/users/:user/:categoryName/:id' element={<PrivateRoute><UsersMediaDetailView /></PrivateRoute>} />
         <Route path='/users/:user/:categoryName/:id/notes' element={<PrivateRoute><UsersMediaNotes /></PrivateRoute>} />
-        <Route path='/users/:user/:categoryName/:id/notes/:noteId' element={<PrivateRoute><UsersNoteDetailView /></PrivateRoute>} />
+        <Route path='/users/:user/:categoryName/:id/notes/:noteId' element={<PrivateRoute><UsersNoteDetailView /></PrivateRoute>} /> */}
 
       </Routes>
     </BrowserRouter>
