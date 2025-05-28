@@ -76,24 +76,26 @@ export const refreshToken = async () => {
 export const authFetch = async (endpoint, method, body) => {
     let access = localStorage.getItem('access_token');
 
+    const headers = {
+        'Authorization': `Bearer ${access}`,
+    };
 
-    let res = await fetch(`${BASE_API_URL}${endpoint}`, {
-        method: {method},
-        headers: {
-            'Authorization': `Bearer ${access}`,
-            'Content-Type': 'application/json',
+    const config = {
+        method: method,
+        headers,
+        body: body, 
+    };
 
-        },
-        body: JSON.stringify({body})
-
-    });
+    let res = await fetch(`${BASE_API_URL}${endpoint}`, config);
 
     if (res.status === 401) {
-        // Token ha expirado
         access = await refreshToken();
         if (access) {
-            config.headers.Authorization = `Bearer ${access}`;
-            res = await fetch(`${BASE_API_URL}${endpoint}`, config);
+            headers['Authorization'] = `Bearer ${access}`;
+            res = await fetch(`${BASE_API_URL}${endpoint}`, {
+                ...config,
+                headers,
+            });
         } else {
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
@@ -103,5 +105,6 @@ export const authFetch = async (endpoint, method, body) => {
 
     return res;
 };
+
 
 //#endregion

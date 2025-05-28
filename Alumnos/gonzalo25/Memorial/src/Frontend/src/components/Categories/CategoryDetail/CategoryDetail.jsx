@@ -172,18 +172,9 @@ export default function CategoryDetail() {
         const formData = new FormData(form)
         formData.append('category', categoryName)
         formData.append('user', userId)
-        authFetch('/api/memorialApp/media/', 'POST', {
-            "title": "serie2",
-            "description": "dasadfasdf",
-            "add_date": "2025-05-22",
-            "image": null,
-            "rating": 2,
-            "status": "playing",
-            "category": "serie",
-            "user": 1,
-            "begin_date": null,
-            "finish_date": null
-        }
+
+
+        authFetch('/api/memorialApp/media/', 'POST', formData
         )
             .then(res => res.json())
             .then(newMedia => {
