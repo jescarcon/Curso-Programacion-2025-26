@@ -47,8 +47,8 @@ export default function UserSearch() {
                             />
                             <span className="usersearch-username">{user.username}</span>
                             <div className="usersearch-buttons">
-                                <Link to={`/users/${user.username}/profile`} className="usersearch-button">Ver perfil</Link>
-                                <Link to={`/users/${user.username}/categories`} className="usersearch-button">Ver medios</Link>
+                                <Link to={`/users/${user.id}/profile`} className="usersearch-button">Ver perfil</Link>
+                                <Link to={`/users/${user.id}/categories`} className="usersearch-button">Ver medios</Link>
                             </div>
                         </div>
                     ))

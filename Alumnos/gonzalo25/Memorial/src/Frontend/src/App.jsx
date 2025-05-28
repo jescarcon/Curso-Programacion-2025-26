@@ -41,7 +41,7 @@ function App() {
         <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
         
         <Route path='/users/:user' element={<PrivateRoute><UserSearch/></PrivateRoute>} />
-        <Route path='/users/:user/profile' element={<PrivateRoute><Profile/></PrivateRoute>} />
+        <Route path='/users/:paramUserId/profile' element={<PrivateRoute><Profile/></PrivateRoute>} />
 
         {/* <Route path='/users/:user/:categoryName' element={<PrivateRoute><UsersCategoryDetail /></PrivateRoute>} />
         <Route path='/users/:user/:categoryName/:id' element={<PrivateRoute><UsersMediaDetailView /></PrivateRoute>} />

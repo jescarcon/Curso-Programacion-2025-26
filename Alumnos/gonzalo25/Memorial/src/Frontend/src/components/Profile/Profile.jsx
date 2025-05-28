@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getJWT, authFetch } from '../../constants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import './Profile.css';
 
@@ -8,6 +8,9 @@ const Profile = () => {
     const [userData, setUserData] = useState(null);
     const [mediaList, setMediaList] = useState([]);
     const navigate = useNavigate();
+    const { paramUserId } = useParams(); // <-- ahora es el ID
+
+    const [loggedUserId, setLoggedUserId] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('access_token');
@@ -26,23 +29,40 @@ const Profile = () => {
             return;
         }
 
-        authFetch(`/api/memorialApp/users/${user_id}`,'GET')
-            .then(res => res.json())
-            .then(data => {
-                setUserData(data)
+        setLoggedUserId(user_id);
 
-            })
-            .catch(err => console.error("Error al obtener datos del usuario", err));
+        // Si me busco a mí mismo con URL /users/:id/profile
+        if (paramUserId && parseInt(paramUserId) === user_id) {
+            navigate('/profile');
+            return;
+        }
 
-        authFetch(`/api/memorialApp/media`,'GET')
-            .then(res => res.json())
-            .then(data => {
-                const userMedia = data.slice(-3)
-                setMediaList(userMedia);
-                
+        const userIdToFetch = paramUserId || user_id;
+
+        // Obtener datos del usuario (ya sea yo o otro)
+        authFetch(`/api/memorialApp/users/${userIdToFetch}`, 'GET')
+            .then(res => {
+                if (!res.ok) throw new Error("Usuario no encontrado");
+                return res.json();
             })
-            .catch(err => console.error("Error al obtener medios del usuario", err));
-    }, []);
+            .then(data => {
+                setUserData(data);
+
+                // Cargar últimos 3 medios
+                authFetch(`/api/memorialApp/media`, 'GET')
+                    .then(res => res.json())
+                    .then(mediaData => {
+                        const userMedia = mediaData.filter(m => m.user === data.id).slice(-3);
+                        setMediaList(userMedia);
+                    })
+                    .catch(err => console.error("Error al obtener medios", err));
+            })
+            .catch(err => {
+                console.error("Error al obtener usuario", err);
+                navigate('/not-found');
+            });
+
+    }, [paramUserId, navigate]);
 
     if (!userData) return <div>Cargando perfil...</div>;
 
@@ -50,14 +70,21 @@ const Profile = () => {
         ? `/images/avatars/${userData.avatar}`
         : '/images/avatars/default.jpg';
 
+    const isOwnProfile = userData.id === loggedUserId;
+
     return (
         <>
-            <Navbar></Navbar>
+            <Navbar />
             <div className="profile-container">
                 <div className='profile-header'>
-                    <button className="edit-profile-button" onClick={() => navigate(`/profile/${user_id}/edit`)}>
-                        Editar perfil
-                    </button>
+                    {isOwnProfile && (
+                        <button
+                            className="edit-profile-button"
+                            onClick={() => navigate(`/profile/${userData.id}/edit`)}
+                        >
+                            Editar perfil
+                        </button>
+                    )}
                     <img src={avatarUrl} alt="Avatar" className='profile-avatar' />
                     <h2 className='profile-username'>{userData.username}</h2>
                 </div>
