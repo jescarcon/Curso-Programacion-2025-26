@@ -17,6 +17,7 @@ import UsersMediaNotes from './components/Users/UsersCategoryDetail/UsersMediaDe
 import UsersNoteDetailView from './components/Users/UsersCategoryDetail/UsersMediaDetailView/UsersMediaNotes/UsersNoteDetailView/UsersNoteDetailView'
 import Profile from './components/Profile/Profile'
 import PrivateRoute from './components/Auth/PrivateRoute'
+import UserSearch from './components/UserSearch/UserSearch'
 
 function App() {
 
@@ -39,7 +40,7 @@ function App() {
         <Route path="/categories/categoryDetail/:categoryName/:id/notes" element={<PrivateRoute><Notes /></PrivateRoute>} />
         <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
         
-        <Route path='/users/:user' element={<PrivateRoute><Categories /></PrivateRoute>} />
+        <Route path='/users/:user' element={<PrivateRoute><UserSearch/></PrivateRoute>} />
         <Route path='/users/:user/:categoryName' element={<PrivateRoute><UsersCategoryDetail /></PrivateRoute>} />
         <Route path='/users/:user/:categoryName/:id' element={<PrivateRoute><UsersMediaDetailView /></PrivateRoute>} />
         <Route path='/users/:user/:categoryName/:id/notes' element={<PrivateRoute><UsersMediaNotes /></PrivateRoute>} />

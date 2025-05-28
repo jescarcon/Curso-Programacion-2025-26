@@ -13,9 +13,9 @@ import { getJWT } from './../../../constants';
 export default function CategoryDetail() {
     //#region Variables
 
-    const URL = window.location.href;
-    const isCategoryComponent = URL.includes("/categories/categoryDetail");
-    const isUserComponent = URL.includes("users");
+    const URL_NAV = window.location.href;
+    const isCategoryComponent = URL_NAV.includes("/categories/categoryDetail");
+    const isUserComponent = URL_NAV.includes("users");
 
     const { categoryName } = isCategoryComponent ? useParams() : "";
 
@@ -91,6 +91,7 @@ export default function CategoryDetail() {
 
     //#region Logica
     useEffect(() => {
+        console.log(editingMedia)
         if (editingMedia && editingMedia.image) {
             setEditImagePreview(editingMedia.image)
         } else {
@@ -106,9 +107,7 @@ export default function CategoryDetail() {
             y: e.pageY,
             media: media
         })
-        console.log('Click derecho')
     }
-
     useEffect(() => {
         const closeMenu = () => setContextMenu({ ...contextMenu, visible: false })
         document.addEventListener('click', closeMenu)
@@ -132,12 +131,7 @@ export default function CategoryDetail() {
         if (userId) {
             setUserId(userId);
 
-            fetch(`${BASE_API_URL}/api/memorialApp/media/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+            authFetch(`/api/memorialApp/media/`, 'GET')
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)
@@ -153,20 +147,28 @@ export default function CategoryDetail() {
 
     //DELETE
     const handleDelete = (id) => {
-        const token = localStorage.getItem('access_token');
-        fetch(`${BASE_API_URL}/api/memorialApp/media/${id}/`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        }).then(() => {
-            SetMediaList(mediaList.filter(m => m.id !== id))
-        }).catch(e => console.error("Error al eliminar:", e))
+        const token = localStorage.getItem('access_token')
+        if (!token) {
+            console.error('Es necesario tener un token de acceso');
+            window.location.href = '/login';
+            return;
+        }
+
+        authFetch(`/api/memorialApp/media/${id}/`, 'DELETE')
+            .then(() => {
+                SetMediaList(mediaList.filter(m => m.id !== id))
+            }).catch(e => console.error("Error al eliminar:", e))
     }
 
     //CREATE
     const handleSubmit = (e) => {
-        const token = localStorage.getItem('access_token');
+        const token = localStorage.getItem('access_token')
+        if (!token) {
+            console.error('Es necesario tener un token de acceso');
+            window.location.href = '/login';
+            return;
+        }
+
         e.preventDefault()
         const form = e.target
         const formData = new FormData(form)
@@ -187,14 +189,37 @@ export default function CategoryDetail() {
 
     //EDIT
     const handleEditSubmit = (e) => {
-        e.preventDefault()
-        const form = e.target
-        const formData = new FormData(form)
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            console.error('Es necesario tener un token de acceso');
+            window.location.href = '/login';
+            return;
+        }
 
-        formData.append('category', categoryName)
-        formData.append('user', userId)
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
 
-    }
+        formData.append('category', categoryName);
+        formData.append('user', userId);
+
+        // Si no se ha seleccionado nueva imagen, eliminar del formData
+        if (!form.image.files[0]) {
+            formData.delete('image'); // No se sobreescribe la anterior
+        }
+
+        authFetch(`/api/memorialApp/media/${editingMedia.id}/`, 'PATCH', formData)
+            .then(res => res.json())
+            .then(updatedMedia => {
+                SetMediaList(prevList =>
+                    prevList.map(item => item.id === updatedMedia.id ? updatedMedia : item)
+                );
+                setEditImagePreview(null);  // Limpia vista previa
+                setEditingMedia(null);      // Cierra modal
+            })
+            .catch(e => console.error('Error updating media:', e));
+    };
+
 
     //#endregion
 
@@ -275,7 +300,7 @@ export default function CategoryDetail() {
                     </Modal>
 
                     {/* Formulario edición*/}
-                    <Modal isOpen={!!editingMedia} onClose={() => setEditingMedia(null)}>
+                    <Modal isOpen={!!editingMedia} onClose={() => { setEditingMedia(null); setEditImagePreview(null); }}>
                         {editingMedia && (
                             <>
                                 <h3>Editando: {editingMedia.title}</h3>
@@ -292,13 +317,18 @@ export default function CategoryDetail() {
                                     </select>
                                     <input type="date" name='begin_date' defaultValue={editingMedia.begin_date} />
                                     <input type="date" name='finish_date' defaultValue={editingMedia.finish_date} />
-                                    <input type="file" name="image" onChange={e => {
-                                        const file = e.target.files[0]
-                                        if (file) {
+                                    <input
+                                        type="file"
+                                        name="image"
+                                        onChange={e => {
+                                            const file = e.target.files[0];
+                                            if (file) {
+                                                const newPreview = URL.createObjectURL(file);
+                                                setEditImagePreview(newPreview);
+                                            } 
+                                        }}
+                                    />
 
-                                            setEditImagePreview(URL.createObjectURL(file))
-                                        }
-                                    }} />
                                     {editImagePreview && (
                                         <div className='createimage-preview'>
                                             <img src={editImagePreview} alt="Vista previa imagen" />
@@ -307,7 +337,10 @@ export default function CategoryDetail() {
 
 
                                     <button type="submit">Guardar cambios</button>
-                                    <button type="button" onClick={() => setEditingMedia(null)}>Cancelar</button>
+                                    <button type='submit' onClick={() => {
+                                        setShowForm(false)
+                                        setEditImagePreview(null)
+                                    }}>Cancelar</button>
                                 </form>
                             </>
                         )}

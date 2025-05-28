@@ -73,18 +73,27 @@ export const refreshToken = async () => {
 
 
 //NUEVO FETCH que tiene el cuenta el token
-export const authFetch = async (endpoint, method, body) => {
+export const authFetch = async (endpoint, method = 'GET', body = null, customHeaders = {}) => {
     let access = localStorage.getItem('access_token');
 
     const headers = {
         'Authorization': `Bearer ${access}`,
+        ...customHeaders,
     };
 
+    // Solo añadir Content-Type si no es FormData
+    if (!(body instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+    }
+
     const config = {
-        method: method,
+        method,
         headers,
-        body: body, 
     };
+
+    if (body && ['POST', 'PUT', 'PATCH'].includes(method.toUpperCase())) {
+        config.body = body instanceof FormData ? body : JSON.stringify(body);
+    }
 
     let res = await fetch(`${BASE_API_URL}${endpoint}`, config);
 
@@ -92,10 +101,7 @@ export const authFetch = async (endpoint, method, body) => {
         access = await refreshToken();
         if (access) {
             headers['Authorization'] = `Bearer ${access}`;
-            res = await fetch(`${BASE_API_URL}${endpoint}`, {
-                ...config,
-                headers,
-            });
+            res = await fetch(`${BASE_API_URL}${endpoint}`, { ...config, headers });
         } else {
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
