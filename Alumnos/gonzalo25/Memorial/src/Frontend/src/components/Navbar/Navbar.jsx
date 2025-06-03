@@ -17,12 +17,10 @@ export default function Navbar() {
 
     //#region Lógica
 
-    const pressEnter = (e)=>{
-
-        if(e.key === 'Enter' && userSearch.trim() !== '') {
+    const pressEnter=(e)=>{
+        if(e.key == 'Enter' && userSearch.trim()!==''){
             Navigate(`/users/${userSearch.trim()}`);
-            
-        } 
+        }
     }
 
     useEffect( ()=>{

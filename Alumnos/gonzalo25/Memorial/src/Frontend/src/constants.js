@@ -45,7 +45,7 @@ export const refreshToken = async () => {
 
     try {
         const tokenJSON = getJWT(refresh);
-        const exp = tokenJSON.exp; 
+        const exp = tokenJSON.exp;
         const now = Date.now() / 1000;
         if (exp < now) {
             return null;
@@ -73,26 +73,35 @@ export const refreshToken = async () => {
 
 
 //NUEVO FETCH que tiene el cuenta el token
-export const authFetch = async (endpoint, options = {}) => {
+export const authFetch = async (endpoint, method = 'GET', body = null, customHeaders = {}) => {
     let access = localStorage.getItem('access_token');
 
-    let config = {
-        ...options,
-        headers: {
-            ...(options.headers || {}),
-            Authorization: `Bearer ${access}`,
-            'Content-Type': 'application/json',
-        }
+    const headers = {
+        'Authorization': `Bearer ${access}`,
+        ...customHeaders,
     };
+
+    // Solo añadir Content-Type si no es FormData
+    if (!(body instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+    }
+
+    const config = {
+        method,
+        headers,
+    };
+
+    if (body && ['POST', 'PUT', 'PATCH'].includes(method.toUpperCase())) {
+        config.body = body instanceof FormData ? body : JSON.stringify(body);
+    }
 
     let res = await fetch(`${BASE_API_URL}${endpoint}`, config);
 
     if (res.status === 401) {
-        // Token ha expirado
         access = await refreshToken();
         if (access) {
-            config.headers.Authorization = `Bearer ${access}`;
-            res = await fetch(`${BASE_API_URL}${endpoint}`, config);
+            headers['Authorization'] = `Bearer ${access}`;
+            res = await fetch(`${BASE_API_URL}${endpoint}`, { ...config, headers });
         } else {
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
@@ -102,5 +111,6 @@ export const authFetch = async (endpoint, options = {}) => {
 
     return res;
 };
+
 
 //#endregion

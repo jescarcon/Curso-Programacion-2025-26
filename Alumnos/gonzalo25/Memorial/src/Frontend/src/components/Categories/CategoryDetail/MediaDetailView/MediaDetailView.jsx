@@ -19,23 +19,14 @@ export default function MediaDetailView() {
   ];
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    authFetch(`/api/memorialApp/media/${id}/`,{
-       method: 'GET',
-       headers:{
-        Authorization: `Bearer ${token}`
-       }
-    })
+    authFetch(`/api/memorialApp/media/${id}/`, 'GET')
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         setMediumData(data)
         setStatus(data.status)
       })
-      .catch(e => console.error('Error fetching data:', e))
-
-
-  }, [])
+      .catch(e => console.error('Error en la recepción de datos:', e))
+  }, [id])
 
   const [status, setStatus] = useState(null);
   const translatedStatus = statusList.find(e => e.param === status)

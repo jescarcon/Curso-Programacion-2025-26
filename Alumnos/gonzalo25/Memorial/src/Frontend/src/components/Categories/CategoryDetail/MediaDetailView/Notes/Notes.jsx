@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../../../Navbar/Navbar'
 import { useParams, Link } from 'react-router-dom'
-import { BASE_API_URL } from '../../../../../constants';
+import { authFetch, BASE_API_URL } from '../../../../../constants';
 import './Notes.css'
 import Modal from '../../../../Modal/Modal'
 import CreateButtonImage from '/images/createButton.png'
@@ -12,10 +12,10 @@ export default function Notes() {
   //#region Variables
   const { id, categoryName } = useParams();
   const [noteData, setNoteData] = useState([]);
-  const [editingNote, setEditingNote] = useState(false)
-  const [mediumName, setMediumName] = useState(''); // Nuevo estado para el nombre del medio
-  const [showForm, setShowForm] = useState(null)
-  const [contextMenu, setContextMenu] = useState({ visible: false, mouseX: 5, mouseY: 5, note: null })
+  const [editingNote, setEditingNote] = useState(false);
+  const [mediumData, setMediumData] = useState(null);
+  const [showForm, setShowForm] = useState(null);
+  const [contextMenu, setContextMenu] = useState({ visible: false, mouseX: 5, mouseY: 5, note: null });
 
   //#endregion
 
@@ -23,13 +23,13 @@ export default function Notes() {
 
   //#region GET Medium Name
   useEffect(() => {
-    fetch(`${BASE_API_URL}/api/memorialApp/media/${id}/`) // Endpoint para obtener el medio
-      .then((res) => res.json())
-      .then((data) => {
-        setMediumName(data.title); // Asume que el medio tiene un campo "name"
+    authFetch(`/api/memorialApp/media/${id}/`, 'GET')
+      .then(res => res.json())
+      .then(data => {
+        setMediumData(data)
       })
-      .catch((e) => console.error('Error fetching medium', e));
-  }, [id]);
+      .catch(e => console.error('Error fetching media:', e))
+  }, [id])
   //#endregion GET Medium Name
 
   useEffect(() => {
@@ -41,13 +41,13 @@ export default function Notes() {
 
   //#region GET
   useEffect(() => {
-    fetch(`${BASE_API_URL}/api/memorialApp/notes/?medium=${id}`)
+    authFetch(`/api/memorialApp/notes/?medium=${id}`, 'GET')
       .then(res => res.json())
       .then(data => {
         setNoteData(data)
       })
-      .catch(e => console.error('Error fetching note', e))
-  }, [id]);
+      .catch(e => console.error('Error fetching notes', e))
+  }, [id])
 
   //#endregion GET
 
@@ -57,18 +57,15 @@ export default function Notes() {
     const form = e.target
     const formData = new FormData(form)
     formData.append('medium', id)
-    fetch(`${BASE_API_URL}/api/memorialApp/notes/`, {
-      method: 'POST',
-      body: formData
-    })
+    authFetch('/api/memorialApp/notes/', 'POST', formData
+    )
       .then(res => res.json())
       .then(newNote => {
         setNoteData([...noteData, newNote])
         form.reset()
       })
-      .catch(e => console.error('Error creating media:', e))
+      .catch(e => console.error('Error creating note:', e))
   }
-
   //#endregion CREATE
 
   //#region UPDATE
@@ -78,10 +75,7 @@ export default function Notes() {
     const formData = new FormData(form)
     formData.append('medium', id)
 
-    fetch(`http://127.0.0.1:8000/api/memorialApp/notes/${editingNote.id}/`, {
-      method: 'PUT',
-      body: formData
-    })
+    authFetch(`/api/memorialApp/notes/${editingNote.id}/`, 'PATCH')
       .then(res => res.json())
       .then(updatedNote => {
         setNoteData(noteData.map(n => n.id === updatedNote.id ? updatedNote : n))
@@ -109,7 +103,7 @@ export default function Notes() {
     <>
       <Navbar />
       <div className="notes-header">
-        <h3 className="notes-title">Notas de {mediumName}</h3>
+        <h3 className="notes-title">Notas de {mediumData ? (mediumData.title):('')}</h3>
         <img
           src={CreateButtonImage}
           alt="Añadir nueva nota"
@@ -164,7 +158,7 @@ export default function Notes() {
           </form>
         </div>
       </Modal>
-      
+
       {editingNote && (
         <Modal isOpen={!!editingNote} onClose={() => setEditingNote(null)}>
           <div className="media-form">
