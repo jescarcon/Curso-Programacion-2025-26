@@ -5,6 +5,9 @@ import { authFetch, BASE_API_URL } from './../../../../constants';
 import { useParams, Link } from 'react-router-dom';
 
 export default function MediaDetailView() {
+  const URL_NAV = window.location.href;
+  const isUserComponent = URL_NAV.includes("/users");
+  const { user } = isUserComponent ? useParams() : "";
   const { categoryName, id } = useParams();
   const [mediumData, setMediumData] = useState(null);
   const statusList = [
@@ -49,7 +52,7 @@ export default function MediaDetailView() {
             </div>
             <div className="media-detail-view-notes">
               <Link
-                to={`/categories/categoryDetail/${categoryName}/${id}/notes`}
+                to={!isUserComponent ? `/categories/categoryDetail/${categoryName}/${id}/notes` : `/users/${user}/categories/${categoryName}/${id}/notes`}
                 className="media-detail-view-notes-button">
                 Ver Notas
               </Link>

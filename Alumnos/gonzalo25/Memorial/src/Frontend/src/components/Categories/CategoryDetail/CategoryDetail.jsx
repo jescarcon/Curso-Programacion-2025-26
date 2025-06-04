@@ -14,8 +14,8 @@ export default function CategoryDetail() {
     //#region Variables
     const URL_NAV = window.location.href;
     const isCategoryComponent = URL_NAV.includes("/categories/categoryDetail");
-    const isUserComponent = URL_NAV.includes("users");
-    const { categoryName } = isCategoryComponent ? useParams() : "";
+    const { user } = !isCategoryComponent ? useParams() : "";
+    const { categoryName } = useParams();
     const categories = [
         { name: "Películas", param: "film" },
         { name: "Novelas", param: "novel" },
@@ -81,7 +81,6 @@ export default function CategoryDetail() {
 
     //#region Logica
     useEffect(() => {
-        console.log(editingMedia)
         if (editingMedia && editingMedia.image) {
             setEditImagePreview(editingMedia.image)
         } else {
@@ -124,8 +123,11 @@ export default function CategoryDetail() {
             authFetch(`/api/memorialApp/media/`, 'GET')
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
-                    const filteredMedia = data.filter(m => m.category === categoryName && m.user === userId);
+                    let usuarioBusqueda = userId;
+                    if(user != null){
+                        usuarioBusqueda=user;
+                    }
+                    const filteredMedia = data.filter(m => m.category === categoryName && m.user === parseInt(usuarioBusqueda));
                     SetMediaList(filteredMedia);
                 })
                 .catch(e => console.error('Error fetching media:', e))
@@ -380,7 +382,7 @@ export default function CategoryDetail() {
                         <div className='media-grid'>
                             {mediaList.map(media => (
                                 <div className='media-card' key={media.id} >
-                                    <Link to={`/users/${user}/${categoryName}/${media.id}`}>
+                                    <Link to={`/users/${user}/categories/${categoryName}/${media.id}`}>
                                         <div className="media-image" >
                                             {media.image ? (
                                                 <img src={media.image} alt={media.title} />
