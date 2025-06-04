@@ -49,7 +49,7 @@ export default function UserSearch() {
                     {
                     userList.map(u => (
 
-                        <div className='usersearch-userlist'>
+                        <div key={u.id} className='usersearch-userlist'>
                             <img src={`/images/avatars/${u.avatar}`} alt="Avatar de usuario" />
                             <p>{u.username}</p>
                             <Link to={`/users/${u.id}/profile`}>Ver perfil</Link>

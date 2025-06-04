@@ -1,0 +1,27 @@
+.error-container {
+  background-color: #ffeaea;
+  border: 1px solid #ff4d4f;
+  color: #a8071a;
+  padding: 24px 32px;
+  border-radius: 8px;
+  margin: 32px auto;
+  max-width: 500px;
+  text-align: center;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(255, 77, 79, 0.1);
+}
+
+.error-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.error-message {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.error-action {
+  margin-top: 16px;
+}

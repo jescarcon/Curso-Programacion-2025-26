@@ -1,5 +1,5 @@
 import './App.css'
-import {BrowserRouter, Routes, Route,} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, } from 'react-router-dom'
 import Home from './components/Home/Home'
 import Login from './components/Login/Login'
 import About from './components/About/About'
@@ -25,27 +25,24 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Rutas abiertas */}
-        <Route path="/" element={<Home/>} />
-        <Route path='/about' element={<About/>} />
-        <Route path='/login' element={<Login/>} />
-        <Route path='/create-account' element={<CreateAccount/>}/>
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='*' element={<Error/>}/>
+        <Route path="/" element={<Home />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/create-account' element={<CreateAccount />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='*' element={<Error />} />
 
 
         {/* Rutas privadas */}
-        <Route path='/categories' element={<PrivateRoute><Categories /></PrivateRoute>}/>
+        <Route path='/categories' element={<PrivateRoute><Categories /></PrivateRoute>} />
         <Route path="/categories/categoryDetail/:categoryName" element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
         <Route path="/categories/categoryDetail/:categoryName/:id" element={<PrivateRoute><MediaDetailView /></PrivateRoute>} />
         <Route path="/categories/categoryDetail/:categoryName/:id/notes" element={<PrivateRoute><Notes /></PrivateRoute>} />
         <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
-        
-        <Route path='/users/:userSearch' element={<PrivateRoute><UserSearch /> </PrivateRoute>} />
-        
-        <Route path='/users/:user/:categoryName' element={<PrivateRoute><UsersCategoryDetail /></PrivateRoute>} />
-        <Route path='/users/:user/:categoryName/:id' element={<PrivateRoute><UsersMediaDetailView /></PrivateRoute>} />
-        <Route path='/users/:user/:categoryName/:id/notes' element={<PrivateRoute><UsersMediaNotes /></PrivateRoute>} />
-        <Route path='/users/:user/:categoryName/:id/notes/:noteId' element={<PrivateRoute><UsersNoteDetailView /></PrivateRoute>} />
+
+        <Route path='/users/:userSearch' element={<PrivateRoute><UserSearch /> </PrivateRoute>} />        
+        <Route path='/users/:user/categories' element={<PrivateRoute><Categories /></PrivateRoute>} />
+        <Route path='/users/:user/categories/:categoryName' element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
 
       </Routes>
     </BrowserRouter>

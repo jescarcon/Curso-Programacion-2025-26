@@ -75,28 +75,24 @@ export default function Notes() {
     const formData = new FormData(form)
     formData.append('medium', id)
 
-    authFetch(`/api/memorialApp/notes/${editingNote.id}/`, 'PATCH')
+    authFetch(`/api/memorialApp/notes/${editingNote.id}/`, 'PATCH', formData)
       .then(res => res.json())
       .then(updatedNote => {
         setNoteData(noteData.map(n => n.id === updatedNote.id ? updatedNote : n))
         setEditingNote(null)
       })
-      .catch(err => console.error('Error al editar media:', err))
+      .catch(err => console.error('Error editing media:', err))
   }
   //#endregion UPDATE
 
   //#region DELETE
   const handleDeleteNote = (id) => {
-    fetch(`${BASE_API_URL}/api/memorialApp/notes/${id}/`, {
-      method: 'DELETE'
-    })
+    authFetch(`/api/memorialApp/notes/${id}/`, 'DELETE')
       .then(() => {
         setNoteData(noteData.filter(n => n.id !== id))
-      }).catch(e => console.error("Error al eliminar nota", e))
+      }).catch(e => console.error("Error deleting note", e))
   }
   //#endregion
-
-
 
 
   return (
@@ -116,8 +112,8 @@ export default function Notes() {
           noteData
             .filter(note => String(note.medium) === String(id))
             .map(note => (
-              <Link to={`/categories/categoryDetail/${categoryName}/${id}/notes/${note.id}`}>
-                <div key={note.id} className="note-card" onContextMenu={(e) => {
+              <Link key={note.id} to={`/categories/categoryDetail/${categoryName}/${id}/notes/${note.id}`}>
+                <div className="note-card" onContextMenu={(e) => {
                   e.preventDefault();
                   setContextMenu({ visible: true, mouseX: e.pageX, mouseY: e.pageY, note: note })
                 }}>

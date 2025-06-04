@@ -12,13 +12,10 @@ import { getJWT } from './../../../constants';
 
 export default function CategoryDetail() {
     //#region Variables
-
     const URL_NAV = window.location.href;
     const isCategoryComponent = URL_NAV.includes("/categories/categoryDetail");
     const isUserComponent = URL_NAV.includes("users");
-
     const { categoryName } = isCategoryComponent ? useParams() : "";
-
     const categories = [
         { name: "Películas", param: "film" },
         { name: "Novelas", param: "novel" },
@@ -27,21 +24,15 @@ export default function CategoryDetail() {
         { name: "Anime", param: "anime" },
         { name: "Serie", param: "serie" },
     ];
-
     const currentCategory = isCategoryComponent ? categories.find(c => c.param === categoryName) : "";
     if (!currentCategory && isCategoryComponent) return <Error />
-
     const [showForm, setShowForm] = useState(false)
     const [editingMedia, setEditingMedia] = useState(null);
     const [mediaList, SetMediaList] = useState([]);
-
     const [createImagePreview, setCreateImagePreview] = useState(null);
     const [editImagePreview, setEditImagePreview] = useState(null);
-
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, media: null });
-
     const [userId, setUserId] = useState(null);
-
     const statusOptionsByCategory = {
         film: [
             { label: "Vista", value: "watched" },
@@ -84,7 +75,6 @@ export default function CategoryDetail() {
             { label: "Terminado/a", value: "finished" },
         ],
     };
-
     const statusOptions = statusOptionsByCategory[categoryName] || [];
 
     //#endregion

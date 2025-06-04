@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { BASE_API_URL } from '../../../../../../constants';
+import { authFetch } from '../../../../../../constants';
 import './NoteDetailView.css';
 import Navbar from '../../../../../Navbar/Navbar';
 
 const NoteDetailView = () => {
   const { noteId } = useParams();
   const [note, setNote] = useState(null);
-
-  useEffect(() => {
-    fetch(`${BASE_API_URL}/api/memorialApp/notes/${noteId}/`)
-      .then((res) => res.json())
-      .then((data) => setNote(data))
-      .catch((e) => console.error('Error fetching note details:', e));
+  useEffect(()=>{
+    authFetch(`/api/memorialApp/notes/${noteId}/`, 'GET')
+      .then(res => res.json())
+      .then(data => setNote(data))
+      .catch(e => console.error('Error fetching note data:', e));
   }, [noteId]);
 
   if (!note) {
