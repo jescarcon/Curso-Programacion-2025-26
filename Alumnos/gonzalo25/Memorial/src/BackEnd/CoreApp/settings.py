@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-yoptvb+jn!zht345&yx_&ud4qk=y(q$jkp0#hd(_fy_*gf8uw(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    #'81.36.94.10'
+]
 
 
 # Application definition
@@ -92,6 +95,17 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'memorial',
+    #     'USER': 'root',
+    #     'PASSWORD': 'root',
+    #     'HOST': 'localhost',
+    #     'PORT': '3306',
+    #     'OPTIONS': {
+    #         'charset': 'utf8mb4',
+    #     }
+    # }
 }
 
 
@@ -151,6 +165,9 @@ AUTH_USER_MODEL = 'MemorialApp.User'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173', #FrontEnd URL
     'http://127.0.0.1:5173',
+
+    'http://192.168.1.35:80', #IP LAN
+    'http://81.36.94.10:80', #IP Pública
 ]
 #CORS CONFIGURATION
 

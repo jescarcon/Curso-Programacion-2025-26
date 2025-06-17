@@ -70,3 +70,35 @@
     display: block;
     margin: 0 auto;
 }
+
+/*Footer*/
+.homepage-footer{
+    background-color: rgba(22, 133, 184, 0.81);
+    user-select: none;
+}
+.carousel-indicators {
+  color: transparent;
+  font-size: 0;
+}
+.carousel-indicators li {
+  font-size: 0;
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: #111 !important;
+  border: none;
+  height: 4px;
+  width: 32px;
+  border-radius: 2px;
+  opacity: 0.5;
+  margin: 0 4px;
+  transition: opacity 0.2s;
+}
+.carousel-indicators .active {
+  opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1) grayscale(1) brightness(0.2);
+}

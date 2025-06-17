@@ -40,7 +40,8 @@ function App() {
         <Route path="/categories/categoryDetail/:categoryName/:id/notes" element={<PrivateRoute><Notes /></PrivateRoute>} />
         <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
 
-        <Route path='/users/:userSearch' element={<PrivateRoute><UserSearch /> </PrivateRoute>} />        
+        <Route path='/users/:userSearch' element={<PrivateRoute><UserSearch /> </PrivateRoute>} />
+        <Route path='/users/:userSearch/profile' element={<PrivateRoute><Profile /> </PrivateRoute>} />
         <Route path='/users/:user/categories' element={<PrivateRoute><Categories /></PrivateRoute>} />
         <Route path='/users/:user/categories/:categoryName' element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
         <Route path='/users/:user/categories/:categoryName/:id' element={<PrivateRoute><MediaDetailView /></PrivateRoute>} />

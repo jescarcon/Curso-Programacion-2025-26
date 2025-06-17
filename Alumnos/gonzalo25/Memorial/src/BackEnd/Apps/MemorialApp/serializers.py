@@ -50,4 +50,17 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)  # Cifra la contraseña correctamente
         user.save()
         return user
+    
+    #- Actualiza el usuario y cifra la contraseña si se proporciona -
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+
+        if password:
+            instance.set_password(password)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
 ##

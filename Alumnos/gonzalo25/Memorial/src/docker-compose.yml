@@ -1,0 +1,46 @@
+services:
+  backend:
+    build:
+      context: ./BackEnd   # Ajusta la ruta según dónde tengas tu Dockerfile backend
+      dockerfile: Dockerfile
+    container_name: BackEnd
+    command: ["gunicorn", "CoreApp.wsgi:application", "--bind", "0.0.0.0:8000"]
+    volumes:
+      - ./backend:/app   # para desarrollo, opcional si quieres hot reload
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=memorial
+      - DB_USER=root
+      - DB_PASSWORD=root
+    depends_on:
+      - mysql
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: memorial
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
