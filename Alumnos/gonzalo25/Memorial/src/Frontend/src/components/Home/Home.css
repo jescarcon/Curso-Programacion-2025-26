@@ -76,6 +76,9 @@
     background-color: rgba(22, 133, 184, 0.81);
     user-select: none;
 }
+
+
+
 .carousel-indicators {
   color: transparent;
   font-size: 0;
@@ -102,3 +105,4 @@
 .carousel-control-next-icon {
   filter: invert(1) grayscale(1) brightness(0.2);
 }
+

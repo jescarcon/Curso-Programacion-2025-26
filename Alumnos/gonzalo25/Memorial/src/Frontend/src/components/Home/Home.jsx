@@ -77,50 +77,39 @@ export default function HomePage() {
 
             <div className='homepage-footer'>
                 <footer class='py-5'>
-                    <div class='row'>
-                        <div class='col-6 col-md-2 mb-3 mx-4'>
-                            <h5>Sobre mí</h5>
-                            <ul class='nav flex-column'>
-                                <li class='nav-item mb-2'>
-                                    <a href="https://gzl27.carrd.co/" class='nav-link p-0 text-body-secondary'>Carrd</a>
-                                </li>                                        
-                                <li class='nav-item mb-2'>
-                                    <a href="https://www.linkedin.com/in/gonzalo-garc%C3%ADa-prieto-700a3020a/" class='nav-link p-0 text-body-secondary'>LinkedIn</a>
-                                </li>
-                                <li class='nav-item mb-2'>
-                                    <a href="https://github.com/gonzalogp27" class='nav-link p-0 text-body-secondary'>Github</a>
-                                </li>
-                            </ul>
+                    <div class='d-flex row flex-row-reverse w-90 ms-4 me-5'>
+                        <div id="footer-info" class="col-12 col-md-6 d-flex w-50 ps-5">
+                            <div class='col-6 col-md-4 mb-3'>
+                                <h5>Sobre mí</h5>
+                                <ul class='nav flex-column'>
+                                    <li class='nav-item mb-2'>
+                                        <a href="https://gzl27.carrd.co/" class='nav-link p-0 text-body-secondary'>Carrd</a>
+                                    </li>
+                                    <li class='nav-item mb-2'>
+                                        <a href="https://www.linkedin.com/in/gonzalo-garc%C3%ADa-prieto-700a3020a/" class='nav-link p-0 text-body-secondary'>LinkedIn</a>
+                                    </li>
+                                    <li class='nav-item mb-2'>
+                                        <a href="https://github.com/gonzalogp27" class='nav-link p-0 text-body-secondary'>Github</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class='col-6 col-md-4 mb-3 ps-2'>
+                                <h5>Tecnologías</h5>
+                                <ul class='nav flex-column'>
+                                    <li class='nav-item mb-2'>
+                                        <a href="#" class='nav-link p-0 text-body-secondary'>ReactJS</a>
+                                    </li>
+                                    <li class='nav-item mb-2'>
+                                        <a href="#" class='nav-link p-0 text-body-secondary'>Django</a>
+                                    </li>
+                                    <li class='nav-item mb-2'>
+                                        <a href="#" class='nav-link p-0 text-body-secondary'>Bootstrap</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class='col-6 col-md-2 mb-3'>
-                            <h5>Tecnologías</h5>
-                            <ul class='nav flex-column'>
-                                <li class='nav-item mb-2'>
-                                    <a href="#" class='nav-link p-0 text-body-secondary'>ReactJS</a>
-                                </li>                                        
-                                <li class='nav-item mb-2'>
-                                    <a href="#" class='nav-link p-0 text-body-secondary'>Django</a>
-                                </li>
-                                <li class='nav-item mb-2'>
-                                    <a href="#" class='nav-link p-0 text-body-secondary'>Bootstrap</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class='col-6 col-md-2 mb-3'>
-                            <h5>Sección</h5>
-                            <ul class='nav flex-column'>
-                                <li class='nav-item mb-2'>
-                                    <a href="#" class='nav-link p-0 text-body-secondary'>Enlace</a>
-                                </li>                                        
-                                <li class='nav-item mb-2'>
-                                    <a href="#" class='nav-link p-0 text-body-secondary'>Enlace</a>
-                                </li>
-                                <li class='nav-item mb-2'>
-                                    <a href="#" class='nav-link p-0 text-body-secondary'>Enlace</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class='col-6 col-md-2 mb-3 mx-auto'>
+                        <div id='footer-contact' class='col-6 col-md-6 mb-3 w-50' >
                             <form>
                                 <h5>Contáctanos</h5>
                                 <p>Reporta fallos o sugerencias a Memorial</p>
@@ -131,11 +120,6 @@ export default function HomePage() {
 
                             </form>
                         </div>
-
-                    </div>
-
-                    <div>
-
                     </div>
                 </footer>
             </div>
