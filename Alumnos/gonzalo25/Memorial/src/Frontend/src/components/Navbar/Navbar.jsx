@@ -112,10 +112,11 @@ export default function Navbar() {
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         {isLoggedIn ? (
                             <>
-                                <form class="d-flex input-group w-auto">
+                                <form className="d-flex align-items-center gap-2">
                                     <input
                                         type="search"
-                                        class="form-control rounded"
+                                        className="form-control rounded-pill"
+                                        style={{ width: '200px', minWidth: '120px' }}
                                         placeholder="Busca usuarios"
                                         aria-label="Search"
                                         aria-describedby="search-addon"
@@ -128,6 +129,7 @@ export default function Navbar() {
                                         height="30"
                                         alt=""
                                         className='d-block my-auto'
+                                        style={{ flexShrink: 0 }}
                                     />
                                 </form>
 
@@ -143,13 +145,14 @@ export default function Navbar() {
                                         <img
                                             src={`/images/avatars/${avatar}`}
                                             className="rounded-circle"
-                                            height="30"
+                                            height="50"
+                                            width="50"
                                             alt=""
                                         />
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <li><a className="dropdown-item" href="#">My profile</a></li>
-                                        <li><a className="dropdown-item"  onClick={handleLogout}>Logout</a></li>
+                                        <li><a className="dropdown-item" href="/profile">Ver perfil</a></li>
+                                        <li><a className="dropdown-item" onClick={handleLogout}>Cerrar sesión</a></li>
                                     </ul>
 
 

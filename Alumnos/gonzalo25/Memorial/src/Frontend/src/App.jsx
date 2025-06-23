@@ -91,10 +91,12 @@ function App() {
 
         {/* Rutas privadas */}
         <Route path='/categories' element={<PrivateRoute><Categories /></PrivateRoute>} />
-        <Route path="/categories/categoryDetail/:categoryName" element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
-        <Route path="/categories/categoryDetail/:categoryName/:id" element={<PrivateRoute><MediaDetailView /></PrivateRoute>} />
-        <Route path="/categories/categoryDetail/:categoryName/:id/notes" element={<PrivateRoute><Notes /></PrivateRoute>} />
-        <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
+        <Route path='/categories/categoryDetail/:categoryName' element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
+        <Route path='/categories/categoryDetail/:categoryName/:id' element={<PrivateRoute><MediaDetailView /></PrivateRoute>} />
+        <Route path='/categories/categoryDetail/:categoryName/:id/notes' element={<PrivateRoute><Notes /></PrivateRoute>} />
+        <Route path='/categories/categoryDetail/:categoryName/:id/notes/:noteId' element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
+        <Route path='//profile' element={<PrivateRoute><Profile /> </PrivateRoute>} />
+
 
         <Route path='/users/:userSearch' element={<PrivateRoute><UserSearch /> </PrivateRoute>} />
         <Route path='/users/:userSearch/profile' element={<PrivateRoute><Profile /> </PrivateRoute>} />
