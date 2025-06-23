@@ -75,15 +75,15 @@ export default function CreateAccount() {
                 <div className='createacc-form'>
                     <div className='form-group'>
                         <label htmlFor='username'>Nombre de usuario</label>
-                        <input type='text' id='username' name='username' onChange={(e)=>setUsername(e.target.value)}/>
+                        <input type='text' id='username' name='username' placeholder="Introduce un nombre" onChange={(e)=>setUsername(e.target.value)}/>
                     </div>
                     <div className='form-group'>
                         <label htmlFor='email'>Dirección de correo electrónico</label>
-                        <input type='email' id='email' name='email' onChange={(e)=>setEmail(e.target.value)}/>
+                        <input type='email' id='email' name='email' placeholder="Añade un email" onChange={(e)=>setEmail(e.target.value)}/>
                     </div>
                     <div className='form-group'>
                         <label htmlFor='password'>Contraseña</label>
-                        <input type='password' id='password' name='password' onChange={(e)=>setPassword(e.target.value)}/>
+                        <input type='password' id='password' name='password' placeholder="*****" onChange={(e)=>setPassword(e.target.value)}/>
                     </div>
                     <div className='form-group'>
                         <label>Avatar seleccionado:</label>

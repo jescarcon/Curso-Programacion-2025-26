@@ -63,6 +63,7 @@ export default function Login() {
                                 type='text'
                                 id='username'
                                 name='username'
+                                placeholder="Introduce tu usuario"
                                 onChange={(e) => {
                                     setUsername(e.target.value);
                                 }}
@@ -74,6 +75,7 @@ export default function Login() {
                                 type='password'
                                 id='password'
                                 name='password'
+                                placeholder="******"
                                 onChange={(e) => {
                                     setPassword(e.target.value);
                                 }}
@@ -82,6 +84,9 @@ export default function Login() {
                         <button type='submit' className='btn-1 text-1'>
                             Acceder
                         </button>
+                        <div className="loginpage-form-create-link text-1">
+                            <a href='/create-account'>¿Aún no tienes una cuenta? Regístrate</a>
+                        </div>
                     </form>
                 </div>
             </div>

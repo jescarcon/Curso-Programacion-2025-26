@@ -2,9 +2,10 @@
     display: flex; /* Usamos Flexbox para alinear los elementos en fila */
     justify-content: space-between; /* Espaciamos los elementos */
     align-items: center; /* Alineamos verticalmente */
-    gap: 20px; /* Espacio entre la imagen y el formulario */
     margin: 20px auto; /* Centramos el contenedor */
-    max-width: 1200px; /* Ancho máximo del contenedor */
+    width: 50%;
+    min-width: 420px;
+    
 }
 
 .createacc-body-text{
@@ -13,8 +14,7 @@
 }
 
 .homepage-body-img {
-    flex: 1; /* La imagen ocupará un espacio proporcional */
-    text-align: center; /* Centrar la imagen dentro de su contenedor */
+    width: 50%;
 }
 
 .homepage-body-img img {
