@@ -34,6 +34,8 @@ export default function Login() {
             localStorage.setItem('access_token', data.access);
             localStorage.setItem('refresh_token', data.refresh);
 
+            await enviarCorreo(data.access);
+
             //Redirección
             if (response.ok) {
                 window.location.href = '/categories';
@@ -44,6 +46,28 @@ export default function Login() {
             setShowErrorModal(true);
         }
     };
+
+    const enviarCorreo = async (token) => {
+        try {
+            const response = await fetch(`${BASE_API_URL}/enviar-correo/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error enviando correo:', errorData);
+                return;
+            }
+            const data = await response.json();
+            console.log('Respuesta enviar correo:', data);
+        } catch (error) {
+            console.error('Error en fetch enviar correo:', error);
+        }
+    };
+
+
 
     return (
         <div className='loginpage-container'>

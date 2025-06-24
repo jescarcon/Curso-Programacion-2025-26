@@ -124,8 +124,8 @@ export default function CategoryDetail() {
                 .then(res => res.json())
                 .then(data => {
                     let usuarioBusqueda = userId;
-                    if(user != null){
-                        usuarioBusqueda=user;
+                    if (user != null) {
+                        usuarioBusqueda = user;
                     }
                     const filteredMedia = data.filter(m => m.category === categoryName && m.user === parseInt(usuarioBusqueda));
                     SetMediaList(filteredMedia);
@@ -222,7 +222,12 @@ export default function CategoryDetail() {
                 <div className='media-detail-container'>
                     <div className='category-detail-body-title'>
                         <h3>{currentCategory.name}</h3>
-                        <img src={createButtonImage} alt="Añadir nuevo elemento" className='create-button' onClick={() => setShowForm(!showForm)} />
+                        <img src={createButtonImage}
+                            alt="Añadir nuevo elemento"
+                            className='create-button'
+                            data-bs-toggle='modal'
+                            data-bs-target='#exampleModal'
+                        />
 
                     </div>
                     {mediaList.length > 0 ? (
@@ -250,12 +255,11 @@ export default function CategoryDetail() {
                         </>)}
 
                     {/* Formulario creación*/}
-                    <Modal isOpen={showForm} onClose={() => {
+                    {/* <Modal isOpen={showForm} onClose={() => {
                         setShowForm(false); setCreateImagePreview(null)
 
                     }}>
                         <>
-                            <h3>Crear nuevo elemento en {currentCategory.name}</h3>
                             <form onSubmit={handleSubmit} className="media-form">
                                 <input type="text" name="title" placeholder="Título" required />
                                 <textarea name="description" placeholder="Descripción"></textarea>
@@ -289,10 +293,61 @@ export default function CategoryDetail() {
                                 }}>Cancelar</button>
                             </form>
                         </>
-                    </Modal>
+                    </Modal> */}
+
+                    <div id="exampleModal" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Crear nuevo elemento en {currentCategory.name}</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form onSubmit={handleSubmit} className="media-form">
+                                        <input type="text" name="title" placeholder="Título" required />
+                                        <textarea name="description" placeholder="Descripción"></textarea>
+                                        <input type="number" name="rating" min="0" max="10" placeholder="Puntuación (0-10)" required />
+                                        <select name="status" defaultValue="pending">
+                                            {statusOptions.map(option => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <input type="date" name='begin_date' placeholder='Fecha de inicio' />
+                                        <input type="date" name='finish_date' placeholder='Fecha de fin' />
+                                        <input type="file" name="image" onChange={e => {
+                                            const file = e.target.files[0]
+                                            if (file) {
+                                                setCreateImagePreview(URL.createObjectURL(file))
+                                            } else {
+                                                setCreateImagePreview(null)
+                                            }
+                                        }} />
+                                        {createImagePreview && (
+                                            <div className='createimage-preview'>
+                                                <img src={createImagePreview} alt="Vista previa imagen" />
+                                            </div>
+                                        )}
+                                        <button type="submit">Crear</button>
+                                        <button type='submit' onClick={() => {
+                                            setShowForm(false)
+                                            setCreateImagePreview(null)
+                                        }}>Cancelar</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     {/* Formulario edición*/}
-                    <Modal isOpen={!!editingMedia} onClose={() => { setEditingMedia(null); setEditImagePreview(null); }}>
+                    {/* <Modal isOpen={!!editingMedia} onClose={() => { setEditingMedia(null); setEditImagePreview(null); }}>
                         {editingMedia && (
                             <>
                                 <h3>Editando: {editingMedia.title}</h3>
@@ -317,7 +372,7 @@ export default function CategoryDetail() {
                                             if (file) {
                                                 const newPreview = URL.createObjectURL(file);
                                                 setEditImagePreview(newPreview);
-                                            } 
+                                            }
                                         }}
                                     />
 
@@ -336,7 +391,7 @@ export default function CategoryDetail() {
                                 </form>
                             </>
                         )}
-                    </Modal>
+                    </Modal> */}
 
                     {contextMenu.visible && (
                         <div className='context-menu'

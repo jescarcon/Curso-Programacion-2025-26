@@ -14,25 +14,28 @@
 
     display: flex;
     flex-direction: row;
-        
+
     align-items: center;
-    justify-content: space-between;    
+    justify-content: space-between;
 }
 
 /*------Logo------*/
-.homepage-logo{
+.homepage-logo {
     margin-left: 4%;
     cursor: pointer;
 }
+
 .homepage-logo img {
     width: 170px;
 }
+
 /*------Menu------*/
-.homepage-menu{
+.homepage-menu {
     margin-right: 4%;
     display: flex;
     gap: 15px;
 }
+
 /*------Menu------*/
 
 
@@ -45,34 +48,38 @@
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-.homepage-body{
+.homepage-body {
     width: 80%;
     margin: 0 auto;
     margin-top: 3%;
     animation: fadeIn 2s ease-in-out;
 }
-.homepage-body-text{
+
+.homepage-body-text {
     text-align: center;
 }
-.homepage-body-img{
+
+.homepage-body-img {
+    margin: 0 auto;
     margin-top: 2%;
 }
-.homepage-body-img img{
+
+.homepage-body-img img {
     border-radius: 20px;
     width: 600px;
-    
     display: block;
     margin: 0 auto;
 }
 
 /*Footer*/
-.homepage-footer{
+.homepage-footer {
     background-color: rgba(22, 133, 184, 0.81);
     user-select: none;
 }
@@ -80,29 +87,30 @@
 
 
 .carousel-indicators {
-  color: transparent;
-  font-size: 0;
+    color: transparent;
+    font-size: 0;
 }
+
 .carousel-indicators li {
-  font-size: 0;
+    font-size: 0;
 }
 
 .carousel-indicators [data-bs-target] {
-  background-color: #111 !important;
-  border: none;
-  height: 4px;
-  width: 32px;
-  border-radius: 2px;
-  opacity: 0.5;
-  margin: 0 4px;
-  transition: opacity 0.2s;
+    background-color: #111 !important;
+    border: none;
+    height: 4px;
+    width: 32px;
+    border-radius: 2px;
+    opacity: 0.5;
+    margin: 0 4px;
+    transition: opacity 0.2s;
 }
+
 .carousel-indicators .active {
-  opacity: 1;
+    opacity: 1;
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  filter: invert(1) grayscale(1) brightness(0.2);
+    filter: invert(1) grayscale(1) brightness(0.2);
 }
-

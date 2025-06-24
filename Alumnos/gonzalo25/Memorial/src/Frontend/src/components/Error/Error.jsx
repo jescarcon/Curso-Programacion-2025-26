@@ -1,4 +1,3 @@
-import './Error.css'
 import logo from '/images/logo.svg'
 import Navbar from '../Navbar/Navbar.jsx'
 

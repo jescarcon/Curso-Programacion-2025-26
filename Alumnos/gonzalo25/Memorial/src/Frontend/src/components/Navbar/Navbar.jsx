@@ -151,8 +151,8 @@ export default function Navbar() {
                                         />
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <li><a className="dropdown-item" href="/profile">Ver perfil</a></li>
-                                        <li><a className="dropdown-item" onClick={handleLogout}>Cerrar sesión</a></li>
+                                        <li><a className="dropdown-item profile-item" href="/profile">Ver perfil</a></li>
+                                        <li><a className="dropdown-item logout-item" onClick={handleLogout}>Cerrar sesión</a></li>
                                     </ul>
 
 
