@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useFetcher } from 'react-router-dom';
+import { Link, useFetcher, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
 import './CategoryDetail.css'
 import Navbar from '../../Navbar/Navbar';
@@ -12,6 +12,7 @@ import { getJWT } from './../../../constants';
 
 export default function CategoryDetail() {
     //#region Variables
+    const navigate = useNavigate();
     const URL_NAV = window.location.href;
     const isCategoryComponent = URL_NAV.includes("/categories/categoryDetail");
     const { user } = !isCategoryComponent ? useParams() : "";
@@ -21,10 +22,10 @@ export default function CategoryDetail() {
         { name: "Novelas", param: "novel" },
         { name: "Mangas", param: "manga" },
         { name: "Juegos", param: "game" },
-        { name: "Anime", param: "anime" },
-        { name: "Serie", param: "serie" },
+        { name: "Animes", param: "anime" },
+        { name: "Series", param: "serie" },
     ];
-    const currentCategory = isCategoryComponent ? categories.find(c => c.param === categoryName) : "";
+    const currentCategory = categories.find(c => c.param === categoryName);
     if (!currentCategory && isCategoryComponent) return <Error />
     const [showForm, setShowForm] = useState(false)
     const [editingMedia, setEditingMedia] = useState(null);
@@ -76,7 +77,8 @@ export default function CategoryDetail() {
         ],
     };
     const statusOptions = statusOptionsByCategory[categoryName] || [];
-
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchedUser, setSearchedUser] = useState('');
     //#endregion
 
     //#region Logica
@@ -102,6 +104,40 @@ export default function CategoryDetail() {
         document.addEventListener('click', closeMenu)
         return () => document.removeEventListener
     }, [contextMenu])
+
+    const filteredMedia = mediaList.filter(media =>
+        media.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    //Get Searched User
+    if (!isCategoryComponent) {
+        useEffect(() => {
+            const token = localStorage.getItem('access_token')
+            if (!token) {
+                console.error('Es necesario tener un token de acceso');
+                window.location.href = '/login';
+                return;
+            }
+
+            const tokenJSON = getJWT(token);
+            const userId = tokenJSON.user_id;
+            if (userId) {
+                setUserId(userId);
+
+                authFetch(`/api/memorialApp/users/`, 'GET')
+                    .then(res => res.json())
+                    .then(data => {
+                        const username = data.find(u => u.id === parseInt(user)).username;
+                        setSearchedUser(username);
+                    })
+                    .catch(e => console.error('Error fetching media:', e))
+            } else {
+                console.error('No se pudo extraer un id de usuario del token');
+                window.location.href = '/login';
+            }
+        }, [])
+
+    }
     //#endregion
 
     //#region CRUD
@@ -177,6 +213,7 @@ export default function CategoryDetail() {
                 setShowForm(false)
             })
             .catch(e => console.error('Error creating media:', e))
+        setCreateImagePreview(null);
     }
 
     //EDIT
@@ -222,45 +259,49 @@ export default function CategoryDetail() {
                 <div className='media-detail-container'>
                     <div className='category-detail-body-title'>
                         <h3>{currentCategory.name}</h3>
-                        <img src={createButtonImage}
-                            alt="Añadir nuevo elemento"
-                            className='create-button'
-                            data-bs-toggle='modal'
-                            data-bs-target='#exampleModal'
-                        />
-
+                        <img src={createButtonImage} alt="Añadir nuevo elemento" className='create-button' onClick={() => setShowForm(!showForm)} />
                     </div>
-                    {mediaList.length > 0 ? (
+                    <input
+                        type="text"
+                        placeholder="Buscar..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="media-search-input"
+                    />
+
+                    {filteredMedia.length > 0 ? (
                         <div className='media-grid'>
-                            {mediaList.map(media => (
-                                <div className='media-card' key={media.id} onContextMenu={(e) => handleContextMenu(e, media)}>
-                                    <Link to={`/categories/categoryDetail/${categoryName}/${media.id}`}>
-                                        <div className="media-image" >
-                                            {media.image ? (
-                                                <img src={media.image} alt={media.title} />
-                                            ) : (
-                                                <div className="media-placeholder">Sin imagen</div>
-                                            )}
-                                        </div>
-                                        <div className='media-info'>
-                                            <h3>{media.title}</h3>
-                                        </div>
-                                    </Link>
+                            {filteredMedia.map(media => (
+                                <div className='category-card' key={media.id} onContextMenu={(e) => handleContextMenu(e, media)}>
+                                    <div className="category-image" onClick={() => navigate(`/categories/categoryDetail/${categoryName}/${media.id}`)}>
+                                        {media.image ? (
+                                            <img src={media.image} alt={media.title} className="category-image" />
+                                        ) : (
+                                            <div className="media-placeholder">Sin imagen</div>
+                                        )}
+                                    </div>
+                                    <div className='media-info'>
+                                        <h3>{media.title}</h3>
+                                        <p>{media.rating}/10</p>
+
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
                         <>
-                            <p>No se ha encotrado ninguna {currentCategory.name}</p>
+                            <p style={{"user-select": "none"}}>No se han encontrado {currentCategory.name}</p>
                         </>)}
 
                     {/* Formulario creación*/}
-                    {/* <Modal isOpen={showForm} onClose={() => {
+                    <Modal isOpen={showForm} onClose={() => {
                         setShowForm(false); setCreateImagePreview(null)
 
                     }}>
                         <>
-                            <form onSubmit={handleSubmit} className="media-form">
+                            <form onSubmit={handleSubmit} className="media-form-1">
+                                <h3>Crea tus {currentCategory.name} </h3>
+
                                 <input type="text" name="title" placeholder="Título" required />
                                 <textarea name="description" placeholder="Descripción"></textarea>
                                 <input type="number" name="rating" min="0" max="10" placeholder="Puntuación (0-10)" required />
@@ -280,78 +321,32 @@ export default function CategoryDetail() {
                                     } else {
                                         setCreateImagePreview(null)
                                     }
-                                }} />
+                                }} required />
                                 {createImagePreview && (
                                     <div className='createimage-preview'>
                                         <img src={createImagePreview} alt="Vista previa imagen" />
                                     </div>
                                 )}
-                                <button type="submit">Crear</button>
-                                <button type='submit' onClick={() => {
-                                    setShowForm(false)
-                                    setCreateImagePreview(null)
-                                }}>Cancelar</button>
+                                <div className="button-group">
+                                    <button type="submit">Crear</button>
+                                    <button type="button" onClick={() => {
+                                        setShowForm(false);
+                                        setCreateImagePreview(null);
+                                    }}>Cancelar</button>
+                                </div>
                             </form>
                         </>
-                    </Modal> */}
+                    </Modal>
 
-                    <div id="exampleModal" class="modal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3>Crear nuevo elemento en {currentCategory.name}</h3>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form onSubmit={handleSubmit} className="media-form">
-                                        <input type="text" name="title" placeholder="Título" required />
-                                        <textarea name="description" placeholder="Descripción"></textarea>
-                                        <input type="number" name="rating" min="0" max="10" placeholder="Puntuación (0-10)" required />
-                                        <select name="status" defaultValue="pending">
-                                            {statusOptions.map(option => (
-                                                <option key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        <input type="date" name='begin_date' placeholder='Fecha de inicio' />
-                                        <input type="date" name='finish_date' placeholder='Fecha de fin' />
-                                        <input type="file" name="image" onChange={e => {
-                                            const file = e.target.files[0]
-                                            if (file) {
-                                                setCreateImagePreview(URL.createObjectURL(file))
-                                            } else {
-                                                setCreateImagePreview(null)
-                                            }
-                                        }} />
-                                        {createImagePreview && (
-                                            <div className='createimage-preview'>
-                                                <img src={createImagePreview} alt="Vista previa imagen" />
-                                            </div>
-                                        )}
-                                        <button type="submit">Crear</button>
-                                        <button type='submit' onClick={() => {
-                                            setShowForm(false)
-                                            setCreateImagePreview(null)
-                                        }}>Cancelar</button>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
 
                     {/* Formulario edición*/}
-                    {/* <Modal isOpen={!!editingMedia} onClose={() => { setEditingMedia(null); setEditImagePreview(null); }}>
+                    <Modal isOpen={!!editingMedia} onClose={() => { setEditingMedia(null); setEditImagePreview(null); }}>
                         {editingMedia && (
                             <>
-                                <h3>Editando: {editingMedia.title}</h3>
-                                <form onSubmit={handleEditSubmit} className="media-form">
+                                <form onSubmit={handleEditSubmit} className="media-form-1">
+                                    <h3>Editando: {editingMedia.title}</h3>
+
                                     <input type="text" name="title" defaultValue={editingMedia.title} required />
                                     <textarea name="description" defaultValue={editingMedia.description}></textarea>
                                     <input type="number" name="rating" min="0" max="10" defaultValue={editingMedia.rating} required />
@@ -391,7 +386,7 @@ export default function CategoryDetail() {
                                 </form>
                             </>
                         )}
-                    </Modal> */}
+                    </Modal>
 
                     {contextMenu.visible && (
                         <div className='context-menu'
@@ -430,31 +425,37 @@ export default function CategoryDetail() {
             ) : (
                 <div className='media-detail-container'>
                     <div className='category-detail-body-title'>
-                        <h3>{currentCategory.name}</h3>
-
+                        {searchedUser && (<h3>{currentCategory.name} de {searchedUser}</h3>)}
                     </div>
-                    {mediaList.length > 0 ? (
+
+                    <input
+                        type="text"
+                        placeholder="Buscar..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="media-search-input"
+                    />
+                    {filteredMedia.length > 0 ? (
                         <div className='media-grid'>
-                            {mediaList.map(media => (
-                                <div className='media-card' key={media.id} >
-                                    <Link to={`/users/${user}/categories/${categoryName}/${media.id}`}>
-                                        <div className="media-image" >
-                                            {media.image ? (
-                                                <img src={media.image} alt={media.title} />
-                                            ) : (
-                                                <div className="media-placeholder">Sin imagen</div>
-                                            )}
-                                        </div>
-                                        <div className='media-info'>
-                                            <h3>{media.title}</h3>
-                                        </div>
-                                    </Link>
+                            {filteredMedia.map(media => (
+                                <div className='category-card' key={media.id} >
+                                    <div onClick={() => navigate(`/users/${user}/categories/${categoryName}/${media.id}`)}>
+                                        {media.image ? (
+                                            <img src={media.image} alt={media.title} className="category-image"/>
+                                        ) : (
+                                            <div className="media-placeholder">Sin imagen</div>
+                                        )}
+                                    </div>
+                                    <div className='media-info'>
+                                        <h3>{media.title}</h3>
+                                        <p>{media.rating}/10</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
                         <>
-                            <p>No se ha encotrado ninguna {currentCategory.name}</p>
+                            <p style={{"user-select": "none"}}>No se han encontrado {currentCategory.name}</p>
                         </>)}
 
                 </div>

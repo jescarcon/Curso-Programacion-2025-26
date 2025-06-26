@@ -4,12 +4,12 @@ import './Home.css'
 import Navbar from '../Navbar/Navbar'
 import About from '../About/About';
 
-import categorias from '/public/images/home/carousel/categorias.png'
-import busqueda from '/public/images/home/carousel/busqueda.png'
-import medio from '/public/images/home/carousel/medio.png'
-import medios from '/public/images/home/carousel/medios.png'
-import notas from '/public/images/home/carousel/notas.png'
-import perfil from '/public/images/home/carousel/perfil.png'
+import categorias from '/images/home/carousel/categorias.png'
+import busqueda from '/images/home/carousel/busqueda.png'
+import medio from '/images/home/carousel/medio.png'
+import medios from '/images/home/carousel/medios.png'
+import notas from '/images/home/carousel/notas.png'
+import perfil from '/images/home/carousel/perfil.png'
 
 
 export default function HomePage() {

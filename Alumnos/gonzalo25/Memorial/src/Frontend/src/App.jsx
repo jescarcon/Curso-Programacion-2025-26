@@ -69,7 +69,6 @@ function App() {
           <RedirectIfLogin isLoggedIn={isLoggedIn}>
             <Home />
           </RedirectIfLogin>} />
-        {/* <Route path='/about' element={<About />} /> */}
 
         <Route
           path='/login'
