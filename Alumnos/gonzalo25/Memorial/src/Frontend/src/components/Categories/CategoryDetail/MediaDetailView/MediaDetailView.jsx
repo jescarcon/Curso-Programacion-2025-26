@@ -34,7 +34,6 @@ export default function MediaDetailView() {
   const [status, setStatus] = useState(null);
   const translatedStatus = statusList.find(e => e.param === status)
 
-  console.log(translatedStatus)
 
   return (
     <>
@@ -43,26 +42,26 @@ export default function MediaDetailView() {
         <div className="media-detail-view-container">
           {/* Subcontenedor 1 */}
           <div className="media-detail-view-subcontainer-1">
-            <div className="media-detail-view-image">
-              <img
-                src={mediumData.image}
-                alt={mediumData.title}
-                className="media-detail-view-image"
-              />
+            <div>
+              <div className="media-detail-view-image">
+                <img
+                  src={mediumData.image}
+                  alt={mediumData.title}
+                />
+              </div>
+              <div id="hola" className="media-detail-view-notes">
+                <Link
+                  to={!isUserComponent ? `/categories/categoryDetail/${categoryName}/${id}/notes` : `/users/${user}/categories/${categoryName}/${id}/notes`}
+                  className="media-detail-view-notes-button">
+                  Ver Notas
+                </Link>
+              </div>
             </div>
-            <div className="media-detail-view-notes">
-              <Link
-                to={!isUserComponent ? `/categories/categoryDetail/${categoryName}/${id}/notes` : `/users/${user}/categories/${categoryName}/${id}/notes`}
-                className="media-detail-view-notes-button">
-                Ver Notas
-              </Link>
-            </div>
-
           </div>
 
           {/* Subcontenedor 2 */}
           <div className="media-detail-view-subcontainer-2">
-            <h2 className="text-1">{mediumData.title}</h2>
+            <h2 id="media-detail-view-title" className="text-1">{mediumData.title}</h2>
             <p className="media-detail-view-description">
               {mediumData.description}
             </p>
@@ -77,10 +76,13 @@ export default function MediaDetailView() {
             </p>
             <div className="media-detail-view-dates">
               <p className="media-detail-view-beginDate">
-                Inicio: {mediumData.begin_date}
+                Inicio: {mediumData.begin_date ?
+                  new Date(mediumData.begin_date).toLocaleDateString('es-ES') : 'No especificado'}
               </p>
               <p className="media-detail-view-finishDate">
-                Fin: {mediumData.finish_date}
+                Fin: {mediumData.finish_date ?
+                  new Date(mediumData.finish_date).toLocaleDateString('es-ES')
+                  : 'No especificado'}
               </p>
             </div>
           </div>

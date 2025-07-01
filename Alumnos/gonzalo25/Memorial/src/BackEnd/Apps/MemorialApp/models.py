@@ -13,6 +13,7 @@ def validate_image(value):
 
 class User(AbstractUser):
     avatar = models.CharField(max_length=500)
+    two_factor_enabled = models.BooleanField(default=False)
 
 class Medium(models.Model):
     class STATUS_CHOICES(models.TextChoices):
@@ -33,7 +34,7 @@ class Medium(models.Model):
         ANIME = 'anime', 'Anime'
         MANGA = 'manga', 'Manga'
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     add_date = models.DateField(auto_now_add=True)
     image = models.ImageField(upload_to='images/media', blank=True, null=True, validators=[validate_image])
@@ -57,7 +58,6 @@ class Medium(models.Model):
     class Meta:
         verbose_name = 'Medium'
         verbose_name_plural = 'Media'
-
 
 
 class Note(models.Model):

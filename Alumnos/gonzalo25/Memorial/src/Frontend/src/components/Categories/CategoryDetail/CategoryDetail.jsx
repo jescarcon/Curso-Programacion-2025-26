@@ -13,6 +13,8 @@ import { getJWT } from './../../../constants';
 export default function CategoryDetail() {
     //#region Variables
     const navigate = useNavigate();
+    const [generateAI, setGenerateAI] = useState(false);
+
     const URL_NAV = window.location.href;
     const isCategoryComponent = URL_NAV.includes("/categories/categoryDetail");
     const { user } = !isCategoryComponent ? useParams() : "";
@@ -203,6 +205,11 @@ export default function CategoryDetail() {
         formData.append('category', categoryName)
         formData.append('user', userId)
 
+        // Si generateAI está activo, elimina la imagen del formData
+        if (generateAI) {
+            formData.delete('image'); // Borra campo 'image' para que no se suba fichero
+            formData.append('generate_ai_image', 'true'); // Añade flag para backend
+        }
 
         authFetch('/api/memorialApp/media/', 'POST', formData
         )
@@ -290,7 +297,7 @@ export default function CategoryDetail() {
                         </div>
                     ) : (
                         <>
-                            <p style={{"user-select": "none"}}>No se han encontrado {currentCategory.name}</p>
+                            <p style={{ "user-select": "none" }}>No se han encontrado {currentCategory.name}</p>
                         </>)}
 
                     {/* Formulario creación*/}
@@ -302,7 +309,7 @@ export default function CategoryDetail() {
                             <form onSubmit={handleSubmit} className="media-form-1">
                                 <h3>Crea tus {currentCategory.name} </h3>
 
-                                <input type="text" name="title" placeholder="Título" required />
+                                <input type="text" name="title" placeholder="Título" maxLength={100} required />
                                 <textarea name="description" placeholder="Descripción"></textarea>
                                 <input type="number" name="rating" min="0" max="10" placeholder="Puntuación (0-10)" required />
                                 <select name="status" defaultValue="pending">
@@ -321,12 +328,24 @@ export default function CategoryDetail() {
                                     } else {
                                         setCreateImagePreview(null)
                                     }
-                                }} required />
+                                }} />
                                 {createImagePreview && (
                                     <div className='createimage-preview'>
                                         <img src={createImagePreview} alt="Vista previa imagen" />
                                     </div>
                                 )}
+                                <label className="ai-checkbox-label">
+                                    <input
+                                        type="checkbox"
+                                        name="generate_ai_image"
+                                        checked={generateAI}
+                                        onChange={(e) => setGenerateAI(e.target.checked)}
+                                    />
+                                    Generar imagen con IA
+                                </label>
+
+
+
                                 <div className="button-group">
                                     <button type="submit">Crear</button>
                                     <button type="button" onClick={() => {
@@ -347,7 +366,7 @@ export default function CategoryDetail() {
                                 <form onSubmit={handleEditSubmit} className="media-form-1">
                                     <h3>Editando: {editingMedia.title}</h3>
 
-                                    <input type="text" name="title" defaultValue={editingMedia.title} required />
+                                    <input type="text" name="title" defaultValue={editingMedia.title} maxLength={100} required />
                                     <textarea name="description" defaultValue={editingMedia.description}></textarea>
                                     <input type="number" name="rating" min="0" max="10" defaultValue={editingMedia.rating} required />
                                     <select name="status" defaultValue={editingMedia.status}>
@@ -441,7 +460,7 @@ export default function CategoryDetail() {
                                 <div className='category-card' key={media.id} >
                                     <div onClick={() => navigate(`/users/${user}/categories/${categoryName}/${media.id}`)}>
                                         {media.image ? (
-                                            <img src={media.image} alt={media.title} className="category-image"/>
+                                            <img src={media.image} alt={media.title} className="category-image" />
                                         ) : (
                                             <div className="media-placeholder">Sin imagen</div>
                                         )}
@@ -455,7 +474,7 @@ export default function CategoryDetail() {
                         </div>
                     ) : (
                         <>
-                            <p style={{"user-select": "none"}}>No se han encontrado {currentCategory.name}</p>
+                            <p style={{ "user-select": "none" }}>No se han encontrado {currentCategory.name}</p>
                         </>)}
 
                 </div>

@@ -14,6 +14,8 @@ class NoteSerializer(serializers.ModelSerializer):
                 ]
         
 class MediumSerializer(serializers.ModelSerializer):
+    generate_ai_image = serializers.BooleanField(write_only=True, required=False, default=False)
+
     class Meta:
         model = Medium
         fields = ['id',
@@ -26,10 +28,14 @@ class MediumSerializer(serializers.ModelSerializer):
                   'category',
                   'user',
                   'begin_date',
-                  'finish_date'
+                  'finish_date',
+                  'generate_ai_image'
                 ]
 
-
+    def create(self, validated_data):
+        validated_data.pop('generate_ai_image', None)
+        return super().create(validated_data)
+    
 #- USUARIO CUSTOM MEMORIAL -
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
@@ -37,21 +43,25 @@ from rest_framework import serializers
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'avatar']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ['id', 'username', 'email', 'password', 'avatar', 'two_factor_enabled']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
     def create(self, validated_data):
-        password = validated_data.pop('password')
+        password = validated_data.pop('password', None)
         user = User(**validated_data)
-        user.set_password(password)  # Cifra la contraseña correctamente
+        if password:
+            user.set_password(password)  # Cifra la contraseña
+        else:
+            raise serializers.ValidationError({"password": "La contraseña es obligatoria al crear un usuario."})
         user.save()
         return user
-    
-    #- Actualiza el usuario y cifra la contraseña si se proporciona -
+
     def update(self, instance, validated_data):
         password = validated_data.pop('password', None)
 
@@ -63,4 +73,5 @@ class UserSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
 ##
