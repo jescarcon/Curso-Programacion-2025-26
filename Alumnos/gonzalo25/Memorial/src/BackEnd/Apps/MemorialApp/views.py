@@ -33,7 +33,7 @@ import replicate
 import requests
 from django.core.files.base import ContentFile
 
-REPLICATE_API_TOKEN = "r8_2Ben9WWm4JgatblRef84E8xDlBUxgnl1ELq3B"
+REPLICATE_API_TOKEN = ""
 replicate_client = replicate.Client(api_token=REPLICATE_API_TOKEN)
 
 def generar_imagen_con_replicate(titulo):
