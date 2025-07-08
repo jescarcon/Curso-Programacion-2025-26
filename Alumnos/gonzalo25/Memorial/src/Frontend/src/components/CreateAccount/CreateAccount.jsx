@@ -15,20 +15,21 @@ export default function CreateAccount() {
     const [password, setPassword] = useState(null)
     const [avatar, setAvatar] = useState(null)
 
-    const submitUser = () => {
+    const submitUser = async (e) => {
+        e.preventDefault();
         const formData = new FormData()
         formData.append('username', username);
         formData.append('email', email);
         formData.append('password', password);
         formData.append('avatar', avatar);
-        const metodoPost = 
+        const metodoPost = await
             fetch(`${BASE_API_URL}/api/memorialApp/users/`, {
             method: 'POST',
             body: formData
         })
             .catch(e => console.error('Error creating user:', e))
         if(metodoPost.ok){
-            location.href('/login');
+            window.location.href='/login';
         }
     }
 

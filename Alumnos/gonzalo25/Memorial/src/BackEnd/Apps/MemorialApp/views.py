@@ -1,8 +1,20 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from django.utils import timezone
+from datetime import timedelta
+import random
+from django.core.mail import send_mail
+import replicate
+import requests
+from django.core.files.base import ContentFile
+
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
 from .models import Medium, Note, User
 from .serializers import MediumSerializer, NoteSerializer, UserSerializer
-# Create your views here.
+
 
 class MediumViewSet(viewsets.ModelViewSet):
     queryset = Medium.objects.all()
@@ -17,18 +29,54 @@ class MediumViewSet(viewsets.ModelViewSet):
             if img_file:
                 instance.image.save(f"{instance.title}.png", img_file, save=True)
 
-
-
 class NoteViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    # Función interna para generar y enviar código 2FA
+    def generate_and_send_2fa(self, user):
+        code = f"{random.randint(100000, 999999)}"
+        user.two_fa_code = code
+        user.two_fa_expiration = timezone.now() + timedelta(minutes=5)
+        user.save()
 
-#generar imagen con ia
+        send_mail(
+            'Código de verificación 2FA',
+            f'Tu código de verificación es: {code}',
+            'no-reply@tuapp.com',
+            [user.email],
+        )
+
+    # Acción para enviar código 2FA
+    @action(detail=False, methods=['post'])
+    def send_2fa_code(self, request):
+        user = request.user
+        self.generate_and_send_2fa(user)
+        return Response({'detail': 'Código enviado'}, status=status.HTTP_200_OK)
+
+    # Acción para verificar código 2FA
+    @action(detail=False, methods=['post'])
+    def verify_2fa_code(self, request):
+        code = request.data.get('code')
+        user = request.user
+
+        if (user.two_fa_code == code and
+            user.two_fa_expiration and
+            timezone.now() < user.two_fa_expiration):
+            user.two_fa_code = ''
+            user.two_fa_expiration = None
+            user.save()
+            return Response({'detail': 'Código válido'}, status=status.HTTP_200_OK)
+
+        return Response({'detail': 'Código inválido o expirado'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+#region generar imagen con ia
 import replicate
 import requests
 from django.core.files.base import ContentFile
@@ -56,31 +104,5 @@ def generar_imagen_con_replicate(titulo):
     
     return None
 
+#endregion
 
-
-#2FA
-from django.core.mail import send_mail
-from django.http import HttpResponse, HttpResponseServerError
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-
-def enviar_correo(request):
-    # email_destino = request.user.email
-    # if not email_destino:
-    #     return HttpResponse("El usuario no tiene un correo electrónico registrado.")
-    
-    # try:
-    #     send_mail(
-    #         subject='Asunto del correo',
-    #         message='Hola, este es un mensaje enviado desde Django.',
-    #         from_email='gonzalogarciaprieto.275@gmail.com',
-    #         recipient_list=['ggarpri290@ieslucussolis.es'],
-    #         fail_silently=False,
-    #     )
-    #     return HttpResponse("Correo enviado correctamente.")
-    # except Exception as e:
-    #     return HttpResponseServerError(f"Error enviando correo: {e}")
-    return 0

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../../../Navbar/Navbar'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate, redirect } from 'react-router-dom'
 import { authFetch, BASE_API_URL } from '../../../../../constants';
 import './Notes.css'
 import Modal from '../../../../Modal/Modal'
@@ -19,7 +19,7 @@ export default function Notes() {
   const [mediumData, setMediumData] = useState(null);
   const [showForm, setShowForm] = useState(null);
   const [contextMenu, setContextMenu] = useState({ visible: false, mouseX: 5, mouseY: 5, note: null });
-
+  const navigate = useNavigate();
   //#endregion
 
   //#region lógica
@@ -40,8 +40,7 @@ export default function Notes() {
     document.addEventListener('click', closeMenu);
     return () => document.removeEventListener('click', closeMenu);
   }, [contextMenu])
-
-
+ 
   //#region GET
   useEffect(() => {
     authFetch(`/api/memorialApp/notes/?medium=${id}`, 'GET')
@@ -97,6 +96,7 @@ export default function Notes() {
   }
   //#endregion
 
+  //#endregion
 
   return (
     <>
@@ -116,19 +116,17 @@ export default function Notes() {
             noteData
               .filter(note => String(note.medium) === String(id))
               .map(note => (
-                <Link key={note.id} to={`/categories/categoryDetail/${categoryName}/${id}/notes/${note.id}`}>
-                  <div className="note-card" onContextMenu={(e) => {
-                    e.preventDefault();
-                    setContextMenu({ visible: true, mouseX: e.pageX, mouseY: e.pageY, note: note })
-                  }}>
-                    {note.image ? (
-                      <img src={note.image} alt={note.title} className="note-image" />
-                    ) : (
-                      <div className="note-placeholder">Sin imagen</div>
-                    )}
-                    <h2 className="note-title">{note.title}</h2>
-                  </div>
-                </Link>
+                <div key={note.id} className="category-card" onClick={() => navigate(`/categories/categoryDetail/${categoryName}/${id}/notes/${note.id}`)} onContextMenu={(e) => {
+                  e.preventDefault();
+                  setContextMenu({ visible: true, mouseX: e.pageX, mouseY: e.pageY, note: note })
+                }}>
+                  {note.image ? (
+                    <img src={note.image} alt={note.title} className="category-image" />
+                  ) : (
+                    <div className="note-placeholder">Sin imagen</div>
+                  )}
+                  <h2 className="note-title">{note.title}</h2>
+                </div>
               ))
           ) : (
             <p>No se han detectado notas</p>
@@ -140,7 +138,7 @@ export default function Notes() {
             <form onSubmit={handleCreateNote}>
               <h3>Crear nueva nota</h3>
               <label>Título</label>
-              <input type="text" name="title" />
+              <input type="text" name="title" placeholder='Introduce un título' />
               <label>Descripción</label>
               <textarea name="description"></textarea>
               <label>Imagen</label>

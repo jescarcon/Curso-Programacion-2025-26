@@ -48,23 +48,23 @@ export default function Login() {
     };
 
     const enviarCorreo = async (token) => {
-        try {
-            const response = await fetch(`${BASE_API_URL}/enviar-correo/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Error enviando correo:', errorData);
-                return;
-            }
-            const data = await response.json();
-            console.log('Respuesta enviar correo:', data);
-        } catch (error) {
-            console.error('Error en fetch enviar correo:', error);
-        }
+        // try {
+        //     const response = await fetch(`${BASE_API_URL}/enviar-correo/`, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Authorization': `Bearer ${token}`,
+        //         },
+        //     });
+        //     if (!response.ok) {
+        //         const errorData = await response.json();
+        //         console.error('Error enviando correo:', errorData);
+        //         return;
+        //     }
+        //     const data = await response.json();
+        //     console.log('Respuesta enviar correo:', data);
+        // } catch (error) {
+        //     console.error('Error en fetch enviar correo:', error);
+        // }
     };
 
 

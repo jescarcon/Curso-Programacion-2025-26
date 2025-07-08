@@ -15,6 +15,14 @@ class User(AbstractUser):
     avatar = models.CharField(max_length=500)
     two_factor_enabled = models.BooleanField(default=False)
 
+    two_fa_code = models.CharField(max_length=6, blank=True, null=True)
+    two_fa_expiration = models.DateTimeField(blank=True, null=True)
+
+    def clear_2fa_code(self):
+        self.two_fa_code = ''
+        self.two_fa_expiration = None
+        self.save()
+        
 class Medium(models.Model):
     class STATUS_CHOICES(models.TextChoices):
         PENDING = 'pending', 'Pendiente' #variable = BBDD, UI

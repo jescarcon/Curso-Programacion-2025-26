@@ -175,3 +175,14 @@
   font-weight: 700;
   text-align: center;
 }
+
+
+.label-checkbox{
+  display: flex;
+  justify-content:center;
+  gap: 2%;
+  user-select: none;
+}
+.label-checkbox input[type="checkbox"] {
+  accent-color: #217dbb; /* Cambia el color del check + fondo */
+}
