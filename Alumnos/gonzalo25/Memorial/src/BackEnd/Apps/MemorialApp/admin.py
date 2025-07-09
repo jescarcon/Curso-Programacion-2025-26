@@ -14,7 +14,7 @@ class NoteAdmin(admin.ModelAdmin):
     search_fields = ['title', 'description']
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'email', 'avatar','two_factor_enabled', 'two_fa_code', 'two_fa_expiration')
+    list_display = ('id', 'username', 'email', 'avatar', 'two_factor_enabled', 'two_fa_code', 'two_fa_expiration')
     search_fields = ['id', 'username', 'email']
     readonly_fields = ['two_fa_code', 'two_fa_expiration']
 

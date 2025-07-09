@@ -47,11 +47,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'avatar', 'two_factor_enabled','two_fa_code','two_fa_expiration']
+        fields = ['id', 'username', 'email', 'password', 'avatar', 'two_factor_enabled', 'two_fa_code', 'two_fa_expiration']
         extra_kwargs = {
             'password': {'write_only': True},
-            'two_fa_code': {'read_only': True},  
-            'two_fa_expiration': {'read_only': True}
+            'two_fa_code': {'read_only': True},
+            'two_fa_expiration': {'read_only': True},
         }
 
     def create(self, validated_data):

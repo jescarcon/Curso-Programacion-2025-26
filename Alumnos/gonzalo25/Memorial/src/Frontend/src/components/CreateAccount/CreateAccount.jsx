@@ -29,7 +29,7 @@ export default function CreateAccount() {
         })
             .catch(e => console.error('Error creating user:', e))
         if(metodoPost.ok){
-            window.location.href='/login';
+            window.location.href = '/login';
         }
     }
 

@@ -14,8 +14,19 @@
   position: relative;
 }
 
-.edit-profile-button {
+.full-width-button {
+  width: 100%;
+  display: block;
+  margin: 10px 0;
+}
 
+.half-width-button {
+  width: 48%;
+  display: inline-block;
+  margin: 0 1%;
+}
+
+.edit-profile-button {
   background: #3498c7;
   color: #fff;
   border: none;
@@ -27,6 +38,7 @@
   transition: background 0.2s;
   margin-top: 2%;
 }
+
 .edit-profile-button:hover {
   background: #217dbb;
 }
@@ -82,6 +94,7 @@
   transition: box-shadow 0.2s;
   overflow: hidden;
 }
+
 .media-card-profile:hover {
   box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);
 }
@@ -102,17 +115,20 @@
   object-fit: cover;
   display: block;
 }
+
 .media-info-profile {
   padding: 16px 0 8px 0;
   width: 100%;
   text-align: center;
 }
+
 .media-info-profile h3 {
   font-size: 1rem;
   color: #444;
   font-weight: 500;
   margin: 0;
 }
+
 .modal form {
   display: flex;
   flex-direction: column;
@@ -177,12 +193,14 @@
 }
 
 
-.label-checkbox{
+.label-checkbox {
   display: flex;
-  justify-content:center;
+  justify-content: center;
   gap: 2%;
   user-select: none;
 }
+
 .label-checkbox input[type="checkbox"] {
-  accent-color: #217dbb; /* Cambia el color del check + fondo */
+  accent-color: #217dbb;
+  /* Cambia el color del check + fondo */
 }

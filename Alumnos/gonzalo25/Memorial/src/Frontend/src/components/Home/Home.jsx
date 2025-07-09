@@ -4,6 +4,7 @@ import './Home.css'
 import Navbar from '../Navbar/Navbar'
 import About from '../About/About';
 
+import instagram from '/images/home/ig.png'
 import categorias from '/images/home/carousel/categorias.png'
 import busqueda from '/images/home/carousel/busqueda.png'
 import medio from '/images/home/carousel/medio.png'
@@ -31,7 +32,8 @@ export default function HomePage() {
                     <img src={fondo} alt="Imagen Inicio" />
                 </div>
                 <About />
-                <h2>¿Qué podemos hacer en Memorial?</h2>
+                <br />
+                <h2 className='text-center'>¿Qué podemos hacer en Memorial?</h2>
                 <hr />
                 <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
                     <ol className="carousel-indicators">
@@ -98,15 +100,18 @@ export default function HomePage() {
                                 <h5>Tecnologías</h5>
                                 <ul class='nav flex-column'>
                                     <li class='nav-item mb-2'>
-                                        <a href="#" class='nav-link p-0 text-body-secondary'>ReactJS</a>
+                                        <a href="https://react.dev/" class='nav-link p-0 text-body-secondary'>ReactJS</a>
                                     </li>
                                     <li class='nav-item mb-2'>
-                                        <a href="#" class='nav-link p-0 text-body-secondary'>Django</a>
+                                        <a href="https://www.djangoproject.com/" class='nav-link p-0 text-body-secondary'>Django</a>
                                     </li>
                                     <li class='nav-item mb-2'>
-                                        <a href="#" class='nav-link p-0 text-body-secondary'>Bootstrap</a>
+                                        <a href="https://getbootstrap.com/" class='nav-link p-0 text-body-secondary'>Bootstrap</a>
                                     </li>
                                 </ul>
+                            </div>
+                            <div class='col-6 col-md-4 mb-3 ps-2 d-flex justify-content-center align-items-center' style={{ minHeight: "100%" }}>
+                                <a href="https://www.instagram.com/memorial_web?igsh=YmJkdGI1bGZkdXhq" target='_blank'><img src={instagram} width='100' /></a>
                             </div>
                         </div>
                         <div id='footer-contact' class='col-6 col-md-6 mb-3 w-50' >

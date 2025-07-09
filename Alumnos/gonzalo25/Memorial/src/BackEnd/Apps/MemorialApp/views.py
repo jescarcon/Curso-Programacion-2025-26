@@ -80,7 +80,6 @@ class UserViewSet(viewsets.ModelViewSet):
 import replicate
 import requests
 from django.core.files.base import ContentFile
-
 REPLICATE_API_TOKEN = ""
 replicate_client = replicate.Client(api_token=REPLICATE_API_TOKEN)
 

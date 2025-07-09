@@ -265,7 +265,7 @@ export default function CategoryDetail() {
             {isCategoryComponent ? (
                 <div className='media-detail-container'>
                     <div className='category-detail-body-title'>
-                        <h3>{currentCategory.name}</h3>
+                        <h3>Mis {currentCategory.name.toLocaleLowerCase()}</h3>
                         <img src={createButtonImage} alt="Añadir nuevo elemento" className='create-button' onClick={() => setShowForm(!showForm)} />
                     </div>
                     <input
@@ -348,10 +348,13 @@ export default function CategoryDetail() {
 
                                 <div className="button-group">
                                     <button type="submit">Crear</button>
-                                    <button type="button" onClick={() => {
-                                        setShowForm(false);
-                                        setCreateImagePreview(null);
-                                    }}>Cancelar</button>
+                                    <button
+                                        type="button"
+                                        className='cancel-button'
+                                        onClick={() => {
+                                            setShowForm(false);
+                                            setCreateImagePreview(null);
+                                        }}>Cancelar</button>
                                 </div>
                             </form>
                         </>
@@ -396,12 +399,17 @@ export default function CategoryDetail() {
                                         </div>
                                     )}
 
-
-                                    <button type="submit">Guardar cambios</button>
-                                    <button type='submit' onClick={() => {
-                                        setShowForm(false)
-                                        setEditImagePreview(null)
-                                    }}>Cancelar</button>
+                                    <div className="button-group">
+                                        <button type="submit">Guardar cambios</button>
+                                        <button
+                                            type="button"
+                                            className="cancel-button"
+                                            onClick={() => {
+                                                setEditingMedia(null);
+                                                setEditImagePreview(null);
+                                            }}
+                                        >Cancelar</button>
+                                    </div>
                                 </form>
                             </>
                         )}

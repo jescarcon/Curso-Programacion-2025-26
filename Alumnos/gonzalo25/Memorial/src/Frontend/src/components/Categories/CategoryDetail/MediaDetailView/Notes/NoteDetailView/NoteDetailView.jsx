@@ -7,7 +7,8 @@ import Navbar from '../../../../../Navbar/Navbar';
 const NoteDetailView = () => {
   const { noteId } = useParams();
   const [note, setNote] = useState(null);
-  useEffect(()=>{
+
+  useEffect(() => {
     authFetch(`/api/memorialApp/notes/${noteId}/`, 'GET')
       .then(res => res.json())
       .then(data => setNote(data))
@@ -20,24 +21,28 @@ const NoteDetailView = () => {
 
   return (
     <>
-      <Navbar></Navbar>
-      <div className="note-detail-container">
-        <div className="note-detail-card">
-          <div className="note-detail-image">
+      <Navbar />
+      <div className="note-detail-view-container">
+        <div className="note-detail-view-subcontainer-1">
+          <div className="note-detail-view-image">
             {note.image ? (
               <img src={note.image} alt={note.title} />
             ) : (
-              <div className="note-detail-placeholder">Sin imagen</div>
+              <div className="note-detail-view-placeholder">Sin imagen</div>
             )}
           </div>
-          <div className="note-detail-content">
-            <h1 className="note-detail-title">{note.title}</h1>
-            <p className="note-detail-description"><strong>Descripción:</strong> {note.description}</p>
-            <p className="note-detail-date"><strong>Fecha de creación:</strong> {note.add_date}</p>
-          </div>
+        </div>
+
+        <div className="note-detail-view-subcontainer-2">
+          <h2 id="note-detail-view-title">{note.title}</h2>
+          <p className="note-detail-view-description">
+            <strong>Descripción:</strong> {note.description}
+          </p>
+          <p className="note-detail-view-date">
+            <strong>Fecha de creación:</strong> {note.add_date}
+          </p>
         </div>
       </div>
-
     </>
   );
 };
