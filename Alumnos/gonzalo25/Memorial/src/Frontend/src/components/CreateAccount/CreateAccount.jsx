@@ -15,36 +15,37 @@ export default function CreateAccount() {
     const [password, setPassword] = useState(null)
     const [avatar, setAvatar] = useState(null)
 
-    const submitUser = () => {
+    const submitUser = async (e) => {
+        e.preventDefault();
         const formData = new FormData()
         formData.append('username', username);
         formData.append('email', email);
         formData.append('password', password);
         formData.append('avatar', avatar);
-        const metodoPost = 
+        const metodoPost = await
             fetch(`${BASE_API_URL}/api/memorialApp/users/`, {
             method: 'POST',
             body: formData
         })
             .catch(e => console.error('Error creating user:', e))
         if(metodoPost.ok){
-            location.href('/login');
+            window.location.href = '/login';
         }
     }
 
     const avatars = [
-        '/public/images/avatars/askywalker.jpg',
-        '/public/images/avatars/dtargaryen.jpg',
-        '/public/images/avatars/hpotter.jpg',
-        '/public/images/avatars/joker.jpg',
-        '/public/images/avatars/lackerman.jpg',
-        '/public/images/avatars/linkbotw.jpg',
-        '/public/images/avatars/mcaufield.jpg',
-        '/public/images/avatars/rayanami.jpg',
-        '/public/images/avatars/smurasaki.jpg',
-        '/public/images/avatars/waddams.jpg',
-        '/public/images/avatars/wmaximoff.jpg',
-        '/public/images/avatars/wwhite.jpg',
+        '/images/avatars/askywalker.jpg',
+        '/images/avatars/dtargaryen.jpg',
+        '/images/avatars/hpotter.jpg',
+        '/images/avatars/joker.jpg',
+        '/images/avatars/lackerman.jpg',
+        '/images/avatars/linkbotw.jpg',
+        '/images/avatars/mcaufield.jpg',
+        '/images/avatars/rayanami.jpg',
+        '/images/avatars/smurasaki.jpg',
+        '/images/avatars/waddams.jpg',
+        '/images/avatars/wmaximoff.jpg',
+        '/images/avatars/wwhite.jpg',
     ];
 
     const openModal = () => {
@@ -54,7 +55,7 @@ export default function CreateAccount() {
     const closeModal = () => setIsModalOpen(false);
 
     const selectAvatar = (avatar) => {
-        const avatarName = avatar.replace('/public/images/avatars/','');
+        const avatarName = avatar.replace('/images/avatars/','');
         setAvatar(avatarName);
         console.log(avatarName);
         closeModal();
@@ -75,15 +76,15 @@ export default function CreateAccount() {
                 <div className='createacc-form'>
                     <div className='form-group'>
                         <label htmlFor='username'>Nombre de usuario</label>
-                        <input type='text' id='username' name='username' onChange={(e)=>setUsername(e.target.value)}/>
+                        <input type='text' id='username' name='username' placeholder="Introduce un nombre" onChange={(e)=>setUsername(e.target.value)}/>
                     </div>
                     <div className='form-group'>
                         <label htmlFor='email'>Dirección de correo electrónico</label>
-                        <input type='email' id='email' name='email' onChange={(e)=>setEmail(e.target.value)}/>
+                        <input type='email' id='email' name='email' placeholder="Añade un email" onChange={(e)=>setEmail(e.target.value)}/>
                     </div>
                     <div className='form-group'>
                         <label htmlFor='password'>Contraseña</label>
-                        <input type='password' id='password' name='password' onChange={(e)=>setPassword(e.target.value)}/>
+                        <input type='password' id='password' name='password' placeholder="*****" onChange={(e)=>setPassword(e.target.value)}/>
                     </div>
                     <div className='form-group'>
                         <label>Avatar seleccionado:</label>

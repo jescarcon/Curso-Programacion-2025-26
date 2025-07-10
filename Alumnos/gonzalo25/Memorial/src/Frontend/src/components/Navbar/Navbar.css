@@ -1,3 +1,50 @@
+.navbar-container {
+    background-color: rgba(22, 133, 184, 0.81);
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.register_button {
+    background-color: rgba(22, 133, 184, 0.81) !important;
+}
+
+.register_button:hover {
+    background-color: rgba(26, 149, 206, 0.81) !important;
+    border: solid black 1px !important;
+}
+
+.dropdown-menu .dropdown-item {
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+    border-radius: 0 !important;
+    width: 100%;
+}
+
+.dropdown-menu {
+    padding: 0;
+    min-width: 100px;
+}
+
+.dropdown-menu .profile-item:hover {
+    background: #e3f0ff !important;
+    color: #1565c0 !important;
+}
+
+.dropdown-menu .logout-item:hover {
+    background: #ffe3e3 !important;
+    color: #c62828 !important;
+}
+
+.navbar-logo {
+    margin-left: 4%;
+    cursor: pointer;
+}
+
+.navbar-logo img {
+    width: 170px;
+}
+
+/*
 .navbar-header {
     background-color: rgba(22, 133, 184, 0.81);
     border-bottom-right-radius: 20px;
@@ -12,28 +59,17 @@
     justify-content: space-between;
 }
 
-/*------Logo------*/
-.navbar-logo {
-    margin-left: 4%;
-    cursor: pointer;
-}
-
-.navbar-logo img {
-    width: 170px;
-}
-
 .navbar-menu {
     margin-right: 4%;
     display: flex;
     gap: 15px;
 }
 
-/* Estilo para la barra de búsqueda */
 .navbar-search {
     margin-right: 4%;
     display: flex;
     align-items: center;
-    gap: 10px; /* Espaciado entre el input y los botones */
+    gap: 10px; 
 }
 
 .navbar-search input {
@@ -43,8 +79,8 @@
     outline: none;
     font-size: 14px;
     transition: all 0.3s ease;
-    width: 150px; /* Tamaño más pequeño */
-    height: 40px; /* Altura acorde a los botones */
+    width: 150px;
+    height: 40px; 
 }
 
 .navbar-search input:focus {
@@ -67,7 +103,6 @@
     background-color: rgba(22, 133, 184, 1);
 }
 
-/* Menú del perfil */
 .navbar-profile-menu {
 }
 
@@ -101,8 +136,9 @@
 }
 
 .profile-icon-img{
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     cursor: pointer;
 }
+*/

@@ -1,40 +1,40 @@
 .createacc-body {
-    display: flex; /* Usamos Flexbox para alinear los elementos en fila */
-    justify-content: space-between; /* Espaciamos los elementos */
-    align-items: center; /* Alineamos verticalmente */
-    gap: 20px; /* Espacio entre la imagen y el formulario */
-    margin: 20px auto; /* Centramos el contenedor */
-    max-width: 1200px; /* Ancho máximo del contenedor */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px auto;
+    width: 50%;
+    min-width: 420px;
+
 }
 
-.createacc-body-text{
+.createacc-body-text {
     text-align: center;
     margin-top: 2%;
 }
 
 .homepage-body-img {
-    flex: 1; /* La imagen ocupará un espacio proporcional */
-    text-align: center; /* Centrar la imagen dentro de su contenedor */
+    width: 50%;
 }
 
 .homepage-body-img img {
-    max-width: 75%; /* La imagen no excederá el ancho del contenedor */
-    height: auto; /* Mantendrá la proporción */
-    border-radius: 10px; /* Bordes redondeados */
+    max-width: 75%;
+    height: auto;
+    border-radius: 10px;
 }
 
 .createacc-form {
     font-family: Arial, Helvetica, sans-serif;
-    flex: 1; /* El formulario ocupará un espacio proporcional */
-    background-color: #ffffff; /* Fondo blanco */
-    border: 2px solid #1685b8; /* Borde azul */
-    border-radius: 10px; /* Bordes redondeados */
-    padding: 20px; /* Espaciado interno */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para un diseño limpio */
+    flex: 1;
+    background-color: #ffffff;
+    border: 2px solid #1685b8;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .createacc-form .form-group {
-    margin-bottom: 15px; /* Espaciado entre los campos */
+    margin-bottom: 15px;
 }
 
 .createacc-form label {

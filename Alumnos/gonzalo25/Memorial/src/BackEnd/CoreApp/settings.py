@@ -24,9 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yoptvb+jn!zht345&yx_&ud4qk=y(q$jkp0#hd(_fy_*gf8uw('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'https://memorialapp-backend.onrender.com'
+]
 
 
 # Application definition
@@ -92,6 +95,17 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'memorial',
+    #     'USER': 'root',
+    #     'PASSWORD': 'root',
+    #     'HOST': 'localhost',
+    #     'PORT': '3306',
+    #     'OPTIONS': {
+    #         'charset': 'utf8mb4',
+    #     }
+    # }
 }
 
 
@@ -117,9 +131,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ES'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
@@ -151,6 +165,7 @@ AUTH_USER_MODEL = 'MemorialApp.User'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173', #FrontEnd URL
     'http://127.0.0.1:5173',
+    'https://memorialapp-po58.onrender.com'
 ]
 #CORS CONFIGURATION
 
@@ -168,3 +183,19 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 #JWT CONFIGURATION
+
+#EMAIL
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+#EMAIL_HOST_USER = 'gonzalogarciaprieto.275@gmail.com'
+#EMAIL_HOST_PASSWORD = 'ljvc zpph wcbh kyfg'
+
+EMAIL_HOST_USER = 'muerte1000@gmail.com'
+EMAIL_HOST_PASSWORD = 'zxyw nmyw dgvd jbsk'
+#DEFAULT_FROM_EMAIL = 'no-reply@tuapp.com' # El remitente que aparece en los emails
+
+#
+

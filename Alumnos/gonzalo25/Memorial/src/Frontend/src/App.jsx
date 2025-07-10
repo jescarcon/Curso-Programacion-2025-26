@@ -1,5 +1,5 @@
 import './App.css'
-import {BrowserRouter, Routes, Route,} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, } from 'react-router-dom'
 import Home from './components/Home/Home'
 import Login from './components/Login/Login'
 import About from './components/About/About'
@@ -18,35 +18,75 @@ import UsersNoteDetailView from './components/Users/UsersCategoryDetail/UsersMed
 import Profile from './components/Profile/Profile'
 import PrivateRoute from './components/Auth/PrivateRoute'
 import UserSearch from './components/UserSearch/UserSearch'
-
+import { useEffect, useState } from 'react'
+import { BASE_API_URL } from './constants'
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); //Control de si el usuario está logueado o no
+
+  useEffect(() => {
+    const access_token = localStorage.getItem('access_token');
+    setIsLoggedIn(!!access_token) //True si existe el token y false si no
+    // if (access_token) {
+    //   setIsLoggedIn(true)
+    //   try {
+    //     const tokenDataJSON = JSON.parse(atob(access_token.split(".")[1]));
+    //     const userID = tokenDataJSON.user_id;
+    //     fetch(`${BASE_API_URL}/api/memorialApp/users`, {
+    //       headers: {
+    //         Authorization: `Bearer ${access_token}`,
+    //       },
+    //     })
+    //       .then((res) => res.json())
+    //       .then((data) => {
+    //         const user = data.find(u => u.id === userID);
+    //         if (user && user.avatar) {
+    //           setAvatar(user.avatar);
+    //         }
+    //       }).catch((error) => {
+    //         console.error("Error al obtener avatar", error);
+    //       })
+    //       ;
+    //   } catch (error) {
+    //     console.error("Error al obtener avatar", error);
+    //   }
+    // } else {
+    //   setIsLoggedIn(false);
+    // }
+  }, [])
+
+  function RedirectIfLogin({ isLoggedIn, children }) {
+    if (isLoggedIn) {
+      return <Navigate to="/categories" replace />
+    }
+    return children;
+  }
 
   return (
     <BrowserRouter>
       <Routes>
         {/* Rutas abiertas */}
-        <Route path="/" element={<Home/>} />
-        <Route path='/about' element={<About/>} />
-        <Route path='/login' element={<Login/>} />
-        <Route path='/create-account' element={<CreateAccount/>}/>
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='*' element={<Error/>}/>
+        <Route path="/" element={ <RedirectIfLogin isLoggedIn={isLoggedIn}>  <Home />  </RedirectIfLogin>} />
+        <Route path='/login'   element={ <RedirectIfLogin isLoggedIn={isLoggedIn}>  <Login />  </RedirectIfLogin>  }   />
+        <Route path='/create-account' element={ <RedirectIfLogin isLoggedIn={isLoggedIn}> <CreateAccount />  </RedirectIfLogin>  } />
+        <Route path='*' element={<Error />} />
 
 
         {/* Rutas privadas */}
-        <Route path='/categories' element={<PrivateRoute><Categories /></PrivateRoute>}/>
-        <Route path="/categories/categoryDetail/:categoryName" element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
-        <Route path="/categories/categoryDetail/:categoryName/:id" element={<PrivateRoute><MediaDetailView /></PrivateRoute>} />
-        <Route path="/categories/categoryDetail/:categoryName/:id/notes" element={<PrivateRoute><Notes /></PrivateRoute>} />
-        <Route path="/categories/categoryDetail/:categoryName/:id/notes/:noteId" element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
-        
-        <Route path='/users/:user' element={<PrivateRoute><UserSearch/></PrivateRoute>} />
-        <Route path='/users/:paramUserId/profile' element={<PrivateRoute><Profile/></PrivateRoute>} />
+        <Route path='/categories' element={<PrivateRoute><Categories /></PrivateRoute>} />
+        <Route path='/categories/categoryDetail/:categoryName' element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
+        <Route path='/categories/categoryDetail/:categoryName/:id' element={<PrivateRoute><MediaDetailView /></PrivateRoute>} />
+        <Route path='/categories/categoryDetail/:categoryName/:id/notes' element={<PrivateRoute><Notes /></PrivateRoute>} />
+        <Route path='/categories/categoryDetail/:categoryName/:id/notes/:noteId' element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
+        <Route path='//profile' element={<PrivateRoute><Profile /> </PrivateRoute>} />
 
-        {/* <Route path='/users/:user/:categoryName' element={<PrivateRoute><UsersCategoryDetail /></PrivateRoute>} />
-        <Route path='/users/:user/:categoryName/:id' element={<PrivateRoute><UsersMediaDetailView /></PrivateRoute>} />
-        <Route path='/users/:user/:categoryName/:id/notes' element={<PrivateRoute><UsersMediaNotes /></PrivateRoute>} />
-        <Route path='/users/:user/:categoryName/:id/notes/:noteId' element={<PrivateRoute><UsersNoteDetailView /></PrivateRoute>} /> */}
+
+        <Route path='/users/:userSearch' element={<PrivateRoute><UserSearch /> </PrivateRoute>} />
+        <Route path='/users/:userSearch/profile' element={<PrivateRoute><Profile /> </PrivateRoute>} />
+        <Route path='/users/:user/categories' element={<PrivateRoute><Categories /></PrivateRoute>} />
+        <Route path='/users/:user/categories/:categoryName' element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
+        <Route path='/users/:user/categories/:categoryName/:id' element={<PrivateRoute><MediaDetailView /></PrivateRoute>} />
+        <Route path='/users/:user/categories/:categoryName/:id/notes' element={<PrivateRoute><Notes /></PrivateRoute>} />
+        <Route path='/users/:user/categories/:categoryName/:id/notes/:noteId' element={<PrivateRoute><NoteDetailView /></PrivateRoute>} />
 
       </Routes>
     </BrowserRouter>

@@ -1,61 +1,79 @@
-.note-detail-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f9f9f9; /* Fondo neutro */
-    padding: 20px;
-  }
-  
-  .note-detail-card {
-    display: flex;
+.note-detail-view-container {
+  display: flex;
+  border: solid 2px rgba(22, 133, 184, 0.81);
+  border-radius: 20px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 2%;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.note-detail-view-subcontainer-1 {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+}
+
+.note-detail-view-image {
+  width: 100%;
+}
+
+.note-detail-view-image img {
+  max-width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+.note-detail-view-placeholder {
+  width: 100%;
+  height: 200px;
+  background-color: #e0e0e0;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
+}
+
+.note-detail-view-subcontainer-2 {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  margin-left: 2%;
+}
+
+#note-detail-view-title {
+  word-break: break-word;
+  font-size: 1.8rem;
+  color: #222;
+}
+
+.note-detail-view-description,
+.note-detail-view-date {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Responsive */
+@media(max-width: 1500px) {
+  .note-detail-view-container {
     flex-direction: column;
     align-items: center;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    max-width: 500px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  
-  .note-detail-image img {
-    max-width: 60%; /* Imagen más pequeña */
-    border-radius: 8px;
-    margin-bottom: 20px;
-    display: block;
-    margin: 0 auto;
+
+  .note-detail-view-subcontainer-1,
+  .note-detail-view-subcontainer-2 {
+    width: 100%;
   }
-  
-  .note-detail-placeholder {
-    width: 80%;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #e0e0e0;
-    border-radius: 8px;
-    color: #666;
-    font-size: 16px;
+
+  .note-detail-view-image img {
+    position: static;
   }
-  
-  .note-detail-content {
-    text-align: center;
-  }
-  
-  .note-detail-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .note-detail-description {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .note-detail-date {
-    font-size: 14px;
-    color: #666;
-  }
+}

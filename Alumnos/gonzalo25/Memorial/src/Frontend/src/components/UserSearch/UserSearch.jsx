@@ -1,59 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from '../Navbar/Navbar';
-import { Link, useParams } from 'react-router-dom';
-import { authFetch } from '../../constants';
-import './UserSearch.css';
+import React, { useEffect, useState } from 'react'
+import './UserSearch.css'
+import Navbar from '../Navbar/Navbar'
+import { useParams, Link } from 'react-router-dom'
+import { authFetch, getJWT } from '../../constants'
+import Modal from '../Modal/Modal'
 
 export default function UserSearch() {
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const { user } = useParams(); // obtiene el parámetro `:user` de la URL
+    //#region Variables
+    const { userSearch } = useParams();
+    const [userList, setUserList] = useState([]);
 
+    //#endregion
+
+    //#region lógica
     useEffect(() => {
-        authFetch('/api/memorialApp/users/')
-            .then(res => res.ok ? res.json() : Promise.reject('Error en la respuesta'))
+        //Obtención del token de acceso
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            console.error('Se requiere un token de acceso');
+            window.location.href = '/login';
+            return;
+        }
+
+        //lectura de los usuarios filtrados
+        authFetch('/api/memorialApp/users/', 'GET')
+            .then(res => res.json())
             .then(data => {
-                const filtered = data.filter(u =>
-                    u.username.toLowerCase().includes(user.toLowerCase())
-                );
-                setUsers(filtered);
+                const userFilter = data.filter(u => u.username.toLowerCase().includes(userSearch.toLowerCase()));
+                setUserList(userFilter);
+
             })
-            .catch(error => {
-                console.error('Error al obtener usuarios:', error);
-                setUsers([]);
-            })
-            .finally(() => setLoading(false));
-    }, [user]);
+            .catch(e => console.error('User not found', e));
+    }, [userSearch])
+
+
+    //#endregion
 
     return (
-        <>
+        <div>
             <Navbar />
-            <div className="usersearch-container">
-                <h2 className="usersearch-title">
-                    Resultados para: <span className="usersearch-query">{user}</span>
-                </h2>
+            {userList.length == 0 ? (
+                <div className='usersearch-container'>
+                    <p>No se ha encontrado ningún usuario que coincida con: {userSearch}</p>
+                </div>
+            ) : (
+                <div className='usersearch-container'>
+                    <p>Resultados de la búsqueda: {userSearch}</p>
+                    {
+                    userList.map(u => (
 
-                {loading ? (
-                    <p className="usersearch-loading">Cargando usuarios...</p>
-                ) : users.length === 0 ? (
-                    <p className="usersearch-notfound">No se han encontrado usuarios con ese nombre.</p>
-                ) : (
-                    users.map(user => (
-                        <div key={user.id} className="usersearch-card">
-                            <img
-                                src={user.avatar}
-                                alt="avatar"
-                                className="usersearch-avatar"
-                            />
-                            <span className="usersearch-username">{user.username}</span>
-                            <div className="usersearch-buttons">
-                                <Link to={`/users/${user.id}/profile`} className="usersearch-button">Ver perfil</Link>
-                                <Link to={`/users/${user.id}/categories`} className="usersearch-button">Ver medios</Link>
-                            </div>
+                        <div key={u.id} className='usersearch-userlist'>
+                            <img src={`/images/avatars/${u.avatar}`} alt="Avatar de usuario" />
+                            <p>{u.username}</p>
+                            <Link to={`/users/${u.id}/profile`}>Ver perfil</Link>
+                            <Link to={`/users/${u.id}/categories`}>Ver medios</Link>
                         </div>
+
                     ))
-                )}
-            </div>
-        </>
-    );
+                }</div>
+
+            )}
+        </div>
+    )
 }

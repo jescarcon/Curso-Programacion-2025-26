@@ -3,6 +3,10 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 2%;
+    user-select: none;
 }
 
 .category-detail-body-title {
@@ -13,6 +17,7 @@
 }
 
 .category-card {
+    cursor: pointer;
     text-align: center;
     border: 2px solid #1685b8;
     border-radius: 15px;
@@ -52,25 +57,27 @@
 
     display: flex;
     flex-direction: row;
-        
+
     align-items: center;
-    justify-content: space-between;    
+    justify-content: space-between;
 }
 
-.categories-logo{
+.categories-logo {
     margin-left: 4%;
     cursor: pointer;
 }
+
 .categories-logo img {
     width: 170px;
 }
-.categories-menu{
+
+.categories-menu {
     margin-right: 4%;
     display: flex;
     gap: 15px;
 }
 
-.create-button{
+.create-button {
     cursor: pointer;
     width: 40px;
     height: 40px;

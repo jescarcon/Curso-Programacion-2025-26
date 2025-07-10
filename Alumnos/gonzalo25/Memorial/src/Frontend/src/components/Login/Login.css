@@ -12,24 +12,27 @@
 
     display: flex;
     flex-direction: row;
-        
+
     align-items: center;
-    justify-content: space-between;    
+    justify-content: space-between;
 }
 
 /*------Logo------*/
-.loginpage-logo{
+.loginpage-logo {
     margin-left: 4%;
     cursor: pointer;
 }
+
 .loginpage-logo img {
     width: 170px;
 }
-.loginpage-menu{
+
+.loginpage-menu {
     margin-right: 4%;
     display: flex;
     gap: 15px;
 }
+
 .loginpage-body {
     background-color: white;
     border: 2px solid #1685b8;
@@ -42,7 +45,8 @@
     margin: 0 auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.loginpage-body-text{
+
+.loginpage-body-text {
     text-align: center;
     margin-bottom: 20px;
 }
@@ -50,6 +54,7 @@
 .loginpage-form .form-group {
     margin-bottom: 15px;
 }
+
 .loginpage-form label {
     display: block;
     text-align: center;
@@ -58,6 +63,7 @@
     color: #333;
     margin-bottom: 5px;
 }
+
 .loginpage-form input {
     width: 95%;
     padding: 10px;
@@ -74,24 +80,16 @@
     background-color: #e6f7ff;
 }
 
-.loginpage-form .btn-1 {
-    width: 50%; /* Reduce aún más el ancho del botón */
-    padding: 6px; /* Ajusta el padding */
-    font-size: 18px; /* Reduce el tamaño de la fuente */
-    margin: 10px auto 0 auto; /* Centra el botón horizontalmente */
-    display: block; /* Asegura que el botón se comporte como un bloque */
-    text-align: center; /* Centra el texto dentro del botón */
-    text-decoration: none;
+.loginpage-form .loginpage-form-create-link {
+    text-align: center;
+    margin-top: 2%;
 }
 
-.loginpage-form .btn-1 a {
-    text-decoration: none;
-    color: inherit;
-}
+.loginpage-form .loginpage-form-create-link a {
+    color: black;
+    font-size: 12px;
+    font-family: 'Montserrat';
 
-.loginpage-form .btn-1:hover {
-    background-color: #1685b8;
-    color: white;
 }
 
 /* Ventanita de error personalizada */
@@ -99,9 +97,12 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: #f8d7da; /* Fondo rojo claro */
-    color: #721c24; /* Texto rojo oscuro */
-    border: 1px solid #f5c6cb; /* Borde rojo */
+    background-color: #f8d7da;
+    /* Fondo rojo claro */
+    color: #721c24;
+    /* Texto rojo oscuro */
+    border: 1px solid #f5c6cb;
+    /* Borde rojo */
     border-radius: 5px;
     padding: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -130,6 +131,7 @@
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

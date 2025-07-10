@@ -1,18 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { getJWT, authFetch } from '../../constants';
+import { getJWT, authFetch, BASE_API_URL } from '../../constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
+import Modal from '../Modal/Modal';
 import './Profile.css';
 
 const Profile = () => {
+    //#region Variables
+
+    const URL_NAV = window.location.href;
+    const isUserComponent = URL_NAV.includes("/users");
+    const { userSearch } = isUserComponent ? useParams() : "";
     const [userData, setUserData] = useState(null);
     const [mediaList, setMediaList] = useState([]);
     const navigate = useNavigate();
-    const { paramUserId } = useParams(); // <-- ahora es el ID
+    const [showModal, setShowModal] = useState(false);
+    const [showAvatarSelector, setShowAvatarSelector] = useState(false);
+    const [selectedAvatar, setSelectedAvatar] = useState(null);
+    const [formValues, setFormValues] = useState({
+        username: '',
+        password: '',
+        email: '',
+        two_factor_enabled: false
+    });
 
-    const [loggedUserId, setLoggedUserId] = useState(null);
+    const avatarUrl = userData && userData.avatar
+        ? `/images/avatars/${userData.avatar}`
+        : '/images/avatars/default.png';
 
+
+    const [show2FAModal, setShow2FAModal] = useState(false);
+    const [twoFACode, setTwoFACode] = useState('');
+    const [twoFAError, setTwoFAError] = useState('');
+
+
+    const avatarList = [
+        '/images/avatars/askywalker.jpg',
+        '/images/avatars/dtargaryen.jpg',
+        '/images/avatars/hpotter.jpg',
+        '/images/avatars/joker.jpg',
+        '/images/avatars/lackerman.jpg',
+        '/images/avatars/linkbotw.jpg',
+        '/images/avatars/mcaufield.jpg',
+        '/images/avatars/rayanami.jpg',
+        '/images/avatars/smurasaki.jpg',
+        '/images/avatars/waddams.jpg',
+        '/images/avatars/wmaximoff.jpg',
+        '/images/avatars/wwhite.jpg',
+    ];
+    //#endregion
+
+    //#region Logica
     useEffect(() => {
+
         const token = localStorage.getItem('access_token');
         if (!token) {
             navigate('/login');
@@ -29,71 +69,148 @@ const Profile = () => {
             return;
         }
 
-        setLoggedUserId(user_id);
-
-        // Si me busco a mí mismo con URL /users/:id/profile
-        if (paramUserId && parseInt(paramUserId) === user_id) {
-            navigate('/profile');
-            return;
+        let usuarioBusqueda = user_id;
+        if (userSearch && userSearch != "") {
+            usuarioBusqueda = userSearch;
         }
 
-        const userIdToFetch = paramUserId || user_id;
+        authFetch(`/api/memorialApp/users/${usuarioBusqueda}`, 'GET')
+            .then(res => res.json())
+            .then(data => {
+                setUserData(data)
+                setSelectedAvatar(data.avatar); // Inicializa el avatar seleccionado
+            })
+            .catch(err => console.error("Error al obtener datos del usuario", err));
 
-        // Obtener datos del usuario (ya sea yo o otro)
-        authFetch(`/api/memorialApp/users/${userIdToFetch}`, 'GET')
+        authFetch(`/api/memorialApp/media`, 'GET')
+            .then(res => res.json())
+            .then(data => {
+                const filteredMedia = data.filter(m => m.user === parseInt(usuarioBusqueda));
+                const userMedia = filteredMedia.slice(-3)
+                setMediaList(userMedia);
+            })
+            .catch(err => console.error("Error al obtener medios del usuario", err));
+    }, []);
+
+    const handleFormSubmit = (e) => {
+
+        const formData = new FormData();
+        formData.append('username', formValues.username);
+        formData.append('password', formValues.password);
+        formData.append('email', formValues.email);
+        formData.append('two_factor_enabled', formValues.two_factor_enabled);
+        formData.append('avatar', selectedAvatar);
+
+        authFetch(`/api/memorialApp/users/${userData.id}/`, 'PATCH', formData)
             .then(res => {
-                if (!res.ok) throw new Error("Usuario no encontrado");
+                if (!res.ok) throw new Error("Error al actualizar perfil");
                 return res.json();
             })
-            .then(data => {
-                setUserData(data);
+            .then(updated => {
+                setUserData(updated);
+                setShowModal(false);
+            })
+            .catch(err => console.error("Error al actualizar perfil", err));
+    };
 
-                // Cargar últimos 3 medios
-                authFetch(`/api/memorialApp/media`, 'GET')
-                    .then(res => res.json())
-                    .then(mediaData => {
-                        const userMedia = mediaData.filter(m => m.user === data.id).slice(-3);
-                        setMediaList(userMedia);
-                    })
-                    .catch(err => console.error("Error al obtener medios", err));
+    const handleEditClick = () => {
+        if (userData.two_factor_enabled) {
+            fetch(`${BASE_API_URL}/api/memorialApp/users/send_2fa_code/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: userData.username,
+                    email: userData.email,
+                }),
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("No se pudo enviar el código");
+                    setShow2FAModal(true);
+                })
+                .catch(err => {
+                    console.error("Error al enviar el código 2FA", err);
+                    alert("Error al enviar el código de verificación");
+                });
+        } else {
+            openEditModal();
+        }
+    };
+
+
+    const openEditModal = () => {
+        setFormValues({
+            username: userData.username,
+            email: userData.email,
+            password: '',
+            two_factor_enabled: userData.two_factor_enabled
+        });
+        setShowModal(true);
+    }
+
+    const verifyTwoFACode = () => {
+        fetch(`${BASE_API_URL}/api/memorialApp/users/verify_2fa_code/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: userData.username,
+                code: twoFACode,
+            }),
+        })
+            .then(res => {
+                if (!res.ok) {
+                    setTwoFAError('Código incorrecto o expirado');
+                    return;
+                }
+                setShow2FAModal(false);
+                setTwoFACode('');
+                setTwoFAError('');
+                openEditModal(); // solo abrimos el modal si el código fue correcto
             })
             .catch(err => {
-                console.error("Error al obtener usuario", err);
-                navigate('/not-found');
+                console.error("Error al verificar código 2FA", err);
+                setTwoFAError('Error al verificar el código');
             });
+    };
 
-    }, [paramUserId, navigate]);
+
 
     if (!userData) return <div>Cargando perfil...</div>;
 
-    const avatarUrl = userData.avatar
-        ? `/images/avatars/${userData.avatar}`
-        : '/images/avatars/default.jpg';
-
-    const isOwnProfile = userData.id === loggedUserId;
 
     return (
         <>
             <Navbar />
             <div className="profile-container">
                 <div className='profile-header'>
-                    {isOwnProfile && (
-                        <button
-                            className="edit-profile-button"
-                            onClick={() => navigate(`/profile/${userData.id}/edit`)}
-                        >
-                            Editar perfil
-                        </button>
-                    )}
                     <img src={avatarUrl} alt="Avatar" className='profile-avatar' />
                     <h2 className='profile-username'>{userData.username}</h2>
+                    {!userSearch ?
+                        <>
+                            <h3>
+                                {userData.email}
+                            </h3>
+                            <button className="edit-profile-button" onClick={handleEditClick}>
+                                Editar perfil
+                            </button>
+                        </>
+                        : <></>
+                    }
                 </div>
                 <h3 className='section-title'>Últimos medios publicados</h3>
                 <div className="media-grid-profile">
                     {mediaList.map(medium => (
-                        <div key={medium.id} className="media-card-profile">
-                            <div className="media-image-profile">
-                                <img src={medium.image} alt={medium.title} />
+                        <div key={medium.id} className="category-card">
+                            <div >
+                                {medium.image ? (
+                                    < img src={medium.image} alt={medium.title} className='category-image' />
+                                ) : (
+                                    <img src='/images/categories/media/DefaultMediaImage.png' alt={medium.title} className='category-image' style={{ 'object-fit':'contain'}} />
+                                )
+                                }
                             </div>
                             <div className="media-info-profile">
                                 <h3>{medium.title}</h3>
@@ -102,6 +219,127 @@ const Profile = () => {
                     ))}
                 </div>
             </div>
+
+            {showModal && (
+                <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                    <form onSubmit={handleFormSubmit} className="media-form-1" >
+                        <h3>Editar Perfil</h3>
+                        <input
+                            type="text"
+                            value={formValues.username}
+                            onChange={(e) => setFormValues(prev => ({ ...prev, username: e.target.value }))}
+                            required
+                        />
+                        <input
+                            type='email'
+                            value={formValues.email}
+                            onChange={(e) => setFormValues(prev => ({ ...prev, email: e.target.value }))}
+                            required
+                        />
+                        <input
+                            type="password"
+                            value={formValues.password}
+                            onChange={(e) => setFormValues(prev => ({ ...prev, password: e.target.value }))}
+                            placeholder='******'
+                        />
+                        <label className='label-checkbox'>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    className="toggle-checkbox"
+                                    checked={formValues.two_factor_enabled}
+                                    onChange={(e) => setFormValues(prev => ({
+                                        ...prev,
+                                        two_factor_enabled: e.target.checked
+                                    }))}
+                                />
+                            </div>
+                            <div>Activar verificación en dos pasos</div>
+                        </label>
+                        <button
+                            type="button"
+                            className="edit-profile-button"
+                            onClick={() => setShowAvatarSelector(!showAvatarSelector)}
+                            style={{ marginBottom: "10px" }}
+                        >
+                            Cambiar avatar
+                        </button>
+                        {showAvatarSelector && (
+                            <div>
+                                <div className="avatar-list">
+                                    {avatarList.map((avatar) => {
+                                        const avatarName = avatar.replace('/images/avatars/', '');
+                                        return (
+                                            <button
+                                                key={avatar}
+                                                type="button"
+                                                className={`avatar-option${selectedAvatar === avatarName ? ' selected' : ''}`}
+                                                style={{
+                                                    backgroundImage: `url(/images/avatars/${avatarName})`,
+                                                    backgroundSize: 'cover',
+                                                    backgroundPosition: 'center',
+                                                    width: '70px',
+                                                    height: '70px',
+                                                    borderRadius: '50%',
+                                                    border: selectedAvatar === avatarName ? '3px solid #2196f3' : '2px solid transparent',
+                                                    margin: '6px',
+                                                    outline: 'none',
+                                                    cursor: 'pointer',
+                                                    transition: 'background 0.2s, border 0.2s, transform 0.2s',
+                                                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                                                }}
+                                                onClick={() => setSelectedAvatar(avatarName)}
+                                                aria-label={avatarName}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                        <div className='button-group'>
+                            <button type="submit">Guardar cambios</button>
+                            <button
+                                type='button'
+                                className="cancel-button"
+                                onClick={() => setShowModal(false)}
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </Modal>
+            )}
+
+            {show2FAModal && (
+                <Modal isOpen={show2FAModal} onClose={() => setShow2FAModal(false)}>
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            verifyTwoFACode();
+                        }}
+                        className="media-form-1"
+                    >
+                        <h3>Verificación en dos pasos</h3>
+                        <p>Introduce el código enviado a tu correo:</p>
+                        <input
+                            type="text"
+                            value={twoFACode}
+                            onChange={(e) => setTwoFACode(e.target.value)}
+                            placeholder="Código de 6 dígitos"
+                            required
+                        />
+                        {twoFAError && <span style={{ color: 'red', fontSize: '0.9rem' }}>{twoFAError}</span>}
+                        <div className='button-group'>
+                            <button type="submit">Verificar</button>
+                            <button type="button" onClick={() => {
+                                setShow2FAModal(false);
+                                setTwoFACode('');
+                                setTwoFAError('');
+                            }}>Cancelar</button>
+                        </div>
+                    </form>
+                </Modal>
+            )}
         </>
     );
 };

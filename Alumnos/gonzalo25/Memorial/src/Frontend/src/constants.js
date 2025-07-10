@@ -1,14 +1,11 @@
 //#region Variables
-const isProduction = false;
-export const BASE_API_URL = isProduction ? 'SERVER' : 'http://127.0.0.1:8000';
+const isProduction = true;
+export const BASE_API_URL = isProduction ? 'https://memorialapp-backend-pdl7.onrender.com' : 'http://127.0.0.1:8000';
 
 //#endregion
 
-
 //#region Funciones
-
 //Funcion Verificar Token --DEPRECATED--
-
 // export async function verifyToken(token) {
 //     try {
 //         const response = await fetch(`${BASE_API_URL}/api/token/verify/`, {
@@ -27,6 +24,7 @@ export const BASE_API_URL = isProduction ? 'SERVER' : 'http://127.0.0.1:8000';
 // }
 
 // Función que decodifica el contenido de un JWT o null
+
 export function getJWT(token) {
     try {
         const data = JSON.parse(atob(token.split('.')[1]));
@@ -111,6 +109,4 @@ export const authFetch = async (endpoint, method = 'GET', body = null, customHea
 
     return res;
 };
-
-
 //#endregion

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../../Navbar/Navbar';
 import './MediaDetailView.css';
-import { authFetch, BASE_API_URL } from './../../../../constants';
+import { authFetch } from './../../../../constants';
 import { useParams, Link } from 'react-router-dom';
 
 export default function MediaDetailView() {
+  const URL_NAV = window.location.href;
+  const isUserComponent = URL_NAV.includes("/users");
+  const { user } = isUserComponent ? useParams() : "";
   const { categoryName, id } = useParams();
   const [mediumData, setMediumData] = useState(null);
   const statusList = [
@@ -19,28 +22,18 @@ export default function MediaDetailView() {
   ];
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    authFetch(`/api/memorialApp/media/${id}/`,{
-       method: 'GET',
-       headers:{
-        Authorization: `Bearer ${token}`
-       }
-    })
+    authFetch(`/api/memorialApp/media/${id}/`, 'GET')
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         setMediumData(data)
         setStatus(data.status)
       })
-      .catch(e => console.error('Error fetching data:', e))
-
-
-  }, [])
+      .catch(e => console.error('Error en la recepción de datos:', e))
+  }, [id])
 
   const [status, setStatus] = useState(null);
   const translatedStatus = statusList.find(e => e.param === status)
 
-  console.log(translatedStatus)
 
   return (
     <>
@@ -49,26 +42,27 @@ export default function MediaDetailView() {
         <div className="media-detail-view-container">
           {/* Subcontenedor 1 */}
           <div className="media-detail-view-subcontainer-1">
-            <div className="media-detail-view-image">
-              <img
-                src={mediumData.image}
-                alt={mediumData.title}
-                className="media-detail-view-image"
-              />
+            <div>
+              <div className="media-detail-view-image">
+                {mediumData.image ? (
+                  <img src={mediumData.image} alt={mediumData.title} />
+                ) : (
+                  <img src='/images/categories/media/DefaultMediaImage.png' alt={mediumData.title} />
+                )}
+              </div>
+              <div id="hola" className="media-detail-view-notes">
+                <Link
+                  to={!isUserComponent ? `/categories/categoryDetail/${categoryName}/${id}/notes` : `/users/${user}/categories/${categoryName}/${id}/notes`}
+                  className="media-detail-view-notes-button">
+                  Ver Notas
+                </Link>
+              </div>
             </div>
-            <div className="media-detail-view-notes">
-              <Link
-                to={`/categories/categoryDetail/${categoryName}/${id}/notes`}
-                className="media-detail-view-notes-button">
-                Ver Notas
-              </Link>
-            </div>
-
           </div>
 
           {/* Subcontenedor 2 */}
           <div className="media-detail-view-subcontainer-2">
-            <h2 className="text-1">{mediumData.title}</h2>
+            <h2 id="media-detail-view-title" className="text-1">{mediumData.title}</h2>
             <p className="media-detail-view-description">
               {mediumData.description}
             </p>
@@ -83,10 +77,13 @@ export default function MediaDetailView() {
             </p>
             <div className="media-detail-view-dates">
               <p className="media-detail-view-beginDate">
-                Inicio: {mediumData.begin_date}
+                Inicio: {mediumData.begin_date ?
+                  new Date(mediumData.begin_date).toLocaleDateString('es-ES') : 'No especificado'}
               </p>
               <p className="media-detail-view-finishDate">
-                Fin: {mediumData.finish_date}
+                Fin: {mediumData.finish_date ?
+                  new Date(mediumData.finish_date).toLocaleDateString('es-ES')
+                  : 'No especificado'}
               </p>
             </div>
           </div>
