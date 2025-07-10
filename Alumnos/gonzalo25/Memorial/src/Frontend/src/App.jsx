@@ -26,32 +26,32 @@ function App() {
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
     setIsLoggedIn(!!access_token) //True si existe el token y false si no
-    if (access_token) {
-      setIsLoggedIn(true)
-      try {
-        const tokenDataJSON = JSON.parse(atob(access_token.split(".")[1]));
-        const userID = tokenDataJSON.user_id;
-        fetch(`${BASE_API_URL}/api/memorialApp/users`, {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            const user = data.find(u => u.id === userID);
-            if (user && user.avatar) {
-              setAvatar(user.avatar);
-            }
-          }).catch((error) => {
-            console.error("Error al obtener avatar", error);
-          })
-          ;
-      } catch (error) {
-        console.error("Error al obtener avatar", error);
-      }
-    } else {
-      setIsLoggedIn(false);
-    }
+    // if (access_token) {
+    //   setIsLoggedIn(true)
+    //   try {
+    //     const tokenDataJSON = JSON.parse(atob(access_token.split(".")[1]));
+    //     const userID = tokenDataJSON.user_id;
+    //     fetch(`${BASE_API_URL}/api/memorialApp/users`, {
+    //       headers: {
+    //         Authorization: `Bearer ${access_token}`,
+    //       },
+    //     })
+    //       .then((res) => res.json())
+    //       .then((data) => {
+    //         const user = data.find(u => u.id === userID);
+    //         if (user && user.avatar) {
+    //           setAvatar(user.avatar);
+    //         }
+    //       }).catch((error) => {
+    //         console.error("Error al obtener avatar", error);
+    //       })
+    //       ;
+    //   } catch (error) {
+    //     console.error("Error al obtener avatar", error);
+    //   }
+    // } else {
+    //   setIsLoggedIn(false);
+    // }
   }, [])
 
   function RedirectIfLogin({ isLoggedIn, children }) {
@@ -65,26 +65,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Rutas abiertas */}
-        <Route path="/" element={
-          <RedirectIfLogin isLoggedIn={isLoggedIn}>
-            <Home />
-          </RedirectIfLogin>} />
-
-        <Route
-          path='/login'
-          element={
-            <RedirectIfLogin isLoggedIn={isLoggedIn}>
-              <Login />
-            </RedirectIfLogin>
-          }
-        />
-
-
-        <Route path='/create-account' element={
-          <RedirectIfLogin isLoggedIn={isLoggedIn}>
-            <CreateAccount />
-          </RedirectIfLogin>
-        } />
+        <Route path="/" element={ <RedirectIfLogin isLoggedIn={isLoggedIn}>  <Home />  </RedirectIfLogin>} />
+        <Route path='/login'   element={ <RedirectIfLogin isLoggedIn={isLoggedIn}>  <Login />  </RedirectIfLogin>  }   />
+        <Route path='/create-account' element={ <RedirectIfLogin isLoggedIn={isLoggedIn}> <CreateAccount />  </RedirectIfLogin>  } />
         <Route path='*' element={<Error />} />
 
 

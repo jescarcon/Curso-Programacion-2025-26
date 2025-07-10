@@ -3,15 +3,68 @@ import { Link } from 'react-router-dom';
 import './Login.css';
 import Categories from '../Categories/Categories';
 import Navbar from '../Navbar/Navbar';
-import { BASE_API_URL } from '../../constants.js';
+import { authFetch, BASE_API_URL } from '../../constants.js';
+import Modal from '../Modal/Modal.jsx';
 
 export default function Login() {
+    //#region Variables
     const [username, setUsername] = useState('');
+    const [userEmail, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
+    const [show2FAModal, setShow2FAModal] = useState(false);
+    const [twoFACode, setTwoFACode] = useState('');
+    const [twoFAError, setTwoFAError] = useState('');
+
+    //#endregion
+
+    //#region Lógica
+    const access_validation = async () => {
+        try {
+            const res = await fetch(`${BASE_API_URL}/api/memorialApp/users/`);
+            const data = await res.json();
+            const user = data.find(user => user.username === username);
+            if (!user) {
+                setErrorMessage("Usuario no encontrado");
+                setShowErrorModal(true);
+                return;
+            }
+
+            // Usamos directamente user.email sin setState
+            const body = {
+                username: username,
+                email: user.email,
+            };
+
+            if (user.two_factor_enabled) {
+                fetch(`${BASE_API_URL}/api/memorialApp/users/send_2fa_code/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(body),
+                })
+                    .then(res => {
+                        if (!res.ok) throw new Error("No se pudo enviar el código");
+                        setShow2FAModal(true);
+                    })
+                    .catch(err => {
+                        console.error("Error al enviar el código 2FA", err);
+                        alert("Error al enviar el código de verificación");
+                    });
+            } else {
+                handleSubmit();
+            }
+        } catch (err) {
+            console.error("Error al obtener datos del usuario", err);
+        }
+    };
+
+
     const handleSubmit = async () => {
+
         const formData = new FormData();
         formData.append('username', username);
         formData.append('password', password);
@@ -34,9 +87,7 @@ export default function Login() {
             localStorage.setItem('access_token', data.access);
             localStorage.setItem('refresh_token', data.refresh);
 
-            await enviarCorreo(data.access);
-
-            //Redirección
+            //Redirección dependiendo del 2FA
             if (response.ok) {
                 window.location.href = '/categories';
             }
@@ -47,26 +98,35 @@ export default function Login() {
         }
     };
 
-    const enviarCorreo = async (token) => {
-        try {
-            const response = await fetch(`${BASE_API_URL}/enviar-correo/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
+
+    const verifyTwoFACode = () => {
+        fetch(`${BASE_API_URL}/api/memorialApp/users/verify_2fa_code/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                code: twoFACode,
+            }),
+        })
+            .then(res => {
+                if (!res.ok) {
+                    setTwoFAError('Código incorrecto o expirado');
+                    return;
+                }
+                setShow2FAModal(false);
+                setTwoFACode('');
+                setTwoFAError('');
+                handleSubmit(); //Inicia sesion
+            })
+            .catch(err => {
+                console.error("Error al verificar código 2FA", err);
+                setTwoFAError('Error al verificar el código');
             });
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Error enviando correo:', errorData);
-                return;
-            }
-            const data = await response.json();
-            console.log('Respuesta enviar correo:', data);
-        } catch (error) {
-            console.error('Error en fetch enviar correo:', error);
-        }
     };
 
+    //#endregion
 
 
     return (
@@ -78,7 +138,7 @@ export default function Login() {
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
-                            handleSubmit();
+                            access_validation();
                         }}
                     >
                         <div className='form-group'>
@@ -122,6 +182,34 @@ export default function Login() {
                     </button>
                 </div>
             )}
+            {show2FAModal && (
+                <Modal isOpen={show2FAModal} onClose={() => setShow2FAModal(false)}>
+                    <form
+                        onSubmit={(e) => { e.preventDefault(); verifyTwoFACode(); }}
+                        className="media-form-1"
+                    >
+                        <h3>Verificación en dos pasos</h3>
+                        <p>Introduce el código enviado a tu correo:</p>
+                        <input
+                            type="text"
+                            value={twoFACode}
+                            onChange={(e) => setTwoFACode(e.target.value)}
+                            placeholder="Código de 6 dígitos"
+                            required
+                        />
+                        {twoFAError && <span style={{ color: 'red', fontSize: '0.9rem' }}>{twoFAError}</span>}
+                        <div className='button-group'>
+                            <button type="submit">Verificar</button>
+                            <button type="button" onClick={() => {
+                                setShow2FAModal(false);
+                                setTwoFACode('');
+                                setTwoFAError('');
+                            }}>Cancelar</button>
+                        </div>
+                    </form>
+                </Modal>
+            )}
+
         </div>
     );
 }

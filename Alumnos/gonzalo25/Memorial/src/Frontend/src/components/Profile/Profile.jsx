@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getJWT, authFetch } from '../../constants';
+import { getJWT, authFetch, BASE_API_URL } from '../../constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Modal from '../Modal/Modal';
@@ -22,6 +22,12 @@ const Profile = () => {
         password: '',
         two_factor_enabled: false
     });
+
+    const avatarUrl = userData && userData.avatar
+        ? `/images/avatars/${userData.avatar}`
+        : '/images/avatars/default.png';
+
+
     const [show2FAModal, setShow2FAModal] = useState(false);
     const [twoFACode, setTwoFACode] = useState('');
     const [twoFAError, setTwoFAError] = useState('');
@@ -107,7 +113,16 @@ const Profile = () => {
 
     const handleEditClick = () => {
         if (userData.two_factor_enabled) {
-            authFetch('/api/memorialApp/users/send_2fa_code/', 'POST')
+            fetch(`${BASE_API_URL}/api/memorialApp/users/send_2fa_code/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: userData.username,
+                    email: userData.email,
+                }),
+            })
                 .then(res => {
                     if (!res.ok) throw new Error("No se pudo enviar el código");
                     setShow2FAModal(true);
@@ -119,7 +134,8 @@ const Profile = () => {
         } else {
             openEditModal();
         }
-    }
+    };
+
 
     const openEditModal = () => {
         setFormValues({
@@ -131,7 +147,16 @@ const Profile = () => {
     }
 
     const verifyTwoFACode = () => {
-        authFetch('/api/memorialApp/users/verify_2fa_code/', 'POST', { code: twoFACode })
+        fetch(`${BASE_API_URL}/api/memorialApp/users/verify_2fa_code/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: userData.username,
+                code: twoFACode,
+            }),
+        })
             .then(res => {
                 if (!res.ok) {
                     setTwoFAError('Código incorrecto o expirado');
@@ -140,20 +165,17 @@ const Profile = () => {
                 setShow2FAModal(false);
                 setTwoFACode('');
                 setTwoFAError('');
-                openEditModal();
+                openEditModal(); // solo abrimos el modal si el código fue correcto
             })
             .catch(err => {
                 console.error("Error al verificar código 2FA", err);
                 setTwoFAError('Error al verificar el código');
             });
-    }
+    };
+
 
 
     if (!userData) return <div>Cargando perfil...</div>;
-
-    const avatarUrl = userData && userData.avatar
-        ? `/images/avatars/${userData.avatar}`
-        : '/images/avatars/default.png';
 
 
     return (
