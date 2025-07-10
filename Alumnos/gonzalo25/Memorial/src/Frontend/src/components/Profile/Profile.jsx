@@ -34,18 +34,18 @@ const Profile = () => {
 
 
     const avatarList = [
-        '/public/images/avatars/askywalker.jpg',
-        '/public/images/avatars/dtargaryen.jpg',
-        '/public/images/avatars/hpotter.jpg',
-        '/public/images/avatars/joker.jpg',
-        '/public/images/avatars/lackerman.jpg',
-        '/public/images/avatars/linkbotw.jpg',
-        '/public/images/avatars/mcaufield.jpg',
-        '/public/images/avatars/rayanami.jpg',
-        '/public/images/avatars/smurasaki.jpg',
-        '/public/images/avatars/waddams.jpg',
-        '/public/images/avatars/wmaximoff.jpg',
-        '/public/images/avatars/wwhite.jpg',
+        '/images/avatars/askywalker.jpg',
+        '/images/avatars/dtargaryen.jpg',
+        '/images/avatars/hpotter.jpg',
+        '/images/avatars/joker.jpg',
+        '/images/avatars/lackerman.jpg',
+        '/images/avatars/linkbotw.jpg',
+        '/images/avatars/mcaufield.jpg',
+        '/images/avatars/rayanami.jpg',
+        '/images/avatars/smurasaki.jpg',
+        '/images/avatars/waddams.jpg',
+        '/images/avatars/wmaximoff.jpg',
+        '/images/avatars/wwhite.jpg',
     ];
     //#endregion
 
