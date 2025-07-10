@@ -1,5 +1,5 @@
 //#region Variables
-const isProduction = True;
+const isProduction = true;
 export const BASE_API_URL = isProduction ? 'https://memorialapp-backend-pdl7.onrender.com' : 'http://127.0.0.1:8000';
 
 //#endregion
