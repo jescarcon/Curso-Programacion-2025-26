@@ -200,6 +200,7 @@ export default function CategoryDetail() {
         }
 
         e.preventDefault()
+        
         const form = e.target
         const formData = new FormData(form)
         formData.append('category', categoryName)
@@ -285,7 +286,7 @@ export default function CategoryDetail() {
                                         {media.image ? (
                                             <img src={media.image} alt={media.title} className="category-image" />
                                         ) : (
-                                            <img src='/images/categories/media/DefaultMediaImage.png' className="category-image" style={{'object-fit':'contain'}}/>
+                                            <img src='/images/categories/media/DefaultMediaImage.png' alt={media.title} className="category-image" style={{ 'object-fit':'contain'}}/>
                                         )}
                                     </div>
                                     <div className='media-info'>

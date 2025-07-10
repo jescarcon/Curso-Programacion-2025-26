@@ -141,6 +141,7 @@ const Profile = () => {
     const openEditModal = () => {
         setFormValues({
             username: userData.username,
+            email: userData.email,
             password: '',
             email: userData.email,
             two_factor_enabled: userData.two_factor_enabled
