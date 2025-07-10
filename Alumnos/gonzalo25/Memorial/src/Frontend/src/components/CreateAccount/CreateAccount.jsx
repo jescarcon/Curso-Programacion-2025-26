@@ -55,7 +55,7 @@ export default function CreateAccount() {
     const closeModal = () => setIsModalOpen(false);
 
     const selectAvatar = (avatar) => {
-        const avatarName = avatar.replace('/public/images/avatars/','');
+        const avatarName = avatar.replace('/images/avatars/','');
         setAvatar(avatarName);
         console.log(avatarName);
         closeModal();
