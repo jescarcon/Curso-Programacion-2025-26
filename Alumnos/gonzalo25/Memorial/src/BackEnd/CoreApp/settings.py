@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'memorialapp-backend-pdl7.onrender.com'
+    'https://memorialapp-backend-smo7.onrender.com'
 ]
 
 
@@ -165,7 +165,8 @@ AUTH_USER_MODEL = 'MemorialApp.User'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173', #FrontEnd URL
     'http://127.0.0.1:5173',
-    'https://memorialapp-po58.onrender.com'
+    'https://memorialapp-backend-smo7.onrender.com'
+    
 ]
 #CORS CONFIGURATION
 
@@ -190,11 +191,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-#EMAIL_HOST_USER = 'gonzalogarciaprieto.275@gmail.com'
-#EMAIL_HOST_PASSWORD = 'ljvc zpph wcbh kyfg'
+EMAIL_HOST_USER = 'gonzalogarciaprieto.275@gmail.com'
+EMAIL_HOST_PASSWORD = 'ljvc zpph wcbh kyfg'
 
-EMAIL_HOST_USER = 'muerte1000@gmail.com'
-EMAIL_HOST_PASSWORD = 'zxyw nmyw dgvd jbsk'
+#EMAIL_HOST_USER = 'muerte1000@gmail.com'
+#EMAIL_HOST_PASSWORD = 'zxyw nmyw dgvd jbsk'
 #DEFAULT_FROM_EMAIL = 'no-reply@tuapp.com' # El remitente que aparece en los emails
 
 #

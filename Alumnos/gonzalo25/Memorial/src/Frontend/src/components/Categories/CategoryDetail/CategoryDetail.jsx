@@ -205,6 +205,7 @@ export default function CategoryDetail() {
         formData.append('category', categoryName)
         formData.append('user', userId)
 
+
         // Si generateAI está activo, elimina la imagen del formData
         if (generateAI) {
             formData.delete('image'); // Borra campo 'image' para que no se suba fichero
@@ -284,7 +285,7 @@ export default function CategoryDetail() {
                                         {media.image ? (
                                             <img src={media.image} alt={media.title} className="category-image" />
                                         ) : (
-                                            <div className="media-placeholder">Sin imagen</div>
+                                            <img src='/images/categories/media/DefaultMediaImage.png' className="category-image" style={{'object-fit':'contain'}}/>
                                         )}
                                     </div>
                                     <div className='media-info'>
