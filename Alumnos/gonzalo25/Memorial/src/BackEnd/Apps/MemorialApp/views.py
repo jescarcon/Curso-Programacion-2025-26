@@ -52,13 +52,6 @@ class UserViewSet(viewsets.ModelViewSet):
             [user.email],
         )
 
-    # Acción para enviar código 2FA
-    # @action(detail=False, methods=['post'])
-    # def send_2fa_code(self, request):
-    #     user = request.user
-    #     self.generate_and_send_2fa(user)
-    #     return Response({'detail': 'Código enviado'}, status=status.HTTP_200_OK)
-
     @action(detail=False, methods=['post'])
     def send_2fa_code(self, request):
         username = request.data.get('username')
@@ -71,21 +64,6 @@ class UserViewSet(viewsets.ModelViewSet):
         self.generate_and_send_2fa(user)
         return Response({'detail': 'Código enviado'}, status=status.HTTP_200_OK)
 
-    # Acción para verificar código 2FA
-    # @action(detail=False, methods=['post'])
-    # def verify_2fa_code(self, request):
-    #     code = request.data.get('code')
-    #     user = request.user
-
-    #     if (user.two_fa_code == code and
-    #         user.two_fa_expiration and
-    #         timezone.now() < user.two_fa_expiration):
-    #         user.two_fa_code = ''
-    #         user.two_fa_expiration = None
-    #         user.save()
-    #         return Response({'detail': 'Código válido'}, status=status.HTTP_200_OK)
-
-    #     return Response({'detail': 'Código inválido o expirado'}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['post'])
     def verify_2fa_code(self, request):

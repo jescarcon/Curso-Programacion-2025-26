@@ -211,6 +211,7 @@ const Profile = () => {
                     ))}
                 </div>
             </div>
+            
             {showModal && (
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
                     <form onSubmit={handleFormSubmit} className="media-form-1" >
