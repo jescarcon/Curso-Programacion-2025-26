@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     #'127.0.0.1',
-    #'81.36.94.10'
+    'memorialapp-backend-pdl7.onrender.com'
 ]
 
 
