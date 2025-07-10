@@ -44,10 +44,11 @@ export default function MediaDetailView() {
           <div className="media-detail-view-subcontainer-1">
             <div>
               <div className="media-detail-view-image">
-                <img
-                  src={mediumData.image}
-                  alt={mediumData.title}
-                />
+                {mediumData.image ? (
+                  <img src={mediumData.image} alt={mediumData.title} />
+                ) : (
+                  <img src='/images/categories/media/DefaultMediaImage.png' alt={mediumData.title} />
+                )}
               </div>
               <div id="hola" className="media-detail-view-notes">
                 <Link

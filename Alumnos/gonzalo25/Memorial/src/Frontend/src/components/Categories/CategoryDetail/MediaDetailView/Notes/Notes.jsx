@@ -130,7 +130,7 @@ export default function Notes() {
                   {note.image ? (
                     <img src={note.image} alt={note.title} className="category-image" />
                   ) : (
-                    <div className="note-placeholder">Sin imagen</div>
+                    <img src='/images/categories/media/notes/DefaultNoteImage.png' alt={note.title} className="category-image" style={{ 'object-fit':'contain'}} />
                   )}
                   <h2 className="note-title">{note.title}</h2>
                 </div>

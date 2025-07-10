@@ -28,7 +28,7 @@ const NoteDetailView = () => {
             {note.image ? (
               <img src={note.image} alt={note.title} />
             ) : (
-              <div className="note-detail-view-placeholder">Sin imagen</div>
+              <img src='/images/categories/media/notes/DefaultNoteImage.png' alt={note.title}/>
             )}
           </div>
         </div>

@@ -20,6 +20,7 @@ const Profile = () => {
     const [formValues, setFormValues] = useState({
         username: '',
         password: '',
+        email: '',
         two_factor_enabled: false
     });
 
@@ -92,12 +93,13 @@ const Profile = () => {
     }, []);
 
     const handleFormSubmit = (e) => {
-        e.preventDefault();
 
         const formData = new FormData();
         formData.append('username', formValues.username);
         formData.append('password', formValues.password);
+        formData.append('email', formValues.email);
         formData.append('two_factor_enabled', formValues.two_factor_enabled);
+        formData.append('avatar', selectedAvatar);
 
         authFetch(`/api/memorialApp/users/${userData.id}/`, 'PATCH', formData)
             .then(res => {
@@ -140,6 +142,7 @@ const Profile = () => {
     const openEditModal = () => {
         setFormValues({
             username: userData.username,
+            email: userData.email,
             password: '',
             two_factor_enabled: userData.two_factor_enabled
         });
@@ -202,7 +205,12 @@ const Profile = () => {
                     {mediaList.map(medium => (
                         <div key={medium.id} className="category-card">
                             <div >
-                                <img src={medium.image} alt={medium.title} className='category-image' />
+                                {medium.image ? (
+                                    < img src={medium.image} alt={medium.title} className='category-image' />
+                                ) : (
+                                    <img src='/images/categories/media/DefaultMediaImage.png' alt={medium.title} className='category-image' style={{ 'object-fit':'contain'}} />
+                                )
+                                }
                             </div>
                             <div className="media-info-profile">
                                 <h3>{medium.title}</h3>
@@ -211,7 +219,7 @@ const Profile = () => {
                     ))}
                 </div>
             </div>
-            
+
             {showModal && (
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
                     <form onSubmit={handleFormSubmit} className="media-form-1" >
@@ -220,6 +228,12 @@ const Profile = () => {
                             type="text"
                             value={formValues.username}
                             onChange={(e) => setFormValues(prev => ({ ...prev, username: e.target.value }))}
+                            required
+                        />
+                        <input
+                            type='email'
+                            value={formValues.email}
+                            onChange={(e) => setFormValues(prev => ({ ...prev, email: e.target.value }))}
                             required
                         />
                         <input
@@ -254,7 +268,7 @@ const Profile = () => {
                             <div>
                                 <div className="avatar-list">
                                     {avatarList.map((avatar) => {
-                                        const avatarName = avatar.replace('/public/images/avatars/', '');
+                                        const avatarName = avatar.replace('/images/avatars/', '');
                                         return (
                                             <button
                                                 key={avatar}
