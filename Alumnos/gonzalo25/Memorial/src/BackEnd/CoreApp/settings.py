@@ -28,7 +28,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'https://memorialapp-d3og.onrender.com'
+    'https://memorialapp-backend-smo7.onrender.com'
 ]
 
 
