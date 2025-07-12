@@ -165,7 +165,7 @@ AUTH_USER_MODEL = 'MemorialApp.User'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173', #FrontEnd URL
     'http://127.0.0.1:5173',
-    'https://memorialapp-backend-smo7.onrender.com'
+    'https://memorialapp-d3og.onrender.com'
     
 ]
 #CORS CONFIGURATION
