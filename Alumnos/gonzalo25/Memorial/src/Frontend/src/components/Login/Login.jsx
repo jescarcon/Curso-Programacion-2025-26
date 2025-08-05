@@ -23,58 +23,44 @@ export default function Login() {
     //#region Lógica
     const access_validation = async () => {
         try {
-            // Paso 1: Login con usuario y contraseña
-            const formData = new FormData();
-            formData.append('username', username);
-            formData.append('password', password);
-
-            const response = await fetch(`${BASE_API_URL}/api/token/`, {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!response.ok) {
-                setErrorMessage('Usuario y/o contraseña incorrectos');
+            const res = await fetch(`${BASE_API_URL}/api/memorialApp/users/`);
+            const data = await res.json();
+            const user = data.find(user => user.username === username);
+            if (!user) {
+                setErrorMessage("Usuario no encontrado");
                 setShowErrorModal(true);
                 return;
             }
 
-            const data = await response.json();
+            // Usamos directamente user.email sin setState
+            const body = {
+                username: username,
+                email: user.email,
+            };
 
-            // Guardar tokens
-            localStorage.setItem('access_token', data.access);
-            localStorage.setItem('refresh_token', data.refresh);
-
-            // Paso 2: Si hay 2FA activado, pedir el código
-            if (data.two_factor_enabled) {
-                const send2FA = await fetch(`${BASE_API_URL}/api/memorialApp/users/send_2fa_code/`, {
+            if (user.two_factor_enabled) {
+                fetch(`${BASE_API_URL}/api/memorialApp/users/send_2fa_code/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${data.access}`,
                     },
-                    body: JSON.stringify({
-                        username: username,
-                        email: data.email, // devuelto por backend en login
-                    }),
-                });
-
-                if (!send2FA.ok) {
-                    throw new Error("No se pudo enviar el código 2FA");
-                }
-                setShow2FAModal(true);
+                    body: JSON.stringify(body),
+                })
+                    .then(res => {
+                        if (!res.ok) throw new Error("No se pudo enviar el código");
+                        setShow2FAModal(true);
+                    })
+                    .catch(err => {
+                        console.error("Error al enviar el código 2FA", err);
+                        alert("Error al enviar el código de verificación");
+                    });
             } else {
-                // Sin 2FA → Redirigir directamente
-                window.location.href = '/categories';
+                handleSubmit();
             }
-
         } catch (err) {
-            console.error("Error en login", err);
-            setErrorMessage('Error al iniciar sesión');
-            setShowErrorModal(true);
+            console.error("Error al obtener datos del usuario", err);
         }
     };
-
 
 
     const handleSubmit = async () => {
